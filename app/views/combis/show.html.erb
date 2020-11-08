@@ -1,0 +1,7 @@
+<h1> <%= @combi.modelo %> <%= @combi.patente %></h1>
+
+<p> Numero de asientos: <%= @combi.asientos %> </p>
+
+<p> Cantidad de viajes realizados: <%= @combi.cant_viajes %> </p>
+
+<%= link_to "Volver", combis_path, class: 'btn btn-info btn-sm' %>

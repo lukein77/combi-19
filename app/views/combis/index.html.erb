@@ -1,0 +1,33 @@
+<h1> Listado de Combis </h1>
+
+<table class="table">
+
+	<tr>
+		<th> Modelo </th>
+		<th> Patente </th>
+		<th> Asientos </th>
+		<th> Viajes Realizados </th>
+		<th> Acciones </th>
+	</tr>
+
+	<% @combis.each do |combi| %>
+		<tr>
+			<td> <%= combi.modelo %> </td>
+			<td> <%= combi.patente %> </td>
+			<td> <%= combi.asientos %> </td>
+			<td> <%= combi.cant_viajes %> </td>
+			<td>
+				<%= link_to "Ver", combi_path(combi), class: 'btn btn-info btn-sm' %>
+				<%= link_to "Editar", edit_combi_path(combi), class: 'btn btn-info btn-sm' %>
+				<%= link_to "Eliminar", combi, method: :delete, class: 'btn btn-danger btn-sm' %>
+			</td>
+		</tr>
+	<% end %>
+
+	<% if @combis.size == 0 %>
+		<tr> <td colspan="3"> No hay combis cargadas en el sistema </td> </tr>
+	<% end %>
+
+</table>
+
+<%= link_to "Añadir nueva combi", new_combi_path, class: 'btn btn-info btn-sm' %>
