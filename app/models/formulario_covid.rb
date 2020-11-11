@@ -1,0 +1,2 @@
+class FormularioCovid < ApplicationRecord
+end
