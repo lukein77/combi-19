@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patente: 1
+  asientos: 1
+  modelo: MyString
+  cant_viajes: 1
+
+two:
+  patente: 1
+  asientos: 1
+  modelo: MyString
+  cant_viajes: 1
