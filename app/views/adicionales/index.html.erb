@@ -2,3 +2,21 @@
 
 <%= link_to("Agregar nuevo adicional", new_adicional_path) %>
 
+<table class="table" style="padding-top: 20px">
+    <tr>
+        <th> Nombre </th>
+        <th> Descripción </th>
+        <th> Precio </th>
+    </tr>
+
+    <% @adicionales.each do |adicional| %>
+        <tr>
+            <td> <%= adicional.nombre %> </td>
+            <td> <%= adicional.descripcion %> </td>
+            <td> $<%= adicional.precio %> </td>
+        </tr>
+    <% end %>
+
+</table>
+
+    

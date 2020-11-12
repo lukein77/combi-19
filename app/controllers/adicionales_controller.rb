@@ -1,5 +1,6 @@
 class AdicionalesController < ApplicationController
   def index
+    @adicionales = Adicional.all
   end
 
   def show
