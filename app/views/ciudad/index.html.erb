@@ -1,0 +1,13 @@
+<!-- Ciudad#index -->
+<%= link_to "Nueva ciudad", controller: "ciudad", action: "new" %>
+<ol>
+<% @ciudad.each do |c| %>
+	<li>
+		<%= @ciudad.nombre %>
+		<%= link_to "Eliminar", c, controller: "ciudad", action: "destroy" %>
+	</li>
+	<br>
+<% end %>
+
+<%= link_to "Regresar", :back %>
+</ol>
