@@ -3,9 +3,6 @@ class AdicionalesController < ApplicationController
     @adicionales = Adicional.all
   end
 
-  def show
-  end
-
   def new
     @adicional = Adicional.new
   end
@@ -21,8 +18,17 @@ class AdicionalesController < ApplicationController
   end
 
   def edit
+    @adicional = Adicional.find(params[:id])
+  end
+
+  def update
+    @adicional = Adicional.find(params[:id])
+    @adicional.update(params.require(:adicional).permit(:nombre, :descripcion, :precio))
+    redirect_to adicionales_path
   end
 
   def destroy
+    Adicional.find(params[:id]).destroy
+    redirect_to adicionales_path
   end
 end
