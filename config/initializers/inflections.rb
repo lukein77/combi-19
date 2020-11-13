@@ -16,7 +16,22 @@
 # end
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-   inflect.plural 'adicional', 'adicionales'
-   inflect.singular 'adicionales', 'adicional'
-   inflect.irregular 'adicional', 'adicionales'
+
+  inflect.plural 'adicional', 'adicionales'
+	inflect.plural 'ciudad', 'ciudades'
+	inflect.plural 'ruta', 'rutas'
+  
+  inflect.irregular 'adicional', 'adicionales'
+	inflect.irregular 'ciudad', 'ciudades'
+	inflect.irregular 'ruta', 'rutas'
+  
+  inflect.singular 'adicionales', 'adicional'
+	inflect.singular 'ciudades', 'ciudad'
+	inflect.singular 'rutas', 'ruta'
+  
+
+	#Modifico los plurales y singulares para que las rutas
+	#funcionen correctamente y queden bien los nombres de
+	#las clases
+
 end

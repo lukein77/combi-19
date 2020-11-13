@@ -10,12 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2020_11_12_011038) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
     t.string "descripcion"
     t.float "precio"
+  end
+
+  create_table "ciudades", force: :cascade do |t|
+    t.string "nombre"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -49,11 +54,29 @@ ActiveRecord::Schema.define(version: 2020_11_12_011038) do
     t.boolean "enfermedad_respiratoria"
     t.boolean "enfermedad_cardiologica"
     t.boolean "bajas_defensas"
+  end
+
+  create_table "rutas", force: :cascade do |t|
+    t.string "ciudadOrigen"
+    t.string "ciudadDestino"
+    t.float "tiempo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-# Could not dump table "usuarios" because of following StandardError
-#   Unknown type 'formulario_covid' for column 'formulario_covid'
-
+  create_table "usuarios", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.string "apellido", null: false
+    t.integer "dni", null: false
+    t.string "rol"
+    t.date "fecha_nacimiento"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+  
 end
