@@ -14,3 +14,18 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+	inflect.plural 'ciudad', 'ciudades'
+	inflect.plural 'ruta', 'rutas'
+
+	inflect.irregular 'ciudad', 'ciudades'
+	inflect.irregular 'ruta', 'rutas'
+
+	inflect.singular 'ciudades', 'ciudad'
+	inflect.singular 'rutas', 'ruta'
+
+	#Modifico los plurales y singulares para que las rutas
+	#funcionen correctamente y queden bien los nombres de
+	#las clases
+end

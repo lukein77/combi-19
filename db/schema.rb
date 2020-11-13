@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_11_11_214142) do
 
-  create_table "ciudads", force: :cascade do |t|
+  create_table "ciudades", force: :cascade do |t|
     t.string "nombre"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_214142) do
     t.string "patente"
   end
 
-  create_table "ruta", force: :cascade do |t|
+  create_table "rutas", force: :cascade do |t|
     t.string "ciudadOrigen"
     t.string "ciudadDestino"
     t.float "tiempo"

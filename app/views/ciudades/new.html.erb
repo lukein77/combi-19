@@ -1,11 +1,13 @@
 <!-- Ciudad#new -->
 
-<%= form_for(@ciudad) do |f| %>
+<%= form_for @ciudad do |f| %>
 	<%= f.label :nombre %>
+	<br>
 	<%= f.text_field :nombre,
 										required: true,
 										label: "Nombre",
 										placeholder: "Ingrese el nombre de la ciudad" %>
+	<br> <br>										
   <%= f.submit "Guardar" %>
 
 <% end %>

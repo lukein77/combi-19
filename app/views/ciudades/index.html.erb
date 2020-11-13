@@ -1,0 +1,20 @@
+<!-- Ciudad#index -->
+<h1> Listado de ciudades </h1>
+<%= link_to "Nueva ciudad", new_ciudad_path %>
+
+<% if @ciudades.size == 0 %>
+	<p> No hay ciudades cargadas en el sistema </p>
+<% end %>
+
+<ol>
+<% @ciudades.each do |ciudad| %>
+	<li>
+		<%= ciudad.nombre %>
+		<%= link_to "Eliminar", ciudad, method: :delete %>
+	</li>
+	<br>
+<% end %>
+</ol>
+
+<br>
+<%= link_to "Regresar", root_path %>

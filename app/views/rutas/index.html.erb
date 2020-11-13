@@ -1,0 +1,27 @@
+<!-- h1>Ruta#index</h1 -->
+<h1> Listado de rutas </h1>
+<%= link_to "Nueva ruta", new_ruta_path %>
+
+<% if @rutas.size == 0 %>
+	<p> No hay rutas cargadas en el sistema </p>
+
+<% else #Si no hay rutas no muestro la tabla %>
+<table>
+	<tr>
+		<th> Origen </th>
+		<th> Destino </th>
+		<th> Acciones </th>
+	</tr>
+
+	<% @rutas.each do |ruta| %>
+	<tr>
+		<td><%= ruta.ciudadOrigen %></td>
+		<td><%= ruta.ciudadDestino %></td>
+		<td>
+			<%= link_to "Editar", edit_ruta_path(ruta) %>
+			<%= link_to "Eliminar", ruta, method: :delete %>
+		</td>
+	</tr>
+	<% end %>
+</table>
+<% end %>
