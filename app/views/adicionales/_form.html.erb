@@ -1,0 +1,21 @@
+<%= form_with model: @adicional do |f| %>
+
+    <div class="field">
+        <%= f.label "Nombre" %> <br>
+        <%= f.text_field :nombre, required: true %>
+    </div>
+    <div class="field">
+        <%= f.label "Descripción" %> <br>
+        <%= f.text_area :descripcion, size: "32x5" %>
+    </div>
+    <div class="field">
+        <%= f.label "Precio" %> <br>
+        $<%= f.number_field :precio, min: 0, step: :any, required: true %>
+    </div>
+
+    <div class="field">
+        <%= f.submit "Guardar" %>	
+        <%= link_to("Cancelar", adicionales_path, data: {confirm: "¿Estás seguro? No se guardarán los cambios."}) %>
+    </div>
+
+<% end %>

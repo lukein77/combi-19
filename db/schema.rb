@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_214142) do
+
+ActiveRecord::Schema.define(version: 2020_11_12_011038) do
+
+  create_table "adicionales", force: :cascade do |t|
+    t.string "nombre"
+    t.string "descripcion"
+    t.float "precio"
+  end
 
   create_table "ciudades", force: :cascade do |t|
     t.string "nombre"
@@ -25,6 +32,28 @@ ActiveRecord::Schema.define(version: 2020_11_11_214142) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "patente"
+  end
+
+  create_table "formulario_covids", force: :cascade do |t|
+    t.float "fiebre"
+    t.boolean "perdida_olfato"
+    t.boolean "perdida_gusto"
+    t.boolean "tos"
+    t.boolean "dolor_garganta"
+    t.boolean "dificultad_respiratoria"
+    t.boolean "dolor_cabeza"
+    t.boolean "diarrea"
+    t.boolean "vomitos"
+    t.boolean "dolor_muscular"
+    t.boolean "convive_con_positivo"
+    t.boolean "estuvo_con_positivo"
+    t.boolean "cancer"
+    t.boolean "diabetes"
+    t.boolean "enfermedad_hepatica"
+    t.boolean "enfermedad_renal"
+    t.boolean "enfermedad_respiratoria"
+    t.boolean "enfermedad_cardiologica"
+    t.boolean "bajas_defensas"
   end
 
   create_table "rutas", force: :cascade do |t|
@@ -48,8 +77,6 @@ ActiveRecord::Schema.define(version: 2020_11_11_214142) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_usuarios_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
   end
-
+  
 end

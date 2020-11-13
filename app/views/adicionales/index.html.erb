@@ -1,0 +1,29 @@
+<h1>Adicionales</h1>
+
+<%= link_to("Agregar nuevo adicional", new_adicional_path) %>
+
+<% if @adicionales.size == 0 %>
+	<br><i> No hay adicionales cargados en el sistema. </i>
+<% else %>
+    <table class="table" style="padding-top: 20px">
+        <tr>
+            <th> Nombre </th>
+            <th> Descripción </th>
+            <th> Precio </th>
+            <th> Acciones </th>
+        </tr>
+
+        <% @adicionales.each do |adicional| %>
+            <tr>
+                <td> <%= adicional.nombre %> </td>
+                <td> <%= adicional.descripcion %> </td>
+                <td> $<%= adicional.precio %> </td>
+                <td> 
+                    <%= link_to("Editar", edit_adicional_path(adicional)) %>
+                    <%= link_to("Eliminar", adicional, method: :delete, data: {confirm: "¿Está seguro?"}) %> 
+                </td>
+            </tr>
+        <% end %>
+    </table>
+<% end %>
+    
