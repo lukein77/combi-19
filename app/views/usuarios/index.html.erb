@@ -1,0 +1,26 @@
+<h2>Listado de usuarios</h2>
+
+<table class="table">
+
+	<tr>
+		<th> Nombre </th>
+		<th> Apellido </th>
+		<th> DNI </th>
+		<th> Fecha de nacimiento</th>
+		<th> e-mail </th>
+		<th> Rol </th>
+		<th> Acciones </th>
+	</tr>
+
+	<% @usuarios.each do |usuario| %>
+		<tr>
+			<td> <%= usuario.nombre %> </td>
+			<td> <%= usuario.apellido %> </td>
+			<td> <%= usuario.dni %> </td>
+			<td> <%= usuario.fecha_nacimiento %> </td>
+			<td> <%= usuario.email %> </td>
+			<td> <%= usuario.rol %> </td>
+		</tr>
+	<% end %>
+
+</table>

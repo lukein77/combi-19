@@ -45,6 +45,11 @@
     <%= f.label "Contraseña actual" %> <i>(la necesitamos para confirmar los cambios)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
+  
+  <div class="field">
+      <%= f.label "Rol" %><br/>      
+      <%= f.select :rol, ["admin","chofer","cliente"] %>
+  </div>
 
   <div class="actions">
     <%= f.submit "Actualizar datos" %>
