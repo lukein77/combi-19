@@ -1,14 +1,11 @@
 <!-- Ciudad#new -->
-<% #form_authenticity_token %>
-<% #token_tag nil %>
-<% #skip_before_filter :verify_authenticity_token %>
-<form action="/ciudad" method="post">
-	<label for="name"> Nombre de la ciudad </label>
-	<input type="text"
-				 id="name"
-				 name="name"
-				 placeholder="Ingrese una ciudad"
-				 required>
 
-  <button type="submit"> Guardar </button>
-</form>
+<%= form_for(@ciudad) do |f| %>
+	<%= f.label :nombre %>
+	<%= f.text_field :nombre,
+										required: true,
+										label: "Nombre",
+										placeholder: "Ingrese el nombre de la ciudad" %>
+  <%= f.submit "Guardar" %>
+
+<% end %>
