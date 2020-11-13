@@ -10,9 +10,9 @@ class AdicionalesController < ApplicationController
   def create
     @adicional = Adicional.new(params.require(:adicional).permit(:nombre, :descripcion, :precio))
     if @adicional.save
-      redirect_to adicionales_path
+      redirect_to adicionales_path, notice: "El adicional fue creado exitosamente."
     else
-      
+      flash[:error] = "Ha habido un problema al crear el adicional."
       render :new
     end
   end
@@ -23,8 +23,12 @@ class AdicionalesController < ApplicationController
 
   def update
     @adicional = Adicional.find(params[:id])
-    @adicional.update(params.require(:adicional).permit(:nombre, :descripcion, :precio))
-    redirect_to adicionales_path
+    if @adicional.update(params.require(:adicional).permit(:nombre, :descripcion, :precio))
+      redirect_to adicionales_path, notice: "Se ha modificado el adicional."
+    else
+      flash[:error] = "Ha habido un problema al modificar el adicional."
+      render :edit
+    end
   end
 
   def destroy
