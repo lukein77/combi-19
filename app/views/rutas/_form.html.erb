@@ -1,22 +1,15 @@
 <%= form_for @ruta do |f| %>
 
-	<%= f.label :ciudadOrigen %>
-	<br>
-	<%= f.collection_select :ciudad,
-													:ciudad_id,
-													@ciudades,
-													:id,
-													:nombre %>
+	<div class="field">
+        <%= f.label "Origen" %>
+        <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>
+    </div>
 
-	<%= f.label :ciudadDestino %>
-	<br>
-	<%= f.collection_select :ciudad,
-													:ciudad_id,
-													@ciudades,
-													:id
-													:nombre %>												
-
-  <%# No funciona f.collection_select :ciudadDestino, @ciudades, :id, :nombre %>												
+    <div class="field">
+        <%= f.label "Destino" %>
+        <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
+    </div>												
 	<br> <br>										
   <%= f.submit "Guardar" %>
+  
 <% end %>
