@@ -1,7 +1,7 @@
-<!-- Ciudad#new -->
+<h2> Agregar ciudad </h2>
 
 <% if @ciudad.errors.any? %>
-	<h3> No se pudo crear la ciudad: </h3>
+	<h3> No se pudo guardar la ciudad: </h3>
 	<ul>
 		<% @ciudad.errors.messages.each do |msg| %>
 			<li> <%= msg[1][0] %> </li>

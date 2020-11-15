@@ -10,7 +10,7 @@
 <% @ciudades.each do |ciudad| %>
 	<li>
 		<%= ciudad.nombre %>
-		<%= link_to "Eliminar", ciudad, method: :delete %>
+		<%= link_to "Eliminar", ciudad, method: :delete, data: {confirm: "¿Está seguro?"} %>
 	</li>
 	<br>
 <% end %>
