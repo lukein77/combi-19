@@ -4,5 +4,5 @@ class Ciudad < ApplicationRecord
 	has_many :rutasDestino, foreign_key: "ciudadDestino", class_name: "Ruta"
 	has_many :rutasOrigen, foreign_key: "ciudadOrigen", class_name: "Ruta"
 
-	validates :nombre, uniqueness: true
+	validates :nombre, uniqueness: { :case_sensitive => false }
 end
