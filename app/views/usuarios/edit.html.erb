@@ -1,0 +1,16 @@
+<h2> Editando rol de <%= @usuario.nombre %> <%= @usuario.apellido %> </h2>
+
+<%= form_for @usuario do |f| %>
+
+  <div class="field">
+    <%= f.label "Rol" %><br/>
+    <%= f.select :rol , ["admin","chofer","cliente"] %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Actualizar rol" %>
+  </div>
+
+<% end %>
+
+<%= link_to "Regresar", :back %>

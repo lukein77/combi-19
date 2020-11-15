@@ -12,15 +12,20 @@
 		<th> Acciones </th>
 	</tr>
 
-	<% @usuarios.each do |usuario| %>
-		<tr>
-			<td> <%= usuario.nombre %> </td>
-			<td> <%= usuario.apellido %> </td>
-			<td> <%= usuario.dni %> </td>
-			<td> <%= usuario.fecha_nacimiento %> </td>
-			<td> <%= usuario.email %> </td>
-			<td> <%= usuario.rol %> </td>
-		</tr>
+	<% @usuarios.order(:rol).each do |usuario| %>
+		<% if usuario.email != current_usuario.email %>
+			<tr>
+				<td> <%= usuario.nombre %> </td>
+				<td> <%= usuario.apellido %> </td>
+				<td> <%= usuario.dni %> </td>
+				<td> <%= usuario.fecha_nacimiento %> </td>
+				<td> <%= usuario.email %> </td>
+				<td> <%= usuario.rol %> </td>
+				<td> <%= link_to("Editar rol", edit_usuario_path(usuario)) %> </td>
+				<td> <%= link_to("Ver", usuario_path(usuario)) %> </td>
+			</tr>
+		<% end %>
 	<% end %>
 
 </table>
+<%= link_to "Regresar", root_path %>

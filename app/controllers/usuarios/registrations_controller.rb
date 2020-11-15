@@ -5,6 +5,7 @@ class Usuarios::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
   #https://github.com/heartcombo/devise/blob/master/app/controllers/devise/registrations_controller.rb#L19
+  
   def create
     build_resource(sign_up_params)
     

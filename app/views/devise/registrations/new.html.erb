@@ -37,13 +37,13 @@
   </div>
 
 
-  <%if usuario_signed_in? and current_usuario.rol = "admin" %>
+  <%if usuario_signed_in? and current_usuario.rol == "admin" %>
     <div class="field">
         <%= f.label "Rol" %><br/>      
-        <%= f.select :rol, ["cliente","chofer","admin"], value:"cliente"%>
+        <%= f.select :rol, ["cliente","chofer","admin"]%>
     </div>
   <% else %>
-        <% f.text_field :rol ,value:"cliente" %>
+        <% resource.rol = "cliente" %>
   <% end %>
 
   <div class="actions">
