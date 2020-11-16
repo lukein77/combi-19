@@ -1,11 +1,26 @@
 <h1> Combi-19 </h1>
 
 <ul>
+<% if usuario_signed_in? %>
+	<p> <%= current_usuario.nombre %> </p>
+	<p> <%= current_usuario.rol %> </p>
 
-<li> <%= link_to("Iniciar Sesion", new_usuario_session_path) %> </li>
-<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>
-<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
-<li> <%= link_to("Registrarse", new_usuario_registration_path) %> </li>
+	<%if current_usuario.rol == "admin" %>
+		<li> <%= link_to("Listado de usuarios", usuarios_path) %> </li>
+		<li> <%= link_to("Registrar un usuario", new_usuario_registration_path) %> </li>
+	<% end %>
+
+	<%if current_usuario.rol == "admin" or current_usuario.rol == "chofer"%>
+		<li> <%= link_to("Listado de combis", combis_path) %> </li>
+	<% end %>
+
+	<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
+	<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>
+	
+<%else%>
+	<li> <%= link_to("Iniciar Sesion", new_usuario_session_path) %> </li>
+	<li> <%= link_to("Registrarse", new_usuario_registration_path) %> </li>
+<% end %>
 
 <li> <%= link_to("Ver combis", controller: "combis", action: "index") %> </li>
 <li> <%= link_to("Ver ciudades", controller: "ciudades", action: "index") %> </li>

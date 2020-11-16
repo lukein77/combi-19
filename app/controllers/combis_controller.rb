@@ -30,7 +30,7 @@ class CombisController < ApplicationController
 	def update
 		@combi = Combi.find(params[:id])
 	    if @combi.update params.require(:combi).permit(:patente, :asientos, :modelo)
-	      redirect_to root_path, notice: "La combi se modifico exitosamente"
+	      redirect_to combis_path, notice: "La combi se modifico exitosamente"
 	    else
 	      flash[:error] = "Hubo un error al modificar la combi"
 	      render :edit
