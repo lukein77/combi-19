@@ -1,2 +1,17 @@
 es:
   hello: "Hola mundo"
+
+  activerecord:
+    errors:
+      format: "%{message}"
+      models:
+        usuario:
+          attributes:
+            email:
+              blank: "Debe ingresar un correo electrónico."
+              taken: "El correo electrónico ingresado ya se encuentra en uso por otra cuenta."
+            password:
+              blank: "Debe ingresar una contraseña."
+              too_short: "La contraseña es demasiado corta. Debe tener al menos 6 caracteres."
+            password_confirmation:
+              confirmation: "Las contraseñas no coinciden."
