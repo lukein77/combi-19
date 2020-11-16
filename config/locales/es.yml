@@ -15,3 +15,9 @@ es:
               too_short: "La contraseña es demasiado corta. Debe tener al menos 6 caracteres."
             password_confirmation:
               confirmation: "Las contraseñas no coinciden."
+        
+        ciudad:
+          attributes:
+            nombre:
+              blank: "Debe ingresar el nombre de la ciudad." 
+              taken: "Ya existe una ciudad con ese nombre."

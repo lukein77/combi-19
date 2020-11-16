@@ -10,14 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_12_011038) do
+
+ActiveRecord::Schema.define(version: 2020_11_15_220138) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
     t.string "descripcion"
     t.float "precio"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
-
+  
   create_table "ciudades", force: :cascade do |t|
     t.string "nombre"
     t.datetime "created_at", precision: 6, null: false
@@ -53,6 +56,8 @@ ActiveRecord::Schema.define(version: 2020_11_12_011038) do
     t.boolean "enfermedad_respiratoria"
     t.boolean "enfermedad_cardiologica"
     t.boolean "bajas_defensas"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "rutas", force: :cascade do |t|
@@ -62,7 +67,7 @@ ActiveRecord::Schema.define(version: 2020_11_12_011038) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-
+  
   create_table "usuarios", force: :cascade do |t|
     t.string "nombre", null: false
     t.string "apellido", null: false

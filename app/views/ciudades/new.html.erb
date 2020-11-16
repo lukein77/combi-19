@@ -1,13 +1,23 @@
-<!-- Ciudad#new -->
+<h2> Agregar ciudad </h2>
+
+<% if @ciudad.errors.any? %>
+	<h3> No se pudo guardar la ciudad: </h3>
+	<ul>
+		<% @ciudad.errors.messages.each do |msg| %>
+			<li> <%= msg[1][0] %> </li>
+		<% end %>
+	</ul>
+<% end %>
+
 
 <%= form_for @ciudad do |f| %>
 	<%= f.label :nombre %>
 	<br>
-	<%= f.text_field :nombre,
-										required: true,
-										label: "Nombre",
-										placeholder: "Ingrese el nombre de la ciudad" %>
-	<br> <br>										
+	<%= f.text_field :nombre, required: true, placeholder: "Ingrese el nombre de la ciudad" %>
+	<br> <br>							
+
+	
+
   <%= f.submit "Guardar" %>
 
 <% end %>

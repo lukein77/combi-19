@@ -22,7 +22,12 @@ class CiudadesController < ApplicationController
   end
 
   def destroy
-  	Ciudad.find(params[:id]).destroy
-  	redirect_to ciudades_path
+    @ciudad = Ciudad.find(params[:id])
+    if @ciudad.rutasOrigen.empty? and @ciudad.rutasDestino.empty?
+      @ciudad.destroy
+      redirect_to ciudades_path
+    else
+      redirect_to ciudades_path, notice: "La ciudad tiene rutas asociadas."
+    end
   end
 end

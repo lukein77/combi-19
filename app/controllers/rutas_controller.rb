@@ -11,9 +11,9 @@ class RutasController < ApplicationController
   def create
     @ruta = Ruta.create(params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino))
     if @ruta.save
-      redirect_to rutas_path, notice: "La ruta fue creada"
+      redirect_to rutas_path, notice: "La ruta fue creada."
     else
-      flash[:error] = "Ha habido un problema al crear la ruta"
+      flash[:error] = "Ha habido un problema al crear la ruta."
       render :new
     end
   end
@@ -29,9 +29,9 @@ class RutasController < ApplicationController
 
   def update
     if @ruta.update params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino)
-      redirect_to rutas_path, notice: "La ruta fue modificada"
+      redirect_to rutas_path, notice: "La ruta fue modificada."
     else
-      flash[:error] = "Ha habido un problema al crear la ruta"
+      flash[:error] = "Ha habido un problema al crear la ruta."
       render :edit
     end
   end

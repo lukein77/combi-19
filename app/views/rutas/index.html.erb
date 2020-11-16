@@ -15,8 +15,8 @@
 
 	<% @rutas.each do |ruta| %>
 	<tr>
-		<td><%= ruta.ciudadOrigen %></td>
-		<td><%= ruta.ciudadDestino %></td>
+		<td><%= ruta.getCiudadOrigen %></td>
+		<td><%= ruta.getCiudadDestino %></td>
 		<td>
 			<%= link_to "Editar", edit_ruta_path(ruta) %>
 			<%= link_to "Eliminar", ruta, method: :delete %>
@@ -25,3 +25,6 @@
 	<% end %>
 </table>
 <% end %>
+
+<br>
+<%= link_to "Regresar", root_path %>
