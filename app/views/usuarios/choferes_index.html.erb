@@ -1,0 +1,27 @@
+<h2> Listado de choferes </h2>
+
+<table class="table">
+
+	<tr>
+		<th> Nombre </th>
+		<th> Apellido </th>
+		<th> DNI </th>
+		<th> Fecha de nacimiento</th>
+		<th> e-mail </th>
+		<th> Acciones </th>
+	</tr>
+
+	<% @choferes.each do |chofer| %>
+		<tr>
+			<td> <%= chofer.nombre %> </td>
+			<td> <%= chofer.apellido %> </td>
+			<td> <%= chofer.dni %> </td>
+			<td> <%= chofer.fecha_nacimiento %> </td>
+			<td> <%= chofer.email %> </td>
+			<td> <%= link_to("Editar rol", edit_usuario_path(chofer)) %> </td>
+			<td> <%= link_to("Ver", usuario_path(chofer)) %> </td>
+		</tr>
+	<% end %>
+
+</table>
+<%= link_to "Regresar", root_path %>
