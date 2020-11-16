@@ -1,4 +1,6 @@
-<!-- h1>Ruta#index</h1 -->
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
+
+
 <h1> Listado de rutas </h1>
 <%= link_to "Nueva ruta", new_ruta_path %>
 
@@ -24,6 +26,12 @@
 	</tr>
 	<% end %>
 </table>
+<% end %>
+
+<% else %>
+
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+
 <% end %>
 
 <br>
