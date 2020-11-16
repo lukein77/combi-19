@@ -1,0 +1,17 @@
+<h1> <%= @usuario.nombre %> <%= @usuario.apellido %></h1>
+
+<p> DNI: <%= @usuario.dni %> </p>
+
+<p> fecha de nacimiento: <%= @usuario.fecha_nacimiento %> </p>
+
+<p> Rol: <%= @usuario.rol %> </p>
+
+<p> e-mail: <%= @usuario.email %> </p>
+
+<% if @usuario.rol == "cliente" %>
+
+	<p> Formulario covid....</p>
+
+<% end %>
+
+<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>

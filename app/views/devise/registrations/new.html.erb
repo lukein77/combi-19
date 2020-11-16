@@ -5,17 +5,17 @@
 
   <div class="field">
     <%= f.label "Nombre" %><br/>
-    <%= f.text_field :nombre, autofocus: true %>
+    <%= f.text_field :nombre, autofocus: true, required: true %>
   </div>
 
   <div class="field">
     <%= f.label "Apellido" %><br/>
-    <%= f.text_field :apellido %>
+    <%= f.text_field :apellido, required: true %>
   </div>
 
   <div class="field">
     <%= f.label "DNI" %><br/>
-    <%= f.number_field :dni %>
+    <%= f.number_field :dni, required: true %>
   </div>
 
   <div class="field">
@@ -32,13 +32,24 @@
   </div>
 
   <div class="field">
-    <%= f.label "Confirmar contraseña" %><br />
+    <%= f.label "Confirmar contraseñ" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+
+
+  <%if usuario_signed_in? and current_usuario.rol == "admin" %>
+    <div class="field">
+        <%= f.label "Rol" %><br/>      
+        <%= f.select :rol, ["cliente","chofer","admin"]%>
+    </div>
+  <% else %>
+        <% resource.rol = "cliente" %>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Registrarse" %>
   </div>
+
 <% end %>
 
 <%= render "devise/shared/links" %>

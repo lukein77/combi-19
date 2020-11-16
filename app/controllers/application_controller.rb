@@ -7,4 +7,3 @@ class ApplicationController < ActionController::Base
         devise_parameter_sanitizer.permit(:sign_up, keys: [:nombre, :apellido, :dni, :rol, :fecha_nacimiento, :formulario_covid])
     end
 end
-
