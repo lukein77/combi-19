@@ -27,3 +27,8 @@ es:
             patente:
               blank: "Debe ingresar la patente de la combi."
               taken: "Ya existe una combi con esa patente."
+
+        ruta:
+          attributes:
+            nombre:
+              taken: "La ruta que desea crear ya existe."

@@ -9,10 +9,14 @@ class RutasController < ApplicationController
   end
 
   def create
+    @ciudades = Ciudad.all
     @ruta = Ruta.create(params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino))
+    #@ruta.nombre = @ruta.getCiudadOrigen + " - " + @ruta.getCiudadDestino
     if @ruta.save
+      puts "todo bien"
       redirect_to rutas_path, notice: "La ruta fue creada."
     else
+      puts "todo mal"
       flash[:error] = "Ha habido un problema al crear la ruta."
       render :new
     end
@@ -28,7 +32,9 @@ class RutasController < ApplicationController
   end
 
   def update
-    if @ruta.update params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino)
+    @ciudades = Ciudad.all
+    @ruta = Ruta.find(params[:id])
+    if @ruta.update(params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino))
       redirect_to rutas_path, notice: "La ruta fue modificada."
     else
       flash[:error] = "Ha habido un problema al crear la ruta."

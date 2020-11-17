@@ -1,6 +1,6 @@
 <% if usuario_signed_in? and current_usuario.rol == "admin" %>
 
-<h1><%= @ruta.ciudadOrigen + " - " + @ruta.ciudadDestino %></h1>
+<h1> <%= @ruta.nombre %> </h1>
 
 <%= render 'form' %>
 
