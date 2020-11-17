@@ -1,6 +1,5 @@
 <!-- h1>Ruta#index</h1 -->
 <h1> Listado de rutas </h1>
-<%= link_to "Nueva ruta", new_ruta_path %>
 
 <% if @rutas.size == 0 %>
 	<p> No hay rutas cargadas en el sistema </p>
@@ -8,6 +7,7 @@
 <% else #Si no hay rutas no muestro la tabla %>
 <table>
 	<tr>
+		<th> Nombre </th>
 		<th> Origen </th>
 		<th> Destino </th>
 		<th> Acciones </th>
@@ -15,6 +15,7 @@
 
 	<% @rutas.each do |ruta| %>
 	<tr>
+		<td><%= ruta.nombre %></td>
 		<td><%= ruta.getCiudadOrigen %></td>
 		<td><%= ruta.getCiudadDestino %></td>
 		<td>

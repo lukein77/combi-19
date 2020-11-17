@@ -1,6 +1,5 @@
 <!-- Ciudad#index -->
 <h1> Listado de ciudades </h1>
-<%= link_to "Nueva ciudad", new_ciudad_path %>
 
 <% if @ciudades.size == 0 %>
 	<p> No hay ciudades cargadas en el sistema </p>
@@ -16,5 +15,10 @@
 <% end %>
 </ol>
 
-<br>
+<br> <br>
+
+<% if current_usuario.rol == "admin"%>
+	<%= link_to "Añadir nueva ciudad", new_ciudad_path %> </br>
+<%end%>
+
 <%= link_to "Regresar", root_path %>

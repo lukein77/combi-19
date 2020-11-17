@@ -6,9 +6,11 @@ class Ruta < ApplicationRecord
 	belongs_to :ciudad, foreign_key: "ciudadDestino", class_name: "Ciudad"
 	#has_many :adicionales
 
+	#Getters
 	def getCiudadOrigen
 		Ciudad.find(ciudadOrigen).nombre
 	end
+
 	def getCiudadDestino
 		Ciudad.find(ciudadDestino).nombre
 	end
