@@ -18,6 +18,7 @@
 		<td><%= ruta.getCiudadOrigen %></td>
 		<td><%= ruta.getCiudadDestino %></td>
 		<td>
+			<%= link_to "Ver", ruta_path(ruta) %>
 			<%= link_to "Editar", edit_ruta_path(ruta) %>
 			<%= link_to "Eliminar", ruta, method: :delete %>
 		</td>
@@ -26,5 +27,10 @@
 </table>
 <% end %>
 
-<br>
+<br> <br>
+
+<% if current_usuario.rol == "admin"%>
+	<%= link_to "Añadir nueva ruta", new_ruta_path %> </br>
+<%end%>
+
 <%= link_to "Regresar", root_path %>

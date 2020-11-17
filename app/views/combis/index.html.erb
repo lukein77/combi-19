@@ -34,8 +34,10 @@
 
 <%end%>
 
+<br> <br>
+
 <% if current_usuario.rol == "admin"%>
 	<%= link_to "Añadir nueva combi", new_combi_path, class: 'btn btn-info btn-sm' %> </br>
 <%end%>
-&nbsp;
+
 <%= link_to "Regresar", root_path %>
