@@ -3,6 +3,8 @@
 
 <h1> Listado de rutas </h1>
 
+
+
 <% if @rutas.size == 0 %>
 	<p> No hay rutas cargadas en el sistema </p>
 
@@ -29,6 +31,10 @@
 	<% end %>
 </table>
 <% end %>
+
+<br>
+<%= link_to "Agregar nueva ruta", new_ruta_path %>
+
 
 <% else %>
 
