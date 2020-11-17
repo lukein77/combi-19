@@ -12,18 +12,21 @@ Usuario.create( nombre: "Nombre",
                 dni: 9999,
                 email: "admin@admin.com",
                 fecha_nacimiento: Date.new(1960,10,30),
-                password: "asdasd")
+                password: "asdasd",
+                rol: "admin")
 
 Usuario.create( nombre: "Nombre", 
                 apellido: "Apellido",
                 dni: 9998,
                 email: "chofer@chofer.com",
                 fecha_nacimiento: Date.new(1960,10,30),
-                password: "asdasd")
+                password: "asdasd",
+                rol: "chofer")
 
 Usuario.create( nombre: "Nombre",
                 apellido: "Apellido",
                 dni: 9997,
                 email: "cliente@cliente.com",
                 fecha_nacimiento: Date.new(1960,10,30),
-                password: "asdasd")
+                password: "asdasd",
+                rol: "cliente")
