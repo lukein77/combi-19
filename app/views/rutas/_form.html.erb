@@ -9,18 +9,15 @@
 
 <%= form_for @ruta do |f| %>
 
-    <div class="field">
-        <%= f.label "Origen" %>
-        <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>
-    </div>
+  <div class="field">
+    <%= f.label "Origen" %>
+    <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>																				
+  </div>
 
-    <div class="field">
-        <%= f.label "Destino" %>
-        <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
-    </div>												
-
-	<br> <br>										
-    </div>
+  <div class="field">
+    <%= f.label "Destino" %>
+    <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
+  </div>
 
     <!-- DEBERIA USAR UN CHECKBOX NO UN SELECT
         div class="field">
@@ -28,7 +25,7 @@
         < %= f.collection_select(:adicional, @adicionales, :id, :nombre) %>
     </div -->                                              
     
-    <br> <br>                                       
+  <br> <br>                                       
 
   <%= f.submit "Guardar" %>
   <%= link_to "Cancelar", rutas_path %>

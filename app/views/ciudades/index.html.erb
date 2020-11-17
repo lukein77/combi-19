@@ -2,7 +2,6 @@
 
 
 <h1> Listado de ciudades </h1>
-<%= link_to "Nueva ciudad", new_ciudad_path %>
 
 <% if @ciudades.size == 0 %>
 	<p> No hay ciudades cargadas en el sistema </p>
@@ -18,6 +17,9 @@
 <% end %>
 </ol>
 
+<br> <br>
+<%= link_to "Añadir nueva ciudad", new_ciudad_path %> </br>
+
 <% else %>
 
 <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
@@ -26,4 +28,3 @@
 
 <br>
 <%= link_to "Regresar", root_path %>
-

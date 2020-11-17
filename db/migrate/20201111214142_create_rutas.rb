@@ -3,6 +3,7 @@ class CreateRutas < ActiveRecord::Migration[6.0]
     create_table :rutas do |t|
       t.string :ciudadOrigen
       t.string :ciudadDestino
+      t.string :nombre
       t.float :tiempo
 
       t.timestamps

@@ -21,9 +21,11 @@ class Ruta < ApplicationRecord
 		end
 	end
 
+	#Getters
 	def getCiudadOrigen
 		Ciudad.find(ciudadOrigen).nombre
 	end
+
 	def getCiudadDestino
 		Ciudad.find(ciudadDestino).nombre
 	end

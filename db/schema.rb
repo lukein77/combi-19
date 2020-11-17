@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2020_11_16_233123) do
 
-
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
     t.string "descripcion"
@@ -63,10 +62,10 @@ ActiveRecord::Schema.define(version: 2020_11_16_233123) do
   create_table "rutas", force: :cascade do |t|
     t.string "ciudadOrigen"
     t.string "ciudadDestino"
+    t.string "nombre"
     t.float "tiempo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "nombre"
   end
 
   create_table "usuarios", force: :cascade do |t|
@@ -80,6 +79,13 @@ ActiveRecord::Schema.define(version: 2020_11_16_233123) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "viajes", force: :cascade do |t|
+    t.float "precio"
+    t.date "fecha"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
