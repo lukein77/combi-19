@@ -1,4 +1,6 @@
 <!-- h1>Ruta#show</h1 -->
 
-<h1>Origen: <%= @ruta.ciudadOrigen %></h1>
-<h1>Destino: <%= @ruta.ciudadDestino %></h1>
+<h1>Origen: <%= @ruta.getCiudadOrigen %></h1>
+<h1>Destino: <%= @ruta.getCiudadDestino %></h1>
+
+<%= link_to "Regresar", rutas_path %>

@@ -1,0 +1,40 @@
+<!-- h1>Viajes#index</h1 -->
+<h1> Listado de viajes </h1>
+<%= link_to "Nuevo viaje", new_viaje_path %>
+
+<% if @viajes.size == 0 %>
+	<p> No hay viajes cargados en el sistema </p>
+
+<% else #Si no hay viajes no muestro la tabla %>
+	<table>
+		<tr>
+			<th> Ruta </th>
+			<th> Fecha </th>
+			<th> Precio </th>
+			<th> Acciones </th>
+		</tr>
+
+		<% @viajes.each do |viaje| %>
+		<tr>
+			<td> <%= viaje.ruta.nombre %> </td>
+			<td> <%= viaje.fecha %> </td>
+			<td> <%= viaje.precio %> </td>
+			<td>
+				<%= link_to "Ver", viaje_path(viaje) %>
+				<%= link_to "Editar", edit_viaje_path(viaje) %>
+				<%= link_to "Eliminar", ruta, method: :delete %>
+				<%= link_to "Ver Combi", combi_path(viaje.combi) %>
+				<%= link_to "Ver Ruta", ruta_path(viaje.ruta) %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+<% end %>
+
+<br> <br>
+
+<% if current_usuario.rol == "admin"%>
+	<%= link_to "Añadir nuevo viaje", new_viaje_path %> </br>
+<%end%>
+
+<%= link_to "Regresar", root_path %>

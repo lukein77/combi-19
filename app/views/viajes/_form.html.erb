@@ -1,0 +1,28 @@
+<%= form_for @viaje do |f| %>
+
+  <div class="field">
+    <%= f.label "Ruta" %>
+    <%= f.collection_select(:ruta, @rutas, :id, :nombre) %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Combi" %>
+    <%= f.collection_select(:combi, @combis, :id, :patente) %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Precio" %>
+    <%= f.number_field :precio, required: true, placeholder: "Ingrese el precio" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Fecha" %>
+    <!-- %= #f.select_date(:fecha, required: true, order: [:day, :month, :year]) % -->
+  </div>
+
+  <br> <br>                                       
+  <%= f.submit "Guardar" %>
+<% end %>
+
+  <!-- PREVISUALIZO ORIGEN Y DESTINO DE LA RUTA -->
+  <!-- p> Origen:  < %= #ruta.getCiudadOrigen %> - Destino: < %= #ruta.getCiudadDestino %> </p -->

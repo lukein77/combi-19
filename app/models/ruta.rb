@@ -4,7 +4,8 @@ class Ruta < ApplicationRecord
 	#Relaciones
 	belongs_to :ciudad, foreign_key: "ciudadOrigen", class_name: "Ciudad"
 	belongs_to :ciudad, foreign_key: "ciudadDestino", class_name: "Ciudad"
-	
+	#has_many :adicionales
+
 	def getCiudadOrigen
 		Ciudad.find(ciudadOrigen).nombre
 	end
