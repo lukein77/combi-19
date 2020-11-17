@@ -11,6 +11,7 @@ class RutasController < ApplicationController
   def create
     @ciudades = Ciudad.all
     @ruta = Ruta.create(params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino))
+    #@ruta.nombre = @ruta.getCiudadOrigen + " - " + @ruta.getCiudadDestino
     if @ruta.save
       redirect_to rutas_path, notice: "La ruta fue creada"
     else

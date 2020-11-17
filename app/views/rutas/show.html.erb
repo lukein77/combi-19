@@ -1,6 +1,14 @@
-<!-- h1>Ruta#show</h1 -->
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
 
-<h1>Origen: <%= @ruta.getCiudadOrigen %></h1>
-<h1>Destino: <%= @ruta.getCiudadDestino %></h1>
+<h1>Origen: <%= @ruta.ciudadOrigen %></h1>
+<h1>Destino: <%= @ruta.ciudadDestino %></h1>
+
+<% else %>
+
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+<%= link_to "Regresar a la página principal", root_path %>
+
+<% end %>
 
 <%= link_to "Regresar", rutas_path %>
+
