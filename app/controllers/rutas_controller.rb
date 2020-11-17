@@ -13,11 +13,9 @@ class RutasController < ApplicationController
     @ruta = Ruta.create(params.require(:ruta).permit(:ciudadOrigen, :ciudadDestino))
     #@ruta.nombre = @ruta.getCiudadOrigen + " - " + @ruta.getCiudadDestino
     if @ruta.save
-      puts "todo bien"
-      redirect_to rutas_path, notice: "La ruta fue creada."
+      redirect_to rutas_path, notice: "La ruta fue creada"
     else
-      puts "todo mal"
-      flash[:error] = "Ha habido un problema al crear la ruta."
+      flash[:error] = "Ha habido un problema al crear la ruta"
       render :new
     end
   end
