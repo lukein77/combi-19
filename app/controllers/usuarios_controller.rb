@@ -4,6 +4,10 @@ class UsuariosController < ApplicationController
 		@usuarios = Usuario.all
 	end
 
+	def choferes_index
+		@choferes = Usuario.where(rol:"chofer")
+	end
+
 	def edit
 		@usuario = Usuario.find(params[:id])
 	end
