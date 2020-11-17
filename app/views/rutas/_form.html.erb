@@ -21,7 +21,11 @@
 
   <div class="field">
     <%= f.label "Adicionales" %>
-    <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) %>
+    <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) do |b| %>
+      <%= b.label class:"label-checkbox" do %>
+      <%= b.check_box + b.text %>
+      <% end %>
+    <% end %>
   </div>
     <!-- DEBERIA USAR UN CHECKBOX NO UN SELECT
         div class="field">
