@@ -1,3 +1,13 @@
+<% if @combi.errors.any? %>
+	<h3> No se pudo guardar la combi: </h3>
+	<ul>
+		<% @combi.errors.messages.each do |msg| %>
+			<li> <%= msg[1][0] %> </li>
+		<% end %>
+	</ul>
+<% end %>
+
+
 <%= form_for @combi do |f| %>
 
 		<div class="row">

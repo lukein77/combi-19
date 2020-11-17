@@ -21,3 +21,14 @@ es:
             nombre:
               blank: "Debe ingresar el nombre de la ciudad." 
               taken: "Ya existe una ciudad con ese nombre."
+
+        combi:
+          attributes:
+            patente:
+              blank: "Debe ingresar la patente de la combi."
+              taken: "Ya existe una combi con esa patente."
+
+        ruta:
+          attributes:
+            nombre:
+              taken: "La ruta que desea crear ya existe."

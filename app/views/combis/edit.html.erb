@@ -1,5 +1,13 @@
+<% if usuario.signed_in? and current_usuario.rol == "admin" %>
+
 <div class="container">
 	<h1> Editando combi </h1>
 
 	<%= render 'form' %>
 </div>
+
+<% else %>
+
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+
+<% end %>

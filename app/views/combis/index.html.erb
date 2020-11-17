@@ -1,3 +1,5 @@
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
+
 <h1> Listado de Combis </h1>
 
 <% if @combis.size != 0 %>
@@ -34,10 +36,13 @@
 
 <%end%>
 
-<br> <br>
+<%= link_to "Añadir nueva combi", new_combi_path, class: 'btn btn-info btn-sm' %> </br>
 
-<% if current_usuario.rol == "admin"%>
-	<%= link_to "Añadir nueva combi", new_combi_path, class: 'btn btn-info btn-sm' %> </br>
-<%end%>
+<% else %>
 
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+
+<% end %>
+
+&nbsp;
 <%= link_to "Regresar", root_path %>

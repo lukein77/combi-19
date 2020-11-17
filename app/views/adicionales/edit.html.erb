@@ -1,3 +1,12 @@
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
+
 <h1>Editando "<%= @adicional.nombre %>"</h1>
 
 <%= render 'form' %>
+
+<% else %>
+
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+<%= link_to "Regresar a la página principal", root_path %>
+
+<% end %>

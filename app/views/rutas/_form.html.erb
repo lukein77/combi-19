@@ -1,15 +1,18 @@
+<% if @ruta.errors.any? %>
+	<h3> No se pudo guardar la ruta: </h3>
+	<ul>
+		<% @ruta.errors.messages.each do |msg| %>
+			<li> <%= msg[1][0] %> </li>
+		<% end %>
+	</ul>
+<% end %>
+
 <%= form_for @ruta do |f| %>
 
   <div class="field">
-    <%= f.label "Nombre" %>
-    <%= f.text_field :nombre,
-      required: true,
-      placeholder: "Ingrese el nombre de la ruta" %>
-
-  <div class="field">
     <%= f.label "Origen" %>
-    <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>
-    </div>
+    <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>																				
+  </div>
 
   <div class="field">
     <%= f.label "Destino" %>
@@ -23,6 +26,8 @@
     </div -->                                              
     
   <br> <br>                                       
+
   <%= f.submit "Guardar" %>
+  <%= link_to "Cancelar", rutas_path %>
   
 <% end %>

@@ -1,7 +1,16 @@
-<h1> <%= @combi.modelo %> <%= @combi.patente %></h1>
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
 
-<p> Numero de asientos: <%= @combi.asientos %> </p>
+    <h1> <%= @combi.modelo %> <%= @combi.patente %></h1>
 
-<p> Cantidad de viajes realizados: <%= @combi.cant_viajes %> </p>
+    <p> Numero de asientos: <%= @combi.asientos %> </p>
 
-<%= link_to "Volver", combis_path, class: 'btn btn-info btn-sm' %>
+    <p> Cantidad de viajes realizados: <%= @combi.cant_viajes %> </p>
+
+    <%= link_to "Volver", combis_path, class: 'btn btn-info btn-sm' %>
+
+<% else %>
+
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+<%= link_to "Regresar a la página principal", root_path %>
+
+<% end %>

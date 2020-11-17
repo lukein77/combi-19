@@ -1,4 +1,6 @@
-<!-- Ciudad#index -->
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
+
+
 <h1> Listado de ciudades </h1>
 
 <% if @ciudades.size == 0 %>
@@ -16,9 +18,13 @@
 </ol>
 
 <br> <br>
+<%= link_to "Añadir nueva ciudad", new_ciudad_path %> </br>
 
-<% if current_usuario.rol == "admin"%>
-	<%= link_to "Añadir nueva ciudad", new_ciudad_path %> </br>
-<%end%>
+<% else %>
 
+<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+
+<% end %>
+
+<br>
 <%= link_to "Regresar", root_path %>
