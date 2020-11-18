@@ -5,7 +5,7 @@ class Ruta < ApplicationRecord
 	belongs_to :ciudad, foreign_key: "ciudadOrigen", class_name: "Ciudad"
 	belongs_to :ciudad, foreign_key: "ciudadDestino", class_name: "Ciudad"
 	has_and_belongs_to_many :adicionales
-	has_many :viajes
+	has_many :viajes, dependent: :destroy
 
 	before_validation :poner_nombre
 	validates :nombre, presence: true, uniqueness: true
