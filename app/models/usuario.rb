@@ -6,6 +6,7 @@ class Usuario < ApplicationRecord
 
   validates :fecha_nacimiento, presence: true
   validate :validar_edad
+  has_and_belongs_to_many :viajes
 
   after_initialize :default_values, unless: :persisted?
 

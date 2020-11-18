@@ -9,11 +9,13 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new
     @rutas = Ruta.all
     @combis = Combi.all
+    @choferes = Usuario.all.where(rol: "chofer")
   end
 
   def create
     @rutas = Ruta.all
     @combis = Combi.all
+    @choferes = Usuario.all.where(rol: "chofer")
     @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :precio, :fecha))
     if @viaje.save
       redirect_to viajes_path, notice: "El viaje fue creado"
