@@ -1,32 +1,38 @@
-<h1> Combi-19 </h1>
+<div class="container">
+	<div class="row">
+		<h1> Combi-19 </h1>
+	</div>
 
-<ul>
-<% if usuario_signed_in? %>
-	<p> <%= current_usuario.nombre %> </p>
-	<p> <%= current_usuario.rol %> </p>
+	<div class="row">
+		<% if usuario_signed_in? %>
+				<p> Bienvenido <%= current_usuario.nombre %> </p>
+	</div>
+	<div class="row">
+			<div class="col-md-6">
+				<%if current_usuario.rol == "admin" %>
+					<li> <%= link_to("Listado de usuarios", usuarios_path) %> </li>
+					<li> <%= link_to("Registrar un usuario", new_usuario_registration_path) %> </li>
+					<li> <%= link_to("Ver ciudades", controller: "ciudades", action: "index") %> </li>
+					<li> <%= link_to("Ver rutas", controller: "rutas", action: "index") %> </li>
+					<li> <%= link_to("Ver adicionales", controller: "adicionales", action: "index") %> </li>
+				<% end %>
 
-	<%if current_usuario.rol == "admin" %>
-		<li> <%= link_to("Listado de usuarios", usuarios_path) %> </li>
-		<li> <%= link_to("Registrar un usuario", new_usuario_registration_path) %> </li>
-	<% end %>
-
-	<%if current_usuario.rol == "admin" or current_usuario.rol == "chofer"%>
-		<li> <%= link_to("Listado de combis", combis_path) %> </li>
-		<li> <%= link_to("Listado de choferes", choferes_index_path) %> </li>
-	<% end %>
-
-	<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
-	<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>
-	
-	<li> <%= link_to("Ver ciudades", controller: "ciudades", action: "index") %> </li>
-	<li> <%= link_to("Ver rutas", controller: "rutas", action: "index") %> </li>
-	<li> <%= link_to("Ver combis", controller: "combis", action: "index") %> </li>
-	<li> <%= link_to("Ver viajes", controller: "viajes", action: "index") %> </li>
-	<li> <%= link_to("Ver adicionales", controller: "adicionales", action: "index") %> </li>
-	
-<%else%>
-	<li> <%= link_to("Iniciar Sesion", new_usuario_session_path) %> </li>
-	<li> <%= link_to("Registrarse", new_usuario_registration_path) %> </li>
-<% end %>
-
-</ul>
+				<%if current_usuario.rol == "admin" or current_usuario.rol == "chofer"%>
+					<li> <%= link_to("Listado de combis", combis_path) %> </li>
+					<li> <%= link_to("Listado de choferes", choferes_index_path) %> </li>
+				<% end %>
+			</ul>
+			</div>
+			<div class="col-md-6">
+				<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
+				<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>				
+				<li> <%= link_to("Ver viajes", controller: "viajes", action: "index") %> </li>
+			</div>
+		<%else%>
+			<div class="col">
+				<li> <%= link_to("Iniciar Sesion", new_usuario_session_path) %> </li>
+				<li> <%= link_to("Registrarse", new_usuario_registration_path) %> </li>
+			</div>
+		<% end %>
+	</div>
+</div>
