@@ -26,8 +26,10 @@
   </div -->
 
   <div class="field">
-    <%= f.label "Fecha y Hora" %>
-    <%= f.datetime_select :fecha_hora, :datetime_separator " a las " %>
+    <%= f.label "Salida" %>
+    <%= f.date_field :fecha_hora, min: Time.current %>
+    <%= f.time_select :fecha_hora, ampm: false, required: true, prompt: { hour: "Horas", minute: "Minutos" }, minute_step: 5 %>
+    <!-- COMPROBAR QUE NO CREE UN VIAJE EL MISMO DIA EN UNA HORA PASADA -->
   </div>
 
   <br> <br>                                       
