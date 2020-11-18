@@ -18,6 +18,19 @@
     <%= f.label "Destino" %>
     <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
   </div>
+
+
+  <div class="field">
+    <%= f.label "Adicionales" %>
+    <!-- %= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) do |b| %>
+      < %= b.label class:"label-checkbox" do %>
+      < %= b.check_box + b.text %>
+      < % end %>
+    < % end % 
+    TAMBIEN FUNCIONA PERO TIRA EL MISMO ERROR CON RUTA_ID
+    Y ES PEOR LA SINTAXIS -->
+    <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre, :item_wrapper_class => 'checkbox_container') %>
+  </div>
     <!-- DEBERIA USAR UN CHECKBOX NO UN SELECT
         div class="field">
         < %= f.label "Adicionales" %>

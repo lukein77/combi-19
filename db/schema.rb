@@ -98,5 +98,7 @@ ActiveRecord::Schema.define(version: 2020_11_18_000151) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-
+  
+  add_foreign_key "viajes", "combis"
+  add_foreign_key "viajes", "rutas"
 end

@@ -14,11 +14,12 @@ class ViajesController < ApplicationController
   def create
     @rutas = Ruta.all
     @combis = Combi.all
-    @viaje = Viaje.create(params.require(:viaje).permit(:ruta, :combi, :precio))
+    @viaje = Viaje.create(params.require(:viaje).permit(:ruta_id, :combi_id, :precio, :fecha))
+    #@viaje = Viaje.create(params.require(:viaje).permit(:ruta, :combi, :precio, :fecha))
     if @viaje.save
       redirect_to viajes_path, notice: "El viaje fue creado"
     else
-      flash[:error] = "Ha habido un problema al crear el viaje"
+      flash[:notice] = "Ha habido un problema al crear el viaje"
       render :new
     end
   end
@@ -30,10 +31,10 @@ class ViajesController < ApplicationController
   def update
     @rutas = Ruta.all
     @combis = Combi.all
-    if @viaje.update(params.require(:viaje).permit(:ruta, :combi, :precio))
+    if @viaje.update(params.require(:viaje).permit(:ruta_id, :combi_id, :precio, :fecha))
       redirect_to rutas_path, notice: "El viaje fue modificado"
     else
-      flash[:error] = "Ha habido un problema al modificar el viaje"
+      flash[:notice] = "Ha habido un problema al modificar el viaje"
       render :edit
     end
   end

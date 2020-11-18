@@ -2,12 +2,12 @@
 
   <div class="field">
     <%= f.label "Ruta" %>
-    <%= f.collection_select(:ruta, @rutas, :id, :nombre) %>
+    <%= f.collection_select(:ruta_id, @rutas, :id, :nombre) %>
   </div>
 
   <div class="field">
     <%= f.label "Combi" %>
-    <%= f.collection_select(:combi, @combis, :id, :patente) %>
+    <%= f.collection_select(:combi_id, @combis, :id, :patente) %>
   </div>
 
   <div class="field">
