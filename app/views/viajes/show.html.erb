@@ -1,13 +1,13 @@
 <!-- h1>Viajes#show</h1 -->
 
-<h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha %></h1>
+<h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha.strftime("%d %b %Y") %></h1>
 
 <ul>
-	<li> Origen <%= @viaje.ruta.ciudadOrigen %> </li>
-	<li> Destino <%= @viaje.ruta.ciudadDestino %> </li>
+	<li> Origen <%= @viaje.ruta.getCiudadOrigen %> </li>
+	<li> Destino <%= @viaje.ruta.getCiudadDestino %> </li>
 	<li> Precio $<%= @viaje.precio %> </li>
 	<li> Asientos <%= @viaje.combi.asientos %> </li>
 	<li> Fecha de viaje <%= @viaje.fecha %> </li>
 </ul>
 
-<%= link_to "Regresar", viajes_path %>
+<%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>

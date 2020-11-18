@@ -51,13 +51,15 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+  <br>
   <div class="actions">
-    <%= f.submit "Actualizar datos" %>
+    <%= f.submit "Actualizar datos", class: 'btn btn-info btn-sm' %>
   </div>
 <% end %>
 
+<br> <br>
 <h3>Cancelar mi cuenta</h3>
 
-<p>¿No está conforme con el servicio? <%= button_to "Cancelar mi cuenta", registration_path(resource_name), data: { confirm: "¿¿Está seguro??" }, method: :delete %></p>
+<p>¿No está conforme con el servicio? <%= link_to "Cancelar mi cuenta", registration_path(resource_name), data: { confirm: "¿¿Está seguro??" }, method: :delete, class: 'btn btn-info btn-sm' %></p>
 
-<%= link_to "Regresar", :back %>
+<%= link_to "Regresar", root_path, class: 'btn btn-info btn-sm' %>
