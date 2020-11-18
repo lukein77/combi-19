@@ -1,33 +1,44 @@
-<h2>Listado de usuarios</h2>
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
+	<h2> Listado de usuarios </h2>
 
-<table class="table">
+	<% if @usuarios.where(borrado: false).size > 1 %>
+		<table class="table">
 
-	<tr>
-		<th> Nombre </th>
-		<th> Apellido </th>
-		<th> DNI </th>
-		<th> Fecha de nacimiento</th>
-		<th> e-mail </th>
-		<th> Rol </th>
-		<th> Acciones </th>
-	</tr>
-
-	<% @usuarios.order(:rol).each do |usuario| %>
-		<% if usuario.email != current_usuario.email %>
 			<tr>
-				<td> <%= usuario.nombre %> </td>
-				<td> <%= usuario.apellido %> </td>
-				<td> <%= usuario.dni %> </td>
-				<td> <%= usuario.fecha_nacimiento %> </td>
-				<td> <%= usuario.email %> </td>
-				<td> <%= usuario.rol %> </td>
-				<td> 
-					<%= link_to("Editar rol", edit_usuario_path(usuario),class: 'btn btn-info btn-sm') %>
-				 	<%= link_to("Ver", usuario_path(usuario),class: 'btn btn-info btn-sm') %> 
-				</td>
+				<th> Nombre </th>
+				<th> Apellido </th>
+				<th> DNI </th>
+				<th> Fecha de nacimiento</th>
+				<th> e-mail </th>
+				<th> Rol </th>
+				<th> Acciones </th>
 			</tr>
-		<% end %>
-	<% end %>
 
-</table>
+			<% @usuarios.order(:rol).each do |usuario| %>
+				<% if usuario.email != current_usuario.email and !usuario.borrado %>
+					<tr>
+						<td> <%= usuario.nombre %> </td>
+						<td> <%= usuario.apellido %> </td>
+						<td> <%= usuario.dni %> </td>
+						<td> <%= usuario.fecha_nacimiento %> </td>
+						<td> <%= usuario.email %> </td>
+						<td> <%= usuario.rol %> </td>
+						<td> 
+						 	<%= link_to("Ver", usuario_path(usuario),class: 'btn btn-info btn-sm') %>
+							<%= link_to("Editar rol", edit_usuario_path(usuario),class: 'btn btn-info btn-sm') %>
+						</td>
+					</tr>
+				<% end %>
+			<% end %>
+		</table>
+	<% else %>
+
+		<h6> No hay choferes cargados en el sistema </h6>
+
+	<% end %>
+<% else %>
+
+	<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+
+<% end %>
 <%= link_to "Regresar", root_path %>

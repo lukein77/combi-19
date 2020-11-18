@@ -26,4 +26,11 @@ class UsuariosController < ApplicationController
 		@usuario = Usuario.find(params[:id])
 	end
 
+	def dar_de_baja
+		usuario=Usuario.find(params[:id])
+		usuario.borrado = true;
+		usuario.save
+		redirect_to usuarios_path
+	end
+
 end

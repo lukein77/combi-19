@@ -37,7 +37,7 @@ Combi.find_or_create_by( patente: "CCC456",
                          asientos: 14,
                          modelo: "Ford")
 
-Usuario.find_or_create_by( nombre: "Nombre", 
+Usuario.create( nombre: "Nombre", 
                            apellido: "Apellido",
                            dni: 9999,
                            email: "admin@admin.com",
@@ -45,7 +45,7 @@ Usuario.find_or_create_by( nombre: "Nombre",
                            password: "asdasd",
                            rol: "admin")
 
-Usuario.find_or_create_by( nombre: "Nombre", 
+Usuario.create( nombre: "Nombre", 
                            apellido: "Apellido",
                            dni: 9998,
                            email: "chofer@chofer.com",
@@ -53,7 +53,7 @@ Usuario.find_or_create_by( nombre: "Nombre",
                            password: "asdasd",
                            rol: "chofer")
 
-Usuario.find_or_create_by( nombre: "Nombre",
+Usuario.create( nombre: "Nombre",
                            apellido: "Apellido",
                            dni: 9997,
                            email: "cliente@cliente.com",
