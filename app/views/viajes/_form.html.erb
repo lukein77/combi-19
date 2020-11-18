@@ -20,9 +20,14 @@
     <%= f.number_field :precio, required: true, min: 0, step: 0.1, placeholder: "Ingrese el precio" %>
   </div>
 
+  <!-- div class="field">
+    < %= f.label "Fecha" %>
+    < %= f.date_field :fecha, required: true, min: Date.today %>
+  </div -->
+
   <div class="field">
-    <%= f.label "Fecha" %>
-    <%= f.date_field(:fecha, required: true, min: Date.today) %>
+    <%= f.label "Fecha y Hora" %>
+    <%= f.datetime_select :fecha_hora, :datetime_separator " a las " %>
   </div>
 
   <br> <br>                                       
