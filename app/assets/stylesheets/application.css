@@ -13,6 +13,10 @@
  *= require_tree .
  *= require_self
  */
- p.alert {
-     padding: 0;
- }
+p.alert {
+    padding: 0;
+}
+
+div.form {
+    padding-left: 10px;
+}
