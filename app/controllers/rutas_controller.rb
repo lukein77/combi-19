@@ -44,7 +44,12 @@ class RutasController < ApplicationController
   end
 
   def destroy
-    Ruta.find(params[:id]).destroy
-    redirect_to rutas_path
+    @ruta = Ruta.find(params[:id])
+    if @ruta.viajes.empty? 
+      @ruta.destroy
+      redirect_to rutas_path
+    else
+      redirect_to rutas_path, notice: "La ruta tiene viajes asociados."
+    end
   end
 end

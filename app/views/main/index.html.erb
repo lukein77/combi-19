@@ -26,7 +26,6 @@
 			<div class="col-md-6">
 				<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
 				<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>				
-				<li> <%= link_to("Ver viajes", controller: "viajes", action: "index") %> </li>
 			</div>
 		<%else%>
 			<div class="col">
@@ -34,5 +33,8 @@
 				<li> <%= link_to("Registrarse", new_usuario_registration_path) %> </li>
 			</div>
 		<% end %>
+		<div class="col-md-6">
+			<li> <%= link_to("Ver viajes", controller: "viajes", action: "index") %> </li>
+		</div>
 	</div>
 </div>

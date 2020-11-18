@@ -10,6 +10,9 @@ class UsuariosController < ApplicationController
 
 	def edit
 		@usuario = Usuario.find(params[:id])
+		#if @usuario.rol == "chofer" and (not @usuario.viajes.empty?)
+		#	redirect_back(fallback_location: root_path, notice: "El chofer tiene viajes asignados.")
+		#end 
 	end
 
 	def update
