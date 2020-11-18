@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_18_015446) do
+ActiveRecord::Schema.define(version: 2020_11_18_020407) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2020_11_18_015446) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "combi_id", null: false
     t.integer "ruta_id", null: false
+    t.integer "chofer_id"
     t.index ["combi_id"], name: "index_viajes_on_combi_id"
     t.index ["ruta_id"], name: "index_viajes_on_ruta_id"
   end
