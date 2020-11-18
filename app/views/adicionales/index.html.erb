@@ -21,8 +21,8 @@
                 <td> <%= adicional.descripcion %> </td>
                 <td> $<%= adicional.precio %> </td>
                 <td> 
-                    <%= link_to("Editar", edit_adicional_path(adicional)) %>
-                    <%= link_to("Eliminar", adicional, method: :delete, data: {confirm: "¿Está seguro?"}) %> 
+                    <%= link_to("Editar", edit_adicional_path(adicional),class: 'btn btn-info btn-sm') %>
+                    <%= link_to("Eliminar", adicional, method: :delete, data: {confirm: "¿Está seguro?"},class: 'btn btn-danger btn-sm') %> 
                 </td>
             </tr>
         <% end %>

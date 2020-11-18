@@ -7,15 +7,18 @@
 	<p> No hay ciudades cargadas en el sistema </p>
 <% end %>
 
-<ol>
-<% @ciudades.each do |ciudad| %>
-	<li>
-		<%= ciudad.nombre %>
-		<%= link_to "Eliminar", ciudad, method: :delete, data: {confirm: "¿Está seguro?"} %>
-	</li>
-	<br>
-<% end %>
-</ol>
+<table class="table">
+	<tr>
+		<th> Nombre </th>
+		<th> Acciones </th>
+	<tr>
+	<% @ciudades.each do |ciudad| %>
+		<tr>
+			<td> <%= ciudad.nombre %> </td>
+			<td> <%= link_to "Eliminar", ciudad, method: :delete, data: {confirm: "¿Está seguro?"} ,class: 'btn btn-danger btn-sm'%> </td>
+		<tr>
+	<% end %>
+</table>
 
 <br> 
 <%= link_to "Añadir nueva ciudad", new_ciudad_path %> </br>
