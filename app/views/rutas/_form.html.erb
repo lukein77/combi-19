@@ -18,11 +18,6 @@
     <%= f.label "Destino" %>
     <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
   </div>
-
-  <div class="field">
-    <%= f.label "Adicionales" %>
-    <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) %>
-  </div>
     <!-- DEBERIA USAR UN CHECKBOX NO UN SELECT
         div class="field">
         < %= f.label "Adicionales" %>
