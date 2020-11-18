@@ -13,11 +13,50 @@ Ciudad.find_or_create_by(nombre: "Constitución")
 Ciudad.find_or_create_by(nombre: "La Plata")
 Ciudad.find_or_create_by(nombre: "Mar del Plata")
 
-Ruta.find_or_create_by(nombre: "Constitución - Rosario", ciudadOrigen: "Constitución", ciudadDestino: "Rosario")
-Ruta.find_or_create_by(nombre: "Retiro - La Plata", ciudadOrigen: "Retiro", ciudadDestino: "La Plata")
+Ruta.find_or_create_by( nombre: "Constitución - Rosario",
+                        ciudadOrigen: "Constitución",
+                        ciudadDestino: "Rosario")
 
-Adicional.find_or_create_by(nombre: "Café", descripcion: "Café con leche", precio: 99.9)
-Adicional.find_or_create_by(nombre: "Medialuna", descripcion: "Dos medialunas de grasa o manteca", precio: 80)
+Ruta.find_or_create_by( nombre: "Retiro - La Plata",
+                        ciudadOrigen: "Retiro",
+                        ciudadDestino: "La Plata")
 
-Combi.find_or_create_by(patente: "AA123BB", asientos: 12, modelo: "Mercedes")
-Combi.find_or_create_by(patente: "CCC456", asientos: 14, modelo: "Ford")
+Adicional.find_or_create_by( nombre: "Café",
+                             descripcion: "Café con leche",
+                             precio: 99.9)
+
+Adicional.find_or_create_by( nombre: "Medialuna",
+                             descripcion: "Dos medialunas de grasa o manteca",
+                             precio: 80)
+
+Combi.find_or_create_by( patente: "AA123BB", 
+                         asientos: 12,
+                         modelo: "Mercedes")
+
+Combi.find_or_create_by( patente: "CCC456",
+                         asientos: 14,
+                         modelo: "Ford")
+
+Usuario.find_or_create_by( nombre: "Nombre", 
+                           apellido: "Apellido",
+                           dni: 9999,
+                           email: "admin@admin.com",
+                           fecha_nacimiento: Date.new(1960,10,30),
+                           password: "asdasd",
+                           rol: "admin")
+
+Usuario.find_or_create_by( nombre: "Nombre", 
+                           apellido: "Apellido",
+                           dni: 9998,
+                           email: "chofer@chofer.com",
+                           fecha_nacimiento: Date.new(1960,10,30),
+                           password: "asdasd",
+                           rol: "chofer")
+
+Usuario.find_or_create_by( nombre: "Nombre",
+                           apellido: "Apellido",
+                           dni: 9997,
+                           email: "cliente@cliente.com",
+                           fecha_nacimiento: Date.new(1960,10,30),
+                           password: "asdasd",
+                           rol: "cliente")
