@@ -1,8 +1,22 @@
 <% if usuario_signed_in? and current_usuario.rol == "admin" %>
-  <h1>Origen: <%= @ruta.getCiudadOrigen %></h1>
-  <h1>Destino: <%= @ruta.getCiudadDestino %></h1>
+
+    <h2>Origen: <%= @ruta.getCiudadOrigen %></h2>
+    <h2>Destino: <%= @ruta.getCiudadDestino %></h2>
+    <br>
+    <% if not @ruta.adicionales.empty? %>
+        <h4> Adicionales </h4>
+
+        <ul>
+            <% @ruta.adicionales.each do |adicional| %>  
+                <li> <%= adicional.nombre %> </li>
+            <% end %>       
+        </ul>
+    <% else %>
+        <h6> No hay servicios adicionales para esta ruta. </h6>
+    <% end %>
+
 <% else %>
-  <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+    <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
 <% end %>
 
 <%= link_to "Regresar", rutas_path %>

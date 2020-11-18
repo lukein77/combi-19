@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2020_11_18_000151) do
+ActiveRecord::Schema.define(version: 2020_11_18_020407) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -19,6 +18,13 @@ ActiveRecord::Schema.define(version: 2020_11_18_000151) do
     t.float "precio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "adicionales_and_rutas", force: :cascade do |t|
+    t.integer "adicional_id"
+    t.integer "ruta_id"
+    t.index ["adicional_id"], name: "index_adicionales_and_rutas_on_adicional_id"
+    t.index ["ruta_id"], name: "index_adicionales_and_rutas_on_ruta_id"
   end
 
   create_table "adicionales_rutas", force: :cascade do |t|
@@ -93,13 +99,25 @@ ActiveRecord::Schema.define(version: 2020_11_18_000151) do
     t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
   end
 
+  create_table "usuarios_viajes", force: :cascade do |t|
+    t.integer "usuario_id"
+    t.integer "viaje_id"
+    t.index ["usuario_id"], name: "index_usuarios_viajes_on_usuario_id"
+    t.index ["viaje_id"], name: "index_usuarios_viajes_on_viaje_id"
+  end
+
   create_table "viajes", force: :cascade do |t|
     t.float "precio"
     t.date "fecha"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "combi_id", null: false
+    t.integer "ruta_id", null: false
+    t.integer "chofer_id"
+    t.index ["combi_id"], name: "index_viajes_on_combi_id"
+    t.index ["ruta_id"], name: "index_viajes_on_ruta_id"
   end
-  
+
   add_foreign_key "viajes", "combis"
   add_foreign_key "viajes", "rutas"
 end
