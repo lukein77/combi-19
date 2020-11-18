@@ -14,8 +14,7 @@ class ViajesController < ApplicationController
   def create
     @rutas = Ruta.all
     @combis = Combi.all
-    @viaje = Viaje.create(params.require(:viaje).permit(:ruta_id, :combi_id, :precio, :fecha))
-    #@viaje = Viaje.create(params.require(:viaje).permit(:ruta, :combi, :precio, :fecha))
+    @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :precio, :fecha))
     if @viaje.save
       redirect_to viajes_path, notice: "El viaje fue creado"
     else

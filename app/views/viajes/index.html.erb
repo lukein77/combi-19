@@ -21,7 +21,7 @@
 			<td>
 				<%= link_to "Ver", viaje_path(viaje) %>
 				<%= link_to "Editar", edit_viaje_path(viaje) %>
-				<%= link_to "Eliminar", ruta, method: :delete %>
+				<%= link_to "Eliminar", viaje, method: :delete %>
 				<%= link_to "Ver Combi", combi_path(viaje.combi) %>
 				<%= link_to "Ver Ruta", ruta_path(viaje.ruta) %>
 			</td>
