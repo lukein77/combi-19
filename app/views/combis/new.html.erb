@@ -1,14 +1,9 @@
 <% if usuario_signed_in? and current_usuario.rol == "admin" %>
-
-<div class="container">
-	<h1> Añadir una combi </h1>
-
-	<%= render 'form' %>
-</div>
-
+	<div class="container">
+		<h1> Añadir una combi </h1>
+		<%= render 'form' %>
+	</div>
 <% else %>
-
-<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
-<%= link_to "Regresar a la página principal", root_path %>
-
+	<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+	<%= link_to "Regresar a la página principal", root_path, class: 'btn btn-info btn-sm' %>
 <% end %>

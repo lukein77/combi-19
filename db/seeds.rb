@@ -29,6 +29,10 @@ Adicional.find_or_create_by( nombre: "Medialuna",
                              descripcion: "Dos medialunas de grasa o manteca",
                              precio: 80)
 
+Adicional.find_or_create_by( nombre: "Sandwich",
+                             descripcion: "Con pan fresco, queso y salame",
+                             precio: 150)
+
 Combi.find_or_create_by( patente: "AA123BB", 
                          asientos: 12,
                          modelo: "Mercedes")
@@ -42,7 +46,7 @@ Usuario.find_or_create_by( nombre: "Nombre",
                            dni: 9999,
                            email: "admin@admin.com",
                            fecha_nacimiento: Date.new(1960,10,30),
-                           password: "asdasd",
+                           #password: "asdasd",
                            rol: "admin")
 
 Usuario.find_or_create_by( nombre: "Nombre", 
@@ -50,7 +54,7 @@ Usuario.find_or_create_by( nombre: "Nombre",
                            dni: 9998,
                            email: "chofer@chofer.com",
                            fecha_nacimiento: Date.new(1960,10,30),
-                           password: "asdasd",
+                           #password: "asdasd",
                            rol: "chofer")
 
 Usuario.find_or_create_by( nombre: "Nombre",
@@ -58,5 +62,5 @@ Usuario.find_or_create_by( nombre: "Nombre",
                            dni: 9997,
                            email: "cliente@cliente.com",
                            fecha_nacimiento: Date.new(1960,10,30),
-                           password: "asdasd",
+                           #password: "asdasd",
                            rol: "cliente")

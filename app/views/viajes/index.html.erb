@@ -20,10 +20,12 @@
 			<td> <%= viaje.precio %> </td>
 			<td>
 				<%= link_to "Ver", viaje_path(viaje) %>
-				<%= link_to "Editar", edit_viaje_path(viaje) %>
-				<%= link_to "Eliminar", viaje, method: :delete %>
 				<%= link_to "Ver Combi", combi_path(viaje.combi) %>
 				<%= link_to "Ver Ruta", ruta_path(viaje.ruta) %>
+				<% if current_usuario.rol == "admin" %>
+					<%= link_to "Editar", edit_viaje_path(viaje) %>
+					<%= link_to "Eliminar", viaje, method: :delete %>
+				<% end %>
 			</td>
 		</tr>
 		<% end %>
@@ -33,7 +35,7 @@
 <br> <br>
 
 <% if current_usuario.rol == "admin"%>
-	<%= link_to "Añadir nuevo viaje", new_viaje_path %> </br>
+	<%= link_to "Añadir nuevo viaje", new_viaje_path, class: 'btn btn-info btn-sm' %> </br>
 <%end%>
 
-<%= link_to "Regresar", root_path %>
+<%= link_to "Regresar", root_path, class: 'btn btn-info btn-sm' %>

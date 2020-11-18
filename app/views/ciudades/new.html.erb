@@ -1,32 +1,30 @@
 <% if usuario_signed_in? and current_usuario.rol == "admin" %>
 
-<h2> Agregar ciudad </h2>
+	<h2> Agregar ciudad </h2>
 
-<% if @ciudad.errors.any? %>
-	<h3> No se pudo guardar la ciudad: </h3>
-	<ul>
-		<% @ciudad.errors.messages.each do |msg| %>
-			<li> <%= msg[1][0] %> </li>
-		<% end %>
-	</ul>
-<% end %>
+	<% if @ciudad.errors.any? %>
+		<h3> No se pudo guardar la ciudad: </h3>
+		<ul>
+			<% @ciudad.errors.messages.each do |msg| %>
+				<li> <%= msg[1][0] %> </li>
+			<% end %>
+		</ul>
+	<% end %>
 
 
-<%= form_for @ciudad do |f| %>
-	<%= f.label :nombre %>
-	<br>
-	<%= f.text_field :nombre, required: true, placeholder: "Ingrese el nombre de la ciudad" %>
-	<br> <br>							
+	<%= form_for @ciudad do |f| %>
+		<%= f.label :nombre %>
+		<br>
+		<%= f.text_field :nombre, required: true, placeholder: "Ingrese el nombre de la ciudad" %>
+		<br> <br>							
 
-	
+	  <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
 
-  <%= f.submit "Guardar" %>
-
-<% end %>
+	<% end %>
 
 <% else %>
-
-<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
-<%= link_to "Regresar a la página principal", root_path %>
-
+	<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
 <% end %>
+
+<br>
+<%= link_to "Regresar a la página principal", root_path, class: 'btn btn-info btn-sm' %>
