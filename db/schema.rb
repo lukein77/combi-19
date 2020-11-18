@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_232913) do
+
+ActiveRecord::Schema.define(version: 2020_11_18_000151) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -18,6 +19,13 @@ ActiveRecord::Schema.define(version: 2020_11_17_232913) do
     t.float "precio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "adicionales_rutas", force: :cascade do |t|
+    t.integer "adicional_id"
+    t.integer "ruta_id"
+    t.index ["adicional_id"], name: "index_adicionales_rutas_on_adicional_id"
+    t.index ["ruta_id"], name: "index_adicionales_rutas_on_ruta_id"
   end
 
   create_table "ciudades", force: :cascade do |t|
@@ -68,8 +76,22 @@ ActiveRecord::Schema.define(version: 2020_11_17_232913) do
     t.string "nombre"
   end
 
-# Could not dump table "usuarios" because of following StandardError
-#   Unknown type 'formulario_covid' for column 'formulario_covid'
+  create_table "usuarios", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.string "apellido", null: false
+    t.integer "dni", null: false
+    t.string "rol"
+    t.date "fecha_nacimiento"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_usuarios_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
+  end
 
   create_table "viajes", force: :cascade do |t|
     t.float "precio"
@@ -77,5 +99,7 @@ ActiveRecord::Schema.define(version: 2020_11_17_232913) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-
+  
+  add_foreign_key "viajes", "combis"
+  add_foreign_key "viajes", "rutas"
 end
