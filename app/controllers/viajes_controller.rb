@@ -36,11 +36,9 @@ class ViajesController < ApplicationController
     @viaje = Viaje.find(params[:id])
 
     @choferID = @viaje.chofer_id
-    puts @choferID.to_s + " ----#----- " + @viaje.chofer_id.to_s
     if @viaje.update(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha))
       if @viaje.chofer_id != @choferID
         # si cambió de chofer
-        puts @choferID.to_s + " ---------- " + @viaje.chofer_id.to_s
         Usuario.find(@choferID).viajes.destroy(@viaje)
       end
       redirect_to viajes_path, notice: "El viaje fue modificado"

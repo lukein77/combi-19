@@ -7,6 +7,8 @@
 	</ul>
 <% end %>
 
+<div class="form">
+
 <%= form_for @ruta do |f| %>
 
   <div class="field">
@@ -45,5 +47,7 @@
 
   <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
   <%= link_to "Cancelar", rutas_path, class: 'btn btn-info btn-sm' %>
+
+</div>
   
 <% end %>
