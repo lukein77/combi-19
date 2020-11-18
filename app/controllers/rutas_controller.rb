@@ -12,7 +12,7 @@ class RutasController < ApplicationController
   def create
     @ciudades = Ciudad.all
     @adicionales = Adicional.all
-    @ruta = Ruta.create(params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => []))
+    @ruta = Ruta.create(ruta_params)
     if @ruta.save
       redirect_to rutas_path, notice: "La ruta fue creada"
     else
@@ -35,7 +35,7 @@ class RutasController < ApplicationController
     @ciudades = Ciudad.all
     @adicionales = Adicional.all
     @ruta = Ruta.find(params[:id])
-    if @ruta.update(params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => []))
+    if @ruta.update(ruta_params)
       redirect_to rutas_path, notice: "La ruta fue modificada."
     else
       flash[:error] = "Ha habido un problema al crear la ruta."
@@ -51,5 +51,10 @@ class RutasController < ApplicationController
     else
       redirect_to rutas_path, notice: "La ruta tiene viajes asociados."
     end
+  end
+
+  private
+  def ruta_params 
+    params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => [])
   end
 end
