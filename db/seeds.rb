@@ -13,13 +13,13 @@ Ciudad.find_or_create_by(nombre: "Constitución")
 Ciudad.find_or_create_by(nombre: "La Plata")
 Ciudad.find_or_create_by(nombre: "Mar del Plata")
 
-Ruta.find_or_create_by( nombre: "Constitución - Rosario",
-                        ciudadOrigen: "Constitución",
-                        ciudadDestino: "Rosario")
+#Ruta.find_or_create_by( nombre: "Constitución - Rosario",
+#                        ciudadOrigen: "Constitución",
+#                        ciudadDestino: "Rosario")
 
-Ruta.find_or_create_by( nombre: "Retiro - La Plata",
-                        ciudadOrigen: "Retiro",
-                        ciudadDestino: "La Plata")
+#Ruta.find_or_create_by( nombre: "Retiro - La Plata",
+#                        ciudadOrigen: "Retiro",
+#                        ciudadDestino: "La Plata")
 
 Adicional.find_or_create_by( nombre: "Café",
                              descripcion: "Café con leche",
