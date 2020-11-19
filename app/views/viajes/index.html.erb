@@ -16,7 +16,7 @@
 		<% @viajes.each do |viaje| %>
 		<tr>
 			<td> <%= viaje.ruta.nombre %> </td>
-			<td> <%= viaje.fecha %> </td>
+			<td> <%= viaje.fecha_hora %> </td>
 			<td> <%= viaje.precio %> </td>
 			<% if usuario_signed_in? %>
 				<% if current_usuario.rol == "chofer" or current_usuario.rol == "admin" %>

@@ -18,5 +18,25 @@ p.alert {
 }
 
 div.form {
-    padding-left: 10px;
+  padding-left: 10px;
+}
+
+div.scroll {
+	background-color: #dedede;
+  width: 200px;
+  height: 250px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.row {
+	display: flex;
+	padding: 20px
+}
+
+.column {
+	flex: 50%;
+	padding: 10px;
 }

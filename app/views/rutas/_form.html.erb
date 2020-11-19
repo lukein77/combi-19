@@ -6,38 +6,36 @@
 		<% end %>
 	</ul>
 <% end %>
-
 <%= form_for @ruta do |f| %>
 
-  <div class="field">
-    <%= f.label "Origen" %>
-    <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>																				
+  <div class="row">
+    <div class="column">
+      <div class="field">
+        <%= f.label "Origen" %>
+        <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>																				
+      </div>
+
+      <div class="field">
+        <%= f.label "Destino" %>
+        <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
+      </div>
+
+      <div class="field">
+        <%= f.label "Duración" %>
+        <%= f.time_select :duracion, ampm: false, required: true, prompt: { hour: "Horas", minute: "Minutos" }, end_hour: 11, minute_step: 5 %>
+        <!-- time_field no es lo mismo que time_select -->
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="scroll">
+        <div class="field">
+          <%= f.label "Adicionales" %>
+          <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre, :item_wrapper_class => 'checkbox_container') %>
+        </div>                
+      </div>                              
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label "Destino" %>
-    <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
-  </div>
-
-
-  <div class="field">
-    <%= f.label "Adicionales" %>
-    <!-- %= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) do |b| %>
-      < %= b.label class:"label-checkbox" do %>
-      < %= b.check_box + b.text %>
-      < % end %>
-    < % end % 
-    TAMBIEN FUNCIONA PERO TIRA EL MISMO ERROR CON RUTA_ID
-    Y ES PEOR LA SINTAXIS -->
-    <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre, :item_wrapper_class => 'checkbox_container') %>
-  </div>
-    <!-- DEBERIA USAR UN CHECKBOX NO UN SELECT
-        div class="field">
-        < %= f.label "Adicionales" %>
-        < %= f.collection_select(:adicional, @adicionales, :id, :nombre) %>
-    </div -->                                              
-    
-
   <br> <br>
 
   <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
