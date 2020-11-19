@@ -9,9 +9,16 @@ class Usuario < ApplicationRecord
   has_and_belongs_to_many :viajes
 
   after_initialize :default_values, unless: :persisted?
-
   before_save :default_values
+
+  def active_for_authentication?
+      super && !borrado
+  end
+
   def default_values
+    if self.borrado == nil
+      self.borrado = false
+    end
   	if self.rol == nil 
     	self.rol = "cliente"
     end

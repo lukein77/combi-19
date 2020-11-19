@@ -1,32 +1,36 @@
 <% if usuario_signed_in? and current_usuario.rol == "admin" %>
 	<h2> Listado de choferes </h2>
 
-	<table class="table">
+	<% if @choferes.where(borrado: false).size != 0 %>
+		<table class="table">
 
-		<tr>
-			<th> Nombre </th>
-			<th> Apellido </th>
-			<th> DNI </th>
-			<th> Fecha de nacimiento</th>
-			<th> e-mail </th>
-			<th> Acciones </th>
-		</tr>
-
-		<% @choferes.each do |chofer| %>
 			<tr>
-				<td> <%= chofer.nombre %> </td>
-				<td> <%= chofer.apellido %> </td>
-				<td> <%= chofer.dni %> </td>
-				<td> <%= chofer.fecha_nacimiento %> </td>
-				<td> <%= chofer.email %> </td>
-				<td> 
-					<%= link_to("Editar rol", edit_usuario_path(chofer),class: 'btn btn-info btn-sm') %>
-					<%= link_to("Ver", usuario_path(chofer),class: 'btn btn-info btn-sm') %> 
-				</td>
+				<th> Nombre </th>
+				<th> Apellido </th>
+				<th> DNI </th>
+				<th> Fecha de nacimiento</th>
+				<th> e-mail </th>
+				<th> Acciones </th>
 			</tr>
-		<% end %>
 
-	</table>
+			<% @choferes.where(borrado: false).each do |chofer| %>
+				<tr>
+					<td> <%= chofer.nombre %> </td>
+					<td> <%= chofer.apellido %> </td>
+					<td> <%= chofer.dni %> </td>
+					<td> <%= chofer.fecha_nacimiento %> </td>
+					<td> <%= chofer.email %> </td>
+					<td> 
+						<%= link_to("Editar rol", edit_usuario_path(chofer),class: 'btn btn-info btn-sm') %>
+						<%= link_to("Ver", usuario_path(chofer),class: 'btn btn-info btn-sm') %>
+						<%= link_to("Eliminar", dar_de_baja_path(chofer),method: :post,data: {confirm: "¿Está seguro?"} ,class: 'btn btn-danger btn-sm') %>
+					</td>
+				</tr>
+			<% end %>
+		</table>
+	<% else %>
+		<h6> No hay choferes cargados en el sistema </h6>
+	<% end %>
 <% else %>
 	<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
 <% end %>
