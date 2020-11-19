@@ -1,17 +1,40 @@
 <h1> <%= @usuario.nombre %> <%= @usuario.apellido %></h1>
 
-<p> DNI: <%= @usuario.dni %> </p>
+<ul>
 
-<p> fecha de nacimiento: <%= @usuario.fecha_nacimiento %> </p>
+	<li> DNI: <%= @usuario.dni %> </li>
 
-<p> Rol: <%= @usuario.rol %> </p>
+	<li> Fecha de nacimiento: <%= @usuario.fecha_nacimiento %> </li>
 
-<p> e-mail: <%= @usuario.email %> </p>
+	<li> Rol: <%= @usuario.rol %> </li>
 
-<% if @usuario.rol == "cliente" %>
+	<li> Correo electrónico: <%= @usuario.email %> </li>
 
-	<p> Formulario covid....</p>
+	<br>
+	<% if @usuario.rol == "cliente" %>
+		<li> Formulario covid....</li>
+	<% elsif @usuario.rol == "chofer" %>
+		<% if not @usuario.viajes.empty? %>
+			<h4> Viajes asignados </h4>
+			<table class="table table-sm">
+				<tr>
+					<th> Ruta </th>
+					<th> Fecha </th>
+					<th> Acciones </th>
+				</tr>
+				<% @usuario.viajes.each do |viaje| %>
+					<tr>
+						<td> <%= viaje.ruta.nombre %> </td>
+						<td> <%= viaje.fecha %> </td>
+						<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+					</tr>
+				<% end %>
+			</table>
+		<% else %>
+			<i> El chofer no tiene viajes asignados. </i>
+		<% end %>
+	<% end %>
 
-<% end %>
+</ul>
 
 <%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>

@@ -5,14 +5,14 @@ class RutasController < ApplicationController
 
   def new
     @ruta = Ruta.new
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
   end
 
   def create
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
-    @ruta = Ruta.create(params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :duracion, :adicional_ids => []))
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
+    @ruta = Ruta.create(ruta_params)
     if @ruta.save
       redirect_to rutas_path, notice: "La ruta fue creada"
     else
@@ -23,8 +23,8 @@ class RutasController < ApplicationController
 
   def edit
     @ruta = Ruta.find(params[:id])
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
   end
 
   def show
@@ -32,8 +32,8 @@ class RutasController < ApplicationController
   end
 
   def update
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
     @ruta = Ruta.find(params[:id])
     if @ruta.update(ruta_params)
       redirect_to rutas_path, notice: "La ruta fue modificada."
@@ -51,5 +51,10 @@ class RutasController < ApplicationController
     else
       redirect_to rutas_path, notice: "La ruta tiene viajes asociados."
     end
+  end
+
+  private
+  def ruta_params 
+    params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => [])
   end
 end

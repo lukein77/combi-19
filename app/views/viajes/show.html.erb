@@ -1,6 +1,6 @@
 <!-- h1>Viajes#show</h1 -->
 
-<h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha.to_s %></h1>
+<h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha.strftime("%d %b %Y") %></h1>
 
 <ul>
 	<li> Origen <%= @viaje.ruta.getCiudadOrigen %> </li>

@@ -13,21 +13,21 @@
  *= require_tree .
  *= require_self
  */
-p.alert {
+
+ p.alert {
     padding: 0;
 }
 
 div.form {
-  padding-left: 10px;
+    padding-left: 30px;
 }
 
 div.scroll {
 	background-color: #dedede;
-  width: 200px;
-  height: 250px;
+  width: 300px;
+  height: 400px;
   overflow-x: hidden;
   overflow-y: auto;
-  text-align: center;
   padding: 20px;
 }
 

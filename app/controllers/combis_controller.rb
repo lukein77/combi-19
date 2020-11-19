@@ -38,7 +38,12 @@ class CombisController < ApplicationController
 	end
 
 	def destroy
-		Combi.find(params[:id]).destroy
-      	redirect_to combis_path
+		@combi = Combi.find(params[:id])
+		if @combi.viajes.empty?
+			@combi.destroy
+			redirect_to combis_path
+		else
+			redirect_to combis_path, notice: "La combi tiene viajes asociados."
+		end
 	end
 end

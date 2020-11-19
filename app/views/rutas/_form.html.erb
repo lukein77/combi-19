@@ -6,6 +6,8 @@
 		<% end %>
 	</ul>
 <% end %>
+
+<div class="form">
 <%= form_for @ruta do |f| %>
 
   <div class="row">
@@ -19,7 +21,6 @@
         <%= f.label "Destino" %>
         <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
       </div>
-
       <div class="field">
         <%= f.label "Duración" %>
         <%= f.time_select :duracion, ampm: false, required: true, prompt: { hour: "Horas", minute: "Minutos" }, end_hour: 11, minute_step: 5 %>
@@ -28,10 +29,15 @@
     </div>
 
     <div class="column">
+      <h5> Adicionales </h5>
       <div class="scroll">
         <div class="field">
-          <%= f.label "Adicionales" %>
-          <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre, :item_wrapper_class => 'checkbox_container') %>
+          <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) do |b| %>
+          <li>
+            <%= b.check_box %>
+            <%= b.label + " ($" + b.object.precio.to_s + ")" %>
+          </li>
+          <% end %>
         </div>                
       </div>                              
     </div>
@@ -40,5 +46,7 @@
 
   <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
   <%= link_to "Cancelar", rutas_path, class: 'btn btn-info btn-sm' %>
+
+</div>
   
 <% end %>

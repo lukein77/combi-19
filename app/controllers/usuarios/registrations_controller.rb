@@ -13,7 +13,7 @@ class Usuarios::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
-        respond_with resource, location: after_sign_up_path_for(resource)
+        respond_with resource, location: after_sign_up_path_for(resource), notice: "Se ha registrado correctamente. Inicie sesión para utilizar su cuenta."
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!
