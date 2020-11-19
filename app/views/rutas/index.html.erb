@@ -14,6 +14,7 @@
 		<th> Nombre </th>
 		<th> Origen </th>
 		<th> Destino </th>
+		<th> Duración </th>
 		<th> Acciones </th>
 	</tr>
 
@@ -22,10 +23,11 @@
 		<td><%= ruta.nombre %></td>
 		<td><%= ruta.getCiudadOrigen %></td>
 		<td><%= ruta.getCiudadDestino %></td>
+		<td><%= ruta.duracion.strftime("%-I horas %-M minutos") %></td>
 		<td>
-			<%= link_to "Ver", ruta_path(ruta) %>
-			<%= link_to "Editar", edit_ruta_path(ruta) %>
-			<%= link_to "Eliminar", ruta, method: :delete %>
+			<%= link_to "Ver", ruta_path(ruta), class: 'btn btn-info btn-sm' %>
+			<%= link_to "Editar", edit_ruta_path(ruta), class: 'btn btn-info btn-sm' %>
+			<%= link_to "Eliminar", ruta, method: :delete, class: 'btn btn-info btn-sm', data: {confirm: "¿Está seguro?"} %>
 		</td>
 	</tr>
 	<% end %>
@@ -33,7 +35,7 @@
 <% end %>
 
 <br>
-<%= link_to "Agregar nueva ruta", new_ruta_path %>
+<%= link_to "Agregar nueva ruta", new_ruta_path, class: 'btn btn-info btn-sm' %>
 
 
 <% else %>
@@ -44,4 +46,4 @@
 
 <br> <br>
 
-<%= link_to "Regresar", root_path %>
+<%= link_to "Regresar", root_path, class: 'btn btn-info btn-sm' %>

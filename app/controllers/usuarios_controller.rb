@@ -10,12 +10,15 @@ class UsuariosController < ApplicationController
 
 	def edit
 		@usuario = Usuario.find(params[:id])
+		#if @usuario.rol == "chofer" and (not @usuario.viajes.empty?)
+		#	redirect_back(fallback_location: root_path, notice: "El chofer tiene viajes asignados.")
+		#end 
 	end
 
-	def update
+	def update	
 		@usuario = Usuario.find(params[:id])
 	    if @usuario.update params.require(:usuario).permit(:rol)
-	      redirect_to usuarios_path, notice: "El rol se actualizo correctamente"
+		  redirect_to usuarios_path, notice: "El rol se actualizó correctamente"
 	    else
 	      flash[:error] = "Hubo un error al modificar el rol"
 	      render :edit

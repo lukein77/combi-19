@@ -29,34 +29,40 @@ Adicional.find_or_create_by( nombre: "Medialuna",
                              descripcion: "Dos medialunas de grasa o manteca",
                              precio: 80)
 
+Adicional.find_or_create_by( nombre: "Sandwich",
+                             descripcion: "Con pan fresco, queso y salame",
+                             precio: 150)
+
 Combi.find_or_create_by( patente: "AA123BB", 
                          asientos: 12,
-                         modelo: "Mercedes")
+                         modelo: "Súper Cómoda",
+                         cant_viajes: 0)
 
 Combi.find_or_create_by( patente: "CCC456",
                          asientos: 14,
-                         modelo: "Ford")
+                         modelo: "Cómoda",
+                         cant_viajes: 0)
 
-Usuario.create( nombre: "Nombre", 
-                           apellido: "Apellido",
-                           dni: 9999,
-                           email: "admin@admin.com",
-                           fecha_nacimiento: Date.new(1960,10,30),
-                           password: "asdasd",
-                           rol: "admin")
+Usuario.create(nombre: "Nombre", 
+               apellido: "Apellido",
+               dni: 9999,
+               email: "admin@admin.com",
+               fecha_nacimiento: Date.new(1960,10,30),
+               password: "asdasd",
+               rol: "admin")
 
-Usuario.create( nombre: "Nombre", 
-                           apellido: "Apellido",
-                           dni: 9998,
-                           email: "chofer@chofer.com",
-                           fecha_nacimiento: Date.new(1960,10,30),
-                           password: "asdasd",
-                           rol: "chofer")
+Usuario.create(nombre: "Nombre", 
+               apellido: "Apellido",
+               dni: 9998,
+               email: "chofer@chofer.com",
+               fecha_nacimiento: Date.new(1960,10,30),
+               password: "asdasd",
+               rol: "chofer")
 
-Usuario.create( nombre: "Nombre",
-                           apellido: "Apellido",
-                           dni: 9997,
-                           email: "cliente@cliente.com",
-                           fecha_nacimiento: Date.new(1960,10,30),
-                           password: "asdasd",
-                           rol: "cliente")
+Usuario.create(nombre: "Nombre",
+               apellido: "Apellido",
+               dni: 9997,
+               email: "cliente@cliente.com",
+               fecha_nacimiento: Date.new(1960,10,30),
+               password: "asdasd",
+               rol: "cliente")

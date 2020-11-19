@@ -5,12 +5,14 @@ class Ruta < ApplicationRecord
 	belongs_to :ciudad, foreign_key: "ciudadOrigen", class_name: "Ciudad"
 	belongs_to :ciudad, foreign_key: "ciudadDestino", class_name: "Ciudad"
 	has_and_belongs_to_many :adicionales
-	has_many :viajes
+	has_many :viajes, dependent: :destroy
 
 	before_validation :poner_nombre
 	validates :nombre, presence: true, uniqueness: true
 	validate :ciudades_validas
 	
+
+	#Funciones
 	def poner_nombre
 		if ciudadOrigen != nil and ciudadDestino != nil
 			self.nombre = getCiudadOrigen + " - " + getCiudadDestino
@@ -21,6 +23,10 @@ class Ruta < ApplicationRecord
 		if ciudadOrigen == ciudadDestino
 			errors.add(:nombre, "No puede elegir la misma ciudad de origen y de destino.")
 		end
+	end
+
+	private def ruta_params
+		params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :duracion, :adicional_ids => [])
 	end
 
 	#Getters

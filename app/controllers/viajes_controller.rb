@@ -16,7 +16,7 @@ class ViajesController < ApplicationController
     @rutas = Ruta.all
     @combis = Combi.all
     @choferes = Usuario.where(rol: "chofer")
-    @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha))
+    @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora))
     if @viaje.save
       redirect_to viajes_path, notice: "El viaje fue creado"
     else
@@ -34,7 +34,13 @@ class ViajesController < ApplicationController
     @combis = Combi.all
     @choferes = Usuario.where(rol: "chofer")
     @viaje = Viaje.find(params[:id])
+
+    @choferID = @viaje.chofer_id
     if @viaje.update(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha))
+      if @viaje.chofer_id != @choferID
+        # si cambió de chofer
+        Usuario.find(@choferID).viajes.destroy(@viaje)
+      end
       redirect_to viajes_path, notice: "El viaje fue modificado"
     else
       flash[:notice] = "Ha habido un problema al modificar el viaje"

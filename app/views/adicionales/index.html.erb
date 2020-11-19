@@ -2,7 +2,8 @@
 
 <h1>Adicionales</h1>
 
-<%= link_to("Agregar nuevo adicional", new_adicional_path) %>
+<%= link_to "Agregar nuevo adicional", new_adicional_path, class: 'btn btn-info btn-sm' %>
+<br><br>
 
 <% if @adicionales.size == 0 %>
 	<br><i> No hay adicionales cargados en el sistema. </i>
@@ -35,4 +36,4 @@
 
 <% end %>
 <br>
-<%= link_to "Regresar", root_path %>
+<%= link_to "Regresar", root_path, class: 'btn btn-info btn-sm' %>

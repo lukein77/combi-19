@@ -5,14 +5,14 @@ class RutasController < ApplicationController
 
   def new
     @ruta = Ruta.new
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
   end
 
   def create
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
-    @ruta = Ruta.create(params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => []))
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
+    @ruta = Ruta.create(ruta_params)
     if @ruta.save
       redirect_to rutas_path, notice: "La ruta fue creada"
     else
@@ -23,8 +23,8 @@ class RutasController < ApplicationController
 
   def edit
     @ruta = Ruta.find(params[:id])
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
   end
 
   def show
@@ -32,10 +32,10 @@ class RutasController < ApplicationController
   end
 
   def update
-    @ciudades = Ciudad.all
-    @adicionales = Adicional.all
+    @ciudades = Ciudad.order(:nombre)
+    @adicionales = Adicional.order(:nombre)
     @ruta = Ruta.find(params[:id])
-    if @ruta.update(params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => []))
+    if @ruta.update(ruta_params)
       redirect_to rutas_path, notice: "La ruta fue modificada."
     else
       flash[:error] = "Ha habido un problema al crear la ruta."
@@ -44,7 +44,17 @@ class RutasController < ApplicationController
   end
 
   def destroy
-    Ruta.find(params[:id]).destroy
-    redirect_to rutas_path
+    @ruta = Ruta.find(params[:id])
+    if @ruta.viajes.empty? 
+      @ruta.destroy
+      redirect_to rutas_path
+    else
+      redirect_to rutas_path, notice: "La ruta tiene viajes asociados."
+    end
+  end
+
+  private
+  def ruta_params 
+    params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => [])
   end
 end

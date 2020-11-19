@@ -15,6 +15,9 @@ es:
               too_short: "La contraseña es demasiado corta. Debe tener al menos 6 caracteres."
             password_confirmation:
               confirmation: "Las contraseñas no coinciden."
+            current_password:
+              invalid: "La contraseña actual es incorrecta."
+              blank: "Debe ingresar su contraseña actual para actualizar los datos."
         
         ciudad:
           attributes:

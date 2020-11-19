@@ -16,15 +16,22 @@
 		<% @viajes.each do |viaje| %>
 		<tr>
 			<td> <%= viaje.ruta.nombre %> </td>
-			<td> <%= viaje.fecha %> </td>
+			<td> <%= viaje.fecha_hora %> </td>
 			<td> <%= viaje.precio %> </td>
-			<td>
-				<%= link_to "Ver", viaje_path(viaje) %>
-				<%= link_to "Editar", edit_viaje_path(viaje) %>
-				<%= link_to "Eliminar", viaje, method: :delete %>
-				<%= link_to "Ver Combi", combi_path(viaje.combi) %>
-				<%= link_to "Ver Ruta", ruta_path(viaje.ruta) %>
-			</td>
+			<% if usuario_signed_in? %>
+				<% if current_usuario.rol == "chofer" or current_usuario.rol == "admin" %>
+				<td>
+					<%= link_to "Ver", viaje_path(viaje), class: 'btn btn-info btn-sm' %>
+					<%= link_to "Ver combi", combi_path(viaje.combi), class: 'btn btn-info btn-sm' %>
+					<%= link_to "Ver ruta", ruta_path(viaje.ruta), class: 'btn btn-info btn-sm' %>
+					<%= link_to "Ver chofer", usuario_path(viaje.chofer_id), class: 'btn btn-info btn-sm' %>
+					<% if current_usuario.rol == "admin" %>
+						<%= link_to "Editar", edit_viaje_path(viaje), class: 'btn btn-info btn-sm' %>
+						<%= link_to "Eliminar", viaje, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %>
+					<% end %>
+				</td>
+					<% end %>
+			<% end %>
 		</tr>
 		<% end %>
 	</table>
@@ -32,8 +39,8 @@
 
 <br> <br>
 
-<% if current_usuario.rol == "admin"%>
-	<%= link_to "Añadir nuevo viaje", new_viaje_path %> </br>
+<% if usuario_signed_in? and current_usuario.rol == "admin"%>
+	<%= link_to "Añadir nuevo viaje", new_viaje_path, class: 'btn btn-info btn-sm' %> </br>
 <%end%>
-
-<%= link_to "Regresar", root_path %>
+<br>
+<%= link_to "Regresar", root_path, class: 'btn btn-info btn-sm' %>

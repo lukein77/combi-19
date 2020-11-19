@@ -2,6 +2,7 @@
 
     <h2>Origen: <%= @ruta.getCiudadOrigen %></h2>
     <h2>Destino: <%= @ruta.getCiudadDestino %></h2>
+    <h4>Duración: <%= @ruta.duracion.strftime("%-I horas %-M minutos") %></h4>
     <br>
     <% if not @ruta.adicionales.empty? %>
         <h4> Adicionales </h4>
@@ -19,4 +20,4 @@
     <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
 <% end %>
 
-<%= link_to "Regresar", rutas_path %>
+<%= link_to "Regresar", rutas_path, class: 'btn btn-info btn-sm' %>
