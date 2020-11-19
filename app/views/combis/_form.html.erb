@@ -26,8 +26,9 @@
 
   		<div class="row">
 			<div class="col-md-6">
-				<%= f.label :modelo %>
-  				<%= f.text_field :modelo, required: true, class: 'form-control', label: 'Modelo', placeholder: 'Ingrese el modelo de la Combi' %>
+				<%= f.label "Modelo" %>
+        <%= f.select :modelo, [["Cómoda"], ["Súper Cómoda"]] %>
+  				<!-- %= f.text_field :modelo, required: true, class: 'form-control', label: 'Modelo', placeholder: 'Ingrese el modelo de la Combi' % -->
   			</div>
   		</div>
 

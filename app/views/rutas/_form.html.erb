@@ -8,41 +8,40 @@
 <% end %>
 
 <div class="form">
-
 <%= form_for @ruta do |f| %>
 
-  <div class="field">
-    <%= f.label "Origen" %>
-    <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>																				
-  </div>
-
-  <div class="field">
-    <%= f.label "Destino" %>
-    <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
-  </div>
-
-  <br>
-  <h5> Adicionales </h5>
   <div class="row">
-    <div class="col-md-4">  
-      <%= f.collection_check_boxes(:adicional_ids, @adicionales[0, @adicionales.length / 2 + 1], :id, :nombre) do |b| %>
-        <li>
-          <%= b.check_box %>
-          <%= b.label + " ($" + b.object.precio.to_s + ")" %>
-        </li>
-      <% end %>
+    <div class="column">
+      <div class="field">
+        <%= f.label "Origen" %>
+        <%= f.collection_select(:ciudadOrigen, @ciudades, :id, :nombre) %>																				
+      </div>
+
+      <div class="field">
+        <%= f.label "Destino" %>
+        <%= f.collection_select(:ciudadDestino, @ciudades, :id, :nombre) %>
+      </div>
+      <div class="field">
+        <%= f.label "Duración" %>
+        <%= f.time_select :duracion, ampm: false, required: true, prompt: { hour: "Horas", minute: "Minutos" }, end_hour: 11, minute_step: 5 %>
+        <!-- time_field no es lo mismo que time_select -->
+      </div>
     </div>
 
-    <div class="col-md-4">  
-      <%= f.collection_check_boxes(:adicional_ids, @adicionales[@adicionales.length / 2 + 1, @adicionales.length], :id, :nombre) do |b| %>
-        <li>
-          <%= b.check_box %>
-          <%= b.label + " ($" + b.object.precio.to_s + ")" %>
-        </li>
-      <% end %>
+    <div class="column">
+      <h5> Adicionales </h5>
+      <div class="scroll">
+        <div class="field">
+          <%= f.collection_check_boxes(:adicional_ids, @adicionales, :id, :nombre) do |b| %>
+          <li>
+            <%= b.check_box %>
+            <%= b.label + " ($" + b.object.precio.to_s + ")" %>
+          </li>
+          <% end %>
+        </div>                
+      </div>                              
     </div>
   </div>
-
   <br> <br>
 
   <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
