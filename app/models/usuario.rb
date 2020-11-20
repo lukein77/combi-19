@@ -5,7 +5,7 @@ class Usuario < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :fecha_nacimiento, presence: true
-  validate :validar_edad
+  before_save :validar_edad
   has_and_belongs_to_many :viajes
 
   after_initialize :default_values, unless: :persisted?
