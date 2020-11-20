@@ -55,6 +55,6 @@ class RutasController < ApplicationController
 
   private
   def ruta_params 
-    params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :adicional_ids => [])
+    params.require(:ruta).permit(:nombre, :ciudadOrigen, :duracion, :ciudadDestino, :adicional_ids => [])
   end
 end

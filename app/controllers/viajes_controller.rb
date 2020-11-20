@@ -9,13 +9,13 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
   def create
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora))
     if @viaje.save
       redirect_to viajes_path, notice: "El viaje fue creado"
@@ -32,11 +32,11 @@ class ViajesController < ApplicationController
   def update
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.find(params[:id])
 
     @choferID = @viaje.chofer_id
-    if @viaje.update(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha))
+    if @viaje.update(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora))
       if @viaje.chofer_id != @choferID
         # si cambió de chofer
         Usuario.find(@choferID).viajes.destroy(@viaje)
@@ -52,11 +52,11 @@ class ViajesController < ApplicationController
     @viaje = Viaje.find(params[:id])
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
   def destroy
-    Viaje.find(params[:id]).destroy
-    redirect_to viajes_path
+      Viaje.find(params[:id]).destroy
+      redirect_to viajes_path
   end
 end

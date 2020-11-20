@@ -26,6 +26,19 @@ class Usuarios::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    if resource.viajes.empty?
+      resource.destroy
+      Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+      set_flash_message! :notice, :destroyed
+      yield resource if block_given?
+      respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
+    else
+      set_flash_message! :notice, :no_destroyed
+      respond_with_navigational(resource){ redirect_to edit_usuario_registration_path (resource_name) }
+    end
+  end
+
   # GET /resource/sign_up
   # def new
   #   super
