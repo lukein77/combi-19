@@ -5,37 +5,42 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="row">
-    <div class="col-md-3">
+  <div class="flex-container">
+    <div class="flex-column-left">
       <%= f.label "Nombre" %><br/>
       <%= f.text_field :nombre, autofocus: true, required: true %>
     </div>
 
-    <div class="col-md-3">
+    <div class="flex-column-right">
       <%= f.label "Apellido" %><br/>
       <%= f.text_field :apellido, required: true %>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-3">
+  <div class="flex-container">
+    <div class="flex-column-left">
       <%= f.label :dni, "DNI" %><br/>
       <%= f.number_field :dni, required: true %>
     </div>
 
-    <div class="col-md-3">
+    <div class="flex-column-right">
       <%= f.label "Fecha de nacimiento" %> <br>
       <%= f.date_field :fecha_nacimiento, required: true %>
     </div>
   </div>
 
-  <div class="field">
-    <%= f.label "E-mail" %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
+  <div class="flex-container">
+    <div class="flex-column-left">
+      <%= f.label "E-mail" %><br />
+      <%= f.email_field :email, autocomplete: "email" %>
+    </div>
+    <div class="flex-column-right">
+    </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-3">
+
+  <div class="flex-container">
+    <div class="flex-column-left">
       <%= f.label "Contraseña" %>
       <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> caracteres mínimo)</em>
@@ -43,24 +48,36 @@
       <%= f.password_field :password, autocomplete: "new-password" %>
     </div>
 
-    <div class="col-md-3">
+    <div class="flex-column-right">
       <%= f.label "Confirmar contraseña" %><br />
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
   </div>
 
-  <%if usuario_signed_in? and current_usuario.rol == "admin" %>
-    <div class="field">
-        <%= f.label "Rol" %><br/>      
-        <%= f.select :rol, ["cliente","chofer","admin"]%>
+  <div class="flex-container">
+    <div class="flex-column-left">
+      <%if usuario_signed_in? and current_usuario.rol == "admin" %>
+        <div class="field">
+            <%= f.label "Rol" %><br/>      
+            <%= f.select :rol, ["cliente","chofer","admin"]%>
+        </div>
+      <% else %>
+            <% resource.rol = "cliente" %>
+      <% end %>
     </div>
-  <% else %>
-        <% resource.rol = "cliente" %>
-  <% end %>
+  </div>
   <br>
 
-  <div class="actions">
-    <%= f.submit "Registrarse", class: 'btn btn-info btn-sm'%>
+  <div class="flex-container">
+    <div class="flex-column-left">
+      <div class="actions">
+        <%= f.submit "Registrarse", class: 'btn btn-info btn-sm'%>
+      </div>
+      
+      <div class="actions">
+        <%= link_to "Cancelar", root_path, class: 'btn btn-info btn-sm'%>
+      </div>
+    </div>
   </div>
   <br>
 

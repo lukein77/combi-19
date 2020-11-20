@@ -25,10 +25,6 @@ class Ruta < ApplicationRecord
 		end
 	end
 
-	private def ruta_params
-		params.require(:ruta).permit(:nombre, :ciudadOrigen, :ciudadDestino, :duracion, :adicional_ids => [])
-	end
-
 	#Getters
 	def getCiudadOrigen
 		Ciudad.find(ciudadOrigen).nombre
