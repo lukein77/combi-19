@@ -1,6 +1,6 @@
 class ViajesController < ApplicationController
   def index
-    @viajes = Viaje.all
+    @viajes = Viaje.order(fecha_hora: :asc).all
     @rutas = Ruta.all
     @combis = Combi.all
   end
@@ -16,7 +16,7 @@ class ViajesController < ApplicationController
     @rutas = Ruta.all
     @combis = Combi.all
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
-    @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora))
+    @viaje = Viaje.new(viaje_params)
     if @viaje.fecha_hora - Time.now > 1.days
       if @viaje.save
         redirect_to viajes_path, notice: "El viaje fue creado"
@@ -40,7 +40,7 @@ class ViajesController < ApplicationController
     @viaje = Viaje.find(params[:id])
 
     @choferID = @viaje.chofer_id
-    if @viaje.update(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora))
+    if @viaje.update(viaje_params)
       if @viaje.chofer_id != @choferID
         # si cambió de chofer
         Usuario.find(@choferID).viajes.destroy(@viaje)
@@ -62,5 +62,10 @@ class ViajesController < ApplicationController
   def destroy
       Viaje.find(params[:id]).destroy
       redirect_to viajes_path
+  end
+
+  private
+  def viaje_params
+    params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora)
   end
 end
