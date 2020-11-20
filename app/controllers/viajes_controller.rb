@@ -17,7 +17,7 @@ class ViajesController < ApplicationController
     @combis = Combi.all
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora))
-    if @viaje.fecha_hora - Time.now > 3600
+    if @viaje.fecha_hora - Time.now > 1.days
       if @viaje.save
         redirect_to viajes_path, notice: "El viaje fue creado"
       else
