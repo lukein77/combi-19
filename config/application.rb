@@ -11,6 +11,8 @@ Bundler.require(*Rails.groups)
 module Combi19
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
+    config.time_zone = 'Buenos Aires'
+
     config.load_defaults 6.0
 
     # Settings in config/environments/* take precedence over those specified here.
@@ -25,5 +27,6 @@ module Combi19
 
     # Set default locale to something other than :en
     I18n.default_locale = :es
+
   end
 end

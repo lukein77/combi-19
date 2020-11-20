@@ -31,9 +31,13 @@ class UsuariosController < ApplicationController
 
 	def dar_de_baja
 		usuario=Usuario.find(params[:id])
-		usuario.borrado = true;
-		usuario.save
-		redirect_to usuarios_path
+		if usuario.viajes.empty?
+			usuario.borrado = true;
+			usuario.save
+			redirect_to choferes_index_path
+		else
+			redirect_to choferes_index_path , notice: "no se pudo eliminar el chofer porque esta asignado a un viaje"
+		end
 	end
 
 end

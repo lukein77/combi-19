@@ -9,19 +9,23 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
   def create
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
-    if @viaje.save
-      redirect_to viajes_path, notice: "El viaje fue creado"
+    if @viaje.fecha_hora - Time.now > 1.days
+      if @viaje.save
+        redirect_to viajes_path, notice: "El viaje fue creado"
+      else
+        flash[:notice] = "Ha habido un problema al crear el viaje"
+        render :new
+      end
     else
-      flash[:notice] = "Ha habido un problema al crear el viaje"
-      render :new
+        redirect_to new_viaje_path, notice: "El viaje no puede tener una fecha anterior a la actual"
     end
   end
 
@@ -32,7 +36,7 @@ class ViajesController < ApplicationController
   def update
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.find(params[:id])
 
     @choferID = @viaje.chofer_id
@@ -52,12 +56,12 @@ class ViajesController < ApplicationController
     @viaje = Viaje.find(params[:id])
     @rutas = Ruta.all
     @combis = Combi.all
-    @choferes = Usuario.where(rol: "chofer")
+    @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
   def destroy
-    Viaje.find(params[:id]).destroy
-    redirect_to viajes_path
+      Viaje.find(params[:id]).destroy
+      redirect_to viajes_path
   end
 
   private
