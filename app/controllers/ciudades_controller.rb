@@ -1,6 +1,6 @@
 class CiudadesController < ApplicationController
   def index
-  	@ciudades = Ciudad.all
+  	@ciudades = Ciudad.order(:nombre)
   end
 
   def show
