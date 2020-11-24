@@ -1,3 +1,12 @@
+<% if @viaje.errors.any? %>
+	<h3> No se pudo guardar el viaje: </h3>
+	<ul>
+		<% @viaje.errors.messages.each do |msg| %>
+			<li> <%= msg[1][0] %> </li>
+		<% end %>
+	</ul>
+<% end %>
+
 <%= form_for @viaje do |f| %>
 
   <div class="field">

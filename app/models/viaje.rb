@@ -18,6 +18,20 @@ class Viaje < ApplicationRecord
 		self.fecha_hora_llegada = self.fecha_hora + @duracion.hour.hours + @duracion.min.minutes
 	end
 
+	def validarCombiChofer
+		valido = true
+		if not combi.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+			errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")  
+        	valido = false
+		end
+		@chofer = Usuario.find(chofer_id)
+		if not @chofer.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+			errors.add(:chofer_id, "El chofer tiene otro viaje asignado en esa fecha y horario.")
+			valido = false
+		end
+		return valido 
+	end
+
 	def getChofer
 		Usuario.find(chofer_id).email
 	end

@@ -17,16 +17,22 @@ class ViajesController < ApplicationController
     @combis = Combi.all
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
+
     if @viaje.fecha_hora - Time.now > 1.days
       @viaje.agregarHoraLlegada
-      if @viaje.save
-        redirect_to viajes_path, notice: "El viaje fue creado"
+      if @viaje.validarCombiChofer
+        if @viaje.save
+          redirect_to viajes_path, notice: "El viaje fue creado"
+        else
+          flash[:notice] = "Ha habido un problema al crear el viaje"
+          render :new
+        end
       else
-        flash[:notice] = "Ha habido un problema al crear el viaje"
         render :new
       end
     else
-        redirect_to new_viaje_path, notice: "El viaje no puede tener una fecha anterior a la actual"
+      @viaje.errors.add(:fecha_hora, "El viaje no puede tener una fecha anterior a la actual")
+      render :new
     end
   end
 
