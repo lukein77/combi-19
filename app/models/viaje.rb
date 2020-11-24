@@ -2,9 +2,7 @@ class Viaje < ApplicationRecord
 	#Relaciones
 	belongs_to :ruta #foreign_key: "ruta_id", class_name: "Ruta"
 	belongs_to :combi #foreign_key: "combi_id", class_name: "Combi"
-	#belongs_to :usuario, foreign_key: "chofer_id", class_name: "Usuario"
 	has_and_belongs_to_many :usuarios
-	#has_many :usuarios #pasajeros
 
 	after_save :agregarViajeAChofer
 
@@ -12,8 +10,12 @@ class Viaje < ApplicationRecord
 		@chofer = Usuario.find(chofer_id)
 		if @chofer != nil
 			@chofer.viajes<<self
-			puts "AHI ESTA CAPO"
 		end
+	end
+
+	def agregarHoraLlegada
+		@duracion = self.ruta.duracion.time
+		self.fecha_hora_llegada = self.fecha_hora + @duracion.hour.hours + @duracion.min.minutes
 	end
 
 	def getChofer

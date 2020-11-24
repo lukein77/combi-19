@@ -18,6 +18,7 @@ class ViajesController < ApplicationController
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
     if @viaje.fecha_hora - Time.now > 1.days
+      @viaje.agregarHoraLlegada
       if @viaje.save
         redirect_to viajes_path, notice: "El viaje fue creado"
       else

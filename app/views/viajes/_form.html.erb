@@ -27,7 +27,7 @@
 
   <div class="field">
     <%= f.label "Salida" %>
-    <%= f.datetime_select :fecha_hora, required: true, minute_step: 5, start_year: Time.now.year, %>
+    <%= f.datetime_select :fecha_hora, required: true, minute_step: 5, start_year: Time.now.year %>
     <!-- COMPROBAR QUE NO CREE UN VIAJE EL MISMO DIA EN UNA HORA PASADA -->
   </div>
 
