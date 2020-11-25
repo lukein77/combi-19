@@ -1,28 +1,40 @@
 class ViajesController < ApplicationController
   def index
-    ciudadOrigen = params[:ciudadOrigen]
-    ciudadDestino = params[:ciudadDestino]
-    #if (ciudadOrigen != nil) and (ciudadDestino != nil)
-    #  @viajes = Viaje.where(:ruta.ciudadOrigen => ciudadOrigen, :ruta.ciudadDestino => ciudadDestino)#.order(fecha_hora: :asc)
-    #elsif(ciudadOrigen != nil)
-    #  @viajes = Viaje.where(:ruta.ciudadOrigen => ciudadOrigen)#.order(fecha_hora: :asc)
-    #elsif(ciudadDestino != nil)
-    #  @viajes = Viaje.where(:ruta.ciudadDestino => ciudadDestino)#.order(fecha_hora: :asc)
-    #else
-    #  @viajes = Viaje.order(fecha_hora: :asc).all
-    #end
-
-    #if(ciudadOrigen != nil)
-      #@viajes = Viaje.where(:ruta.ciudadOrigen => ciudadOrigen)
-      #@viajes = Viaje.where("ruta.ciudadOrigen = 2")
-      #@viajes = Viaje.find_by ruta.ciudadOrigen => ciudadOrigen
-    #else
+    @ciudadOrigen = search_params.dig(:ciudadOrigen)
+    @ciudadDestino = search_params.dig(:ciudadDestino)
+    
+    if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
+      @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
+      @viajes = Viaje.where(ruta: @ruta)
+    elsif(@ciudadOrigen.present?)
+      @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen)
+      @viajes = Viaje.where(ruta: @ruta)    
+    elsif(@ciudadDestino.present?)
+      @ruta = Ruta.where(ciudadDestino: @ciudadDestino)
+      @viajes = Viaje.where(ruta: @ruta)
+    else
       @viajes = Viaje.order(fecha_hora: :asc).all
-    #end
+    end
+ 
 
-    @rutas = Ruta.all
+    #byebug #DEBUGEAR
+=begin
+    if(ciudadOrigen != "")
+      @ruta = Ruta.where(ciudadOrigen: ciudadOrigen)
+      @viajes = Viaje.where(ruta: @ruta)
+    else
+      @viajes = Viaje.order(fecha_hora: :asc).all
+      @rutas = Ruta.all
+    end
+
+=end
     @combis = Combi.all
     @ciudades = Ciudad.all
+  end
+
+  def search_params
+    #params.permit(search: {})
+    params.permit(:ciudadOrigen, :ciudadDestino)
   end
 
   def new

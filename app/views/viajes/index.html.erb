@@ -3,24 +3,39 @@
 
 <% if @viajes.size == 0 %>
 	<p> No hay viajes cargados en el sistema </p>
-
 <% else #Si no hay viajes no muestro la tabla %>
 
-  <p>
-  	<div class="inline"> <!-- No implementado, deberian estar en la misma linea -->
-			<div class="field">
-	    	Origen &nbsp
-	    	<%= collection_select(:get, :ciudadOrigen, @ciudades, :id, :nombre) %>
-		  </div>
+	<div class="flex-container">
+		<div class="flex-column-left">
+			<%= form_with(url: viajes_path, method: "get", local: true) do %>
 
-		  <div class="field">
-	    	Destino
-	    	<!--< %= collection_select(:get, :ciudadDestino, @ciudades, :id, :nombre) %>-->
-		  </div>
+		  	<div class="inline"> <!-- No implementado, deberian estar en la misma linea -->
+					<div class="field">
+			    	Origen &nbsp
+			    	<%= select_tag(:ciudadOrigen, options_for_select(@ciudades.map { |c| [c.nombre, c.id] }.sort, @ciudadOrigen), {:prompt => "---"}) %>
+			    	<!--%= collection_select(:search, :ciudadOrigen, @ciudades, :id, :nombre, { prompt: "Todos" }) %-->
+				  </div>
+
+				  <div class="field">
+			    	Destino
+			    	<!--%= collection_select(:search, :ciudadDestino, @ciudades, :id, :nombre, { prompt: "Todos" }) %-->
+			    	<%= select_tag(:ciudadDestino, options_for_select(@ciudades.map { |c| [c.nombre, c.id] }, @ciudadDestino), {:prompt => "---"}) %>
+				  </div>
+				</div>
+
+				<%= submit_tag("Buscar") %>
+
+		 	<% end %>
 		</div>
-  </p>
 
-	<%= link_to "Buscar", viajes_path(:ciudadOrigen, :ciudadDestino), class: 'btn btn-info btn-sm' %>
+		<div class="flex-column-right">
+			<%#= date_field() %>
+		</div>
+	</div>
+
+
+
+	<!-- %= link_to "Buscar", viajes_path(:ciudadOrigen, :ciudadDestino), class: 'btn btn-info btn-sm' % -->
 
 	<table class="table">
 		<tr>
