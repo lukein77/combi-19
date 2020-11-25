@@ -20,14 +20,10 @@ class ViajesController < ApplicationController
 
     if @viaje.fecha_hora - Time.now > 1.days
       @viaje.agregarHoraLlegada
-      if @viaje.validarCombiChofer
-        if @viaje.save
-          redirect_to viajes_path, notice: "El viaje fue creado"
-        else
-          flash[:notice] = "Ha habido un problema al crear el viaje"
-          render :new
-        end
+      if @viaje.save
+        redirect_to viajes_path, notice: "El viaje fue creado"
       else
+        flash[:notice] = "Ha habido un problema al crear el viaje"
         render :new
       end
     else
@@ -67,8 +63,13 @@ class ViajesController < ApplicationController
   end
 
   def destroy
-      Viaje.find(params[:id]).destroy
-      redirect_to viajes_path
+    @viaje = Viaje.find(params[:id])
+    if (DateTime.now).between?(@viaje.fecha_hora, @viaje.fecha_hora_llegada)
+      flash[:notice] = "No se puede eliminar un viaje en curso."
+    else
+      @viaje.destroy
+    end
+    redirect_to viajes_path
   end
 
   private

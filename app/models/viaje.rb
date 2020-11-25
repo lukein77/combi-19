@@ -4,6 +4,7 @@ class Viaje < ApplicationRecord
 	belongs_to :combi #foreign_key: "combi_id", class_name: "Combi"
 	has_and_belongs_to_many :usuarios
 
+	validate :validarCombiChofer
 	after_save :agregarViajeAChofer
 
 	def agregarViajeAChofer
