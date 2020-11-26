@@ -23,7 +23,7 @@
       </div>
       <div class="field">
         <%= f.label "Duración" %>
-        <%= f.time_select :duracion, ampm: false, required: true, prompt: { hour: "Horas", minute: "Minutos" }, end_hour: 11, minute_step: 5 %>
+        <%= f.time_field :duracion %>
         <!-- time_field no es lo mismo que time_select -->
       </div>
     </div>
