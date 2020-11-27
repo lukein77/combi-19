@@ -1,18 +1,56 @@
-<h1> <%= @usuario.nombre %> <%= @usuario.apellido %></h1>
+<div class="container">
+	<div class="row">
+		<h1> <%= @usuario.nombre %> <%= @usuario.apellido %></h1>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<font size=4>
+			<ul>
+				<li> DNI: </li>
 
-<ul>
+				<li> Fecha de nacimiento: </li>
 
-	<li> DNI: <%= @usuario.dni %> </li>
+				<li> Rol: </li>
 
-	<li> Fecha de nacimiento: <%= @usuario.fecha_nacimiento %> </li>
+				<li> Correo electrónico: </li>
+			</ul>
+		</div>
+		<div class="col">
+			<ul class="list-unstyled">
+				<li> <%= @usuario.dni %> </li>
 
-	<li> Rol: <%= @usuario.rol %> </li>
+				<li> <%= @usuario.fecha_nacimiento.strftime("%d %b %Y") %> </li>
 
-	<li> Correo electrónico: <%= @usuario.email %> </li>
+				<li> <%= @usuario.rol %> </li>
 
+				<li> <%= @usuario.email %> </li>
+			</ul>
+		</div>
+	</div>
 	<br>
 	<% if @usuario.rol == "cliente" %>
-		<li> Formulario covid....</li>
+		<h4> Tarjetas <h4>
+			<% if @usuario.tarjetas.size == 0%>
+				<i> No tiene tarjetas registradas </i>
+			<% else %>
+				<table class="table">
+					<th>Numero</th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Vencimiento</th>
+					<th>Acciones</th>
+					<% @usuario.tarjetas.each do |t| %>
+						<tr>
+							<td> <%= t.numero %> </td>
+							<td> <%= t.nombre %> </td>
+							<td> <%= t.apellido %> </td>
+							<td> <%= t.vencimiento.strftime("%m / %Y") %> </td>
+							<td> <%= link_to "Eliminar" , t, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %> </td>
+						</tr>
+					<%end%>
+				</table>
+			<%end%>
+		<%= link_to "Añadir Tarjeta" , new_tarjeta_path , class: 'btn btn-info btn-sm' %>
 	<% elsif @usuario.rol == "chofer" %>
 		<% if not @usuario.viajes.empty? %>
 			<h4> Viajes asignados </h4>
@@ -25,7 +63,7 @@
 				<% @usuario.viajes.each do |viaje| %>
 					<tr>
 						<td> <%= viaje.ruta.nombre %> </td>
-						<td> <%= viaje.fecha_hora %> - <%= viaje.fecha_hora_llegada %> </td>
+						<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
 						<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
 					</tr>
 				<% end %>
@@ -35,6 +73,5 @@
 		<% end %>
 	<% end %>
 
-</ul>
-
 <%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
+</div>

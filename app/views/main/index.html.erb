@@ -21,10 +21,10 @@
 				<%if current_usuario.rol == "admin" or current_usuario.rol == "chofer"%>
 					<li> <%= link_to("Listado de combis", combis_path) %> </li>
 				<% end %>
-				<li> <%= link_to("Ver viajes", controller: "viajes", action: "index") %> </li>
 			</ul>
 			</div>
 			<div class="col-md-6">
+				<li> <%= link_to("Ver perfil", usuario_path(current_usuario)) %> </li>
 				<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
 				<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>				
 			</div>

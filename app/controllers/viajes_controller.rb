@@ -34,6 +34,7 @@ class ViajesController < ApplicationController
 
   def show
     @viaje = Viaje.find(params[:id])
+    @chofer = Usuario.find(@viaje.chofer_id)
   end
 
   def update

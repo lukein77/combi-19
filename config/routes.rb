@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :rutas
   resources :ciudades
   resources :viajes
+  resources :tarjetas
 
   devise_for :usuarios, controllers: {
     sessions: 'usuarios/sessions',
