@@ -7,7 +7,6 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 # config/initializers/locale.rb
-
 module Combi19
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

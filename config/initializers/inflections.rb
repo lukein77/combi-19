@@ -20,15 +20,19 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.plural 'adicional', 'adicionales'
 	inflect.plural 'ciudad', 'ciudades'
 	inflect.plural 'ruta', 'rutas'
+	inflect.plural 'tarjeta', 'tarjetas'
   
   inflect.irregular 'adicional', 'adicionales'
 	inflect.irregular 'ciudad', 'ciudades'
 	inflect.irregular 'ruta', 'rutas'
+	inflect.irregular 'tarjeta', 'tarjetas'
   
   inflect.singular 'adicionales', 'adicional'
 	inflect.singular 'ciudades', 'ciudad'
 	inflect.singular 'rutas', 'ruta'
+	inflect.singular 'tarjetas', 'tarjeta'
   
+
 
 	#Modifico los plurales y singulares para que las rutas
 	#funcionen correctamente y queden bien los nombres de
