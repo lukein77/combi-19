@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 2020_11_25_231546) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "adicionales_and_rutas", force: :cascade do |t|
+    t.integer "adicional_id"
+    t.integer "ruta_id"
+    t.index ["adicional_id"], name: "index_adicionales_and_rutas_on_adicional_id"
+    t.index ["ruta_id"], name: "index_adicionales_and_rutas_on_ruta_id"
+  end
+
   create_table "adicionales_rutas", force: :cascade do |t|
     t.integer "adicional_id"
     t.integer "ruta_id"
@@ -130,6 +137,7 @@ ActiveRecord::Schema.define(version: 2020_11_25_231546) do
     t.integer "ruta_id", null: false
     t.integer "chofer_id"
     t.datetime "fecha_hora"
+    t.datetime "fecha_hora_llegada"
     t.index ["combi_id"], name: "index_viajes_on_combi_id"
     t.index ["ruta_id"], name: "index_viajes_on_ruta_id"
   end

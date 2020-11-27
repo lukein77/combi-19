@@ -1,6 +1,9 @@
-<!-- h1>Viajes#new</h1 -->
-<h1> Nuevo viaje </h1>
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
 
-<%= render 'form' %>
+    <h1> Nuevo viaje </h1>
 
-<%= link_to "Regresar a la página principal", root_path, class: 'btn btn-info btn-sm' %>
+    <%= render 'form' %>
+<% else %>
+    <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+	<%= link_to "Regresar a la página principal", root_path, class: 'btn btn-info btn-sm' %>
+<% end %>

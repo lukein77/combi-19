@@ -63,7 +63,7 @@
 				<% @usuario.viajes.each do |viaje| %>
 					<tr>
 						<td> <%= viaje.ruta.nombre %> </td>
-						<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+						<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
 						<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
 					</tr>
 				<% end %>

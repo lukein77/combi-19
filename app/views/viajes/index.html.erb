@@ -8,7 +8,8 @@
 	<table class="table">
 		<tr>
 			<th> Ruta </th>
-			<th> Fecha </th>
+			<th> Salida </th>
+			<th> Llegada </th>
 			<th> Precio </th>
 			<th> Acciones </th>
 		</tr>
@@ -17,7 +18,8 @@
 		<tr>
 			<td> <%= viaje.ruta.nombre %> </td>
 			<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
-			<td> <%= viaje.precio %> </td>
+			<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+			<td> $<%= viaje.precio %> </td>
 			<% if usuario_signed_in? %>
 				<% if current_usuario.rol == "chofer" or current_usuario.rol == "admin" %>
 				<td>
