@@ -2,7 +2,8 @@ class ViajesController < ApplicationController
   def index
     @ciudadOrigen = search_params.dig(:ciudadOrigen)
     @ciudadDestino = search_params.dig(:ciudadDestino)
-    
+   
+    #byebug #DEBUGEAR
     if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
       @viajes = Viaje.where(ruta: @ruta)
@@ -17,17 +18,7 @@ class ViajesController < ApplicationController
     end
  
 
-    #byebug #DEBUGEAR
-=begin
-    if(ciudadOrigen != "")
-      @ruta = Ruta.where(ciudadOrigen: ciudadOrigen)
-      @viajes = Viaje.where(ruta: @ruta)
-    else
-      @viajes = Viaje.order(fecha_hora: :asc).all
-      @rutas = Ruta.all
-    end
 
-=end
     @combis = Combi.all
     @ciudades = Ciudad.all
   end
