@@ -19,9 +19,9 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new(viaje_params)
 
     if @viaje.fecha_hora - Time.now > 1.days
-      @viaje.agregarHoraLlegada
+      @viaje.agregar_hora_llegada
       if @viaje.save
-        @viaje.agregarViajeAChofer
+        @viaje.agregar_viaje_a_chofer
         redirect_to viajes_path, notice: "El viaje fue creado"
       else
         flash[:notice] = "Ha habido un problema al crear el viaje"
@@ -48,15 +48,16 @@ class ViajesController < ApplicationController
     @combis = Combi.all
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.find(params[:id])
+    
+    @choferID = @viaje.chofer_id
 
-    #@choferID = @viaje.chofer_id
     if @viaje.update(viaje_params)
-      #if @viaje.chofer_id != @choferID
-      if @viaje.chofer_id_changed?
-        # si cambió de chofer
+      # me fijo si cambió de chofer
+      if @viaje.chofer_id != @choferID
         Usuario.find(@choferID).viajes.destroy(@viaje)
-        @viaje.agregarViajeAChofer
+        @viaje.agregar_viaje_a_chofer
       end
+      
       redirect_to viajes_path, notice: "El viaje fue modificado"
     else
       flash[:notice] = "Ha habido un problema al modificar el viaje"
@@ -76,6 +77,9 @@ class ViajesController < ApplicationController
     if DateTime.now.between?(@viaje.fecha_hora, @viaje.fecha_hora_llegada)
       flash[:notice] = "No se puede eliminar un viaje en curso."
     else
+      @chofer = Usuario.find(@viaje.chofer_id)
+      @chofer.viajes.destroy(@viaje)
+      @viaje.combi.viajes.destroy(@viaje)
       @viaje.destroy
     end
     redirect_to viajes_path

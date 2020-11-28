@@ -1,9 +1,34 @@
 <% if usuario_signed_in? and current_usuario.rol == "admin" or "chofer" %>
+  
   <h1> <%= @combi.modelo %> <%= @combi.patente %></h1>
   <p> Numero de asientos: <%= @combi.asientos %> </p>
   <p> Cantidad de viajes realizados: <%= @combi.cant_viajes %> </p>
+  
+  <% if not @combi.viajes.empty? %>
+    <h4> Viajes asignados </h4>
+    <table class="table table-sm">
+      <tr>
+        <th> Ruta </th>
+        <th> Fecha </th>
+        <th> Acciones </th>
+      </tr>
+      <% @combi.viajes.each do |viaje| %>
+        <tr>
+          <td> <%= viaje.ruta.nombre %> </td>
+          <td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+          <td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <i> La combi no tiene viajes asignados. </i>
+  <% end %>
+
   <%= link_to "Volver", combis_path, class: 'btn btn-info btn-sm' %>
+
 <% else %>
+
 	<h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
 	<%= link_to "Regresar a la página principal", root_path, class: 'btn btn-info btn-sm' %>
+
 <% end %>

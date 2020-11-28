@@ -1,6 +1,6 @@
-</h1><% if usuario_signed_in? and current_usuario.rol == "admin" %>
+<% if usuario_signed_in? and current_usuario.rol == "admin" %>
 
-    <h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha.to_s %>
+    <h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha_hora.strftime("%d/%b/%Y") %></h1>
 
     <%= render 'form' %>
 <% else %>
