@@ -2,7 +2,9 @@ class ViajesController < ApplicationController
   def index
     @ciudadOrigen = search_params.dig(:ciudadOrigen)
     @ciudadDestino = search_params.dig(:ciudadDestino)
-   
+    @fecha_checked = search_params.dig(:fecha_checked)
+    @fecha_viaje = search_params.dig(:fecha_viaje)
+
     #byebug #DEBUGEAR
     if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
@@ -16,8 +18,21 @@ class ViajesController < ApplicationController
     else
       @viajes = Viaje.order(fecha_hora: :asc).all
     end
- 
 
+    #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
+
+    if(@fecha_checked)
+      temp = []
+
+      @viajes.each do |viaje|
+        if (viaje.fecha_hora.year == @fecha_viaje.year and
+          viaje.fecha_hora.yday == @fecha_viaje.yday) # yday = dia del año (1 a 365)
+
+        temp << viaje # Los viajes que caen en ese dia se agregan a temp
+        end
+      @viajes = temp # Muestro solo los viajes de temp
+      end
+    end
 
     @combis = Combi.all
     @ciudades = Ciudad.all
@@ -25,7 +40,7 @@ class ViajesController < ApplicationController
 
   def search_params
     #params.permit(search: {})
-    params.permit(:ciudadOrigen, :ciudadDestino)
+    params.permit(:ciudadOrigen, :ciudadDestino, :fecha_checked, :fecha_viaje)
   end
 
   def new
