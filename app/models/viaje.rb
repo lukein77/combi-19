@@ -1,11 +1,13 @@
 class Viaje < ApplicationRecord
+	
+	enum estado: [:programado, :en_curso, :finalizado]
+
 	#Relaciones
 	belongs_to :ruta #foreign_key: "ruta_id", class_name: "Ruta"
 	belongs_to :combi #foreign_key: "combi_id", class_name: "Combi"
 	has_and_belongs_to_many :usuarios
-
-	validate :validarCombiChofer
-	after_save :agregarViajeAChofer
+	
+	validate :validarCombiChofer, if: :cambio_combi_chofer?
 
 	def agregarViajeAChofer
 		@chofer = Usuario.find(chofer_id)
@@ -17,6 +19,10 @@ class Viaje < ApplicationRecord
 	def agregarHoraLlegada
 		@duracion = self.ruta.duracion.time
 		self.fecha_hora_llegada = self.fecha_hora + @duracion.hour.hours + @duracion.min.minutes
+	end
+
+	def cambio_combi_chofer?
+		combi_id_changed? || chofer_id_changed?
 	end
 
 	def validarCombiChofer

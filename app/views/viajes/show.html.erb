@@ -31,5 +31,17 @@
 		</div>
 	</div>	
 
+	<% if @asignado %>
+		<% if @viaje.programado? %>
+			<div class="actions">
+				<%= link_to("Comenzar", cambiar_estado_path(@viaje), method: :post, class: 'btn btn-danger btn-sm') %>
+			</div>
+		<% elsif @viaje.en_curso? %>
+			<div class="actions">
+				<%= link_to("Finalizar", cambiar_estado_path(@viaje), method: :post, class: 'btn btn-danger btn-sm') %>
+			</div>
+		<% end %>
+	<% end %>
+
 <%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>
 </div>
