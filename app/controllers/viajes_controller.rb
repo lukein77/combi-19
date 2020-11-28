@@ -4,8 +4,12 @@ class ViajesController < ApplicationController
     @ciudadDestino = search_params.dig(:ciudadDestino)
     @fecha_checked = search_params.dig(:fecha_checked)
     @fecha_viaje = search_params.dig(:fecha_viaje)
+    @estado = search_params.dig(:estado)
+    @disponibilidad = search_params.dig(:disponibilidad)
 
     #byebug #DEBUGEAR
+
+    # FILTRADO POR CIUDAD DE ORIGEN Y DESTINO
     if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
       @viajes = Viaje.where(ruta: @ruta)
@@ -21,6 +25,11 @@ class ViajesController < ApplicationController
 
     #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
 
+    # FILTRADO POR ESTADO Y DISPONIBILIDAD
+    @viajes = Viaje.where(estado: @estado)
+    @viajes = Viaje.where(disponibilidad: @disponibilidad)
+
+    # FILTRADO POR FECHA
     if(@fecha_checked)
       temp = []
 
@@ -34,13 +43,15 @@ class ViajesController < ApplicationController
       end
     end
 
+
+
     @combis = Combi.all
     @ciudades = Ciudad.all
   end
 
   def search_params
     #params.permit(search: {})
-    params.permit(:ciudadOrigen, :ciudadDestino, :fecha_checked, :fecha_viaje)
+    params.permit(:ciudadOrigen, :ciudadDestino, :fecha_checked, :fecha_viaje, :estado, :disponibilidad)
   end
 
   def new
