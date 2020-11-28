@@ -35,6 +35,7 @@ class ViajesController < ApplicationController
 
   def show
     @viaje = Viaje.find(params[:id])
+    @chofer = Usuario.find(@viaje.chofer_id)
     if current_usuario.id == @viaje.chofer_id
       @asignado = true
     else
@@ -82,6 +83,7 @@ class ViajesController < ApplicationController
 
   def cambiar_estado
     @viaje = Viaje.find(params[:id])
+    @chofer = Usuario.find(@viaje.chofer_id)
     if @viaje.programado?
       @viaje.estado = "en_curso"
     elsif @viaje.en_curso?
@@ -90,6 +92,7 @@ class ViajesController < ApplicationController
     if not @viaje.save
       flash[:notice] = "salió mal"
     end
+    redirect_to viaje_path(@viaje)
   end
 
   private
