@@ -28,4 +28,7 @@ class Viaje < ApplicationRecord
 		Combi.find(combi_id).patente
 	end
 	
+	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado" }
+	enum disponibilidad: { disponible: "disponible", completo: "completo" }
+
 end
