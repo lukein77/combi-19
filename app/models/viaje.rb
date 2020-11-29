@@ -15,7 +15,6 @@ class Viaje < ApplicationRecord
 		if @chofer != nil
 			@chofer.viajes<<self
 		end
-		puts "PEDRO PICAPIEDRA"
 	end
 
 	def agregar_hora_llegada

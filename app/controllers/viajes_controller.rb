@@ -57,7 +57,6 @@ class ViajesController < ApplicationController
         Usuario.find(@choferID).viajes.destroy(@viaje)
         @viaje.agregar_viaje_a_chofer
       end
-      
       redirect_to viajes_path, notice: "El viaje fue modificado"
     else
       flash[:notice] = "Ha habido un problema al modificar el viaje"
