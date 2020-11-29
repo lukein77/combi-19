@@ -7,6 +7,7 @@ class Usuario < ApplicationRecord
   validates :fecha_nacimiento, presence: true
   validate :validar_edad
   has_and_belongs_to_many :viajes
+  has_many :tarjetas
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values
@@ -29,5 +30,17 @@ class Usuario < ApplicationRecord
       errors.add(:fecha_nacimiento, "Debe ser mayor de 18 años para registrarse.")
     end
   end
+
+  def validarFechaViaje(salida, llegada)
+		@viajes = self.viajes
+		if not @viajes.empty?
+			@viajes.each do |viaje|
+				if ((viaje.fecha_hora - 3.hours)..(viaje.fecha_hora_llegada + 3.hours)).overlaps?(salida..llegada)
+					return false
+				end
+			end 
+		end
+		return true
+	end
 
 end

@@ -80,11 +80,8 @@ class ViajesController < ApplicationController
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
 
-    #DEBUG
-    #@viaje.fecha_hora = 2.days.from_now
-    #DEBUG
-
     if @viaje.fecha_hora - Time.now > 1.days
+      @viaje.agregarHoraLlegada
       if @viaje.save
         redirect_to viajes_path, notice: "El viaje fue creado"
       else
@@ -92,12 +89,14 @@ class ViajesController < ApplicationController
         render :new
       end
     else
-        redirect_to new_viaje_path, notice: "El viaje no puede tener una fecha anterior a la actual"
+      @viaje.errors.add(:fecha_hora, "El viaje no puede tener una fecha anterior a la actual")
+      render :new
     end
   end
 
   def show
     @viaje = Viaje.find(params[:id])
+    @chofer = Usuario.find(@viaje.chofer_id)
   end
 
   def update
@@ -127,8 +126,13 @@ class ViajesController < ApplicationController
   end
 
   def destroy
-      Viaje.find(params[:id]).destroy
-      redirect_to viajes_path
+    @viaje = Viaje.find(params[:id])
+    if (DateTime.now).between?(@viaje.fecha_hora, @viaje.fecha_hora_llegada)
+      flash[:notice] = "No se puede eliminar un viaje en curso."
+    else
+      @viaje.destroy
+    end
+    redirect_to viajes_path
   end
 
   private

@@ -1,3 +1,12 @@
+<% if @viaje.errors.any? %>
+	<h3> No se pudo guardar el viaje: </h3>
+	<ul>
+		<% @viaje.errors.messages.each do |msg| %>
+			<li> <%= msg[1][0] %> </li>
+		<% end %>
+	</ul>
+<% end %>
+
 <%= form_for @viaje do |f| %>
 
   <div class="field">
@@ -27,12 +36,14 @@
 
   <div class="field">
     <%= f.label "Salida" %>
-    <%= f.datetime_select :fecha_hora, required: true, minute_step: 5, start_year: Time.now.year, %> 
+
+    <%= f.datetime_select :fecha_hora, required: true, minute_step: 5, start_year: Time.now.year %>
     <!-- COMPROBAR QUE NO CREE UN VIAJE EL MISMO DIA EN UNA HORA PASADA -->
   </div>
 
   <br> <br>                                       
   <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
+  <%= link_to "Regresar", root_path, class: 'btn btn-info btn-sm' %>
 <% end %>
 
   <!-- PREVISUALIZO ORIGEN Y DESTINO DE LA RUTA -->

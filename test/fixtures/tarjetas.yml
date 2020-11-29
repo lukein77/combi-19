@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nombre: 
+  apellido: MyString
+  numero: 1
+  vencimiento: 2020-11-25
+
+two:
+  nombre: 
+  apellido: MyString
+  numero: 1
+  vencimiento: 2020-11-25
