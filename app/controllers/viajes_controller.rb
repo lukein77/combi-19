@@ -1,8 +1,70 @@
 class ViajesController < ApplicationController
   def index
-    @viajes = Viaje.order(fecha_hora: :asc).all
-    @rutas = Ruta.all
+    @ciudadOrigen = search_params.dig(:ciudadOrigen)
+    @ciudadDestino = search_params.dig(:ciudadDestino)
+
+    @fecha_viaje = search_params.dig(:fecha_viaje)
+    @fecha_checked = search_params.dig(:fecha_checked)
+
+    @estado = search_params.dig(:estado)
+    @estado_checked = search_params.dig(:estado_checked)
+
+    @disponibilidad = search_params.dig(:disponibilidad)
+    @disponibilidad_checked = search_params.dig(:disponibilidad_checked)
+
+    #byebug #DEBUG
+
+    # FILTRADO POR CIUDAD DE ORIGEN Y DESTINO
+    if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
+      @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
+      @viajes = Viaje.where(ruta: @ruta)
+    elsif(@ciudadOrigen.present?)
+      @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen)
+      @viajes = Viaje.where(ruta: @ruta)    
+    elsif(@ciudadDestino.present?)
+      @ruta = Ruta.where(ciudadDestino: @ciudadDestino)
+      @viajes = Viaje.where(ruta: @ruta)
+    else
+      @viajes = Viaje.order(fecha_hora: :asc).all
+    end
+
+    #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
+
+    # FILTRADO POR FECHA
+    if (@fecha_checked and (not @estado_checked) and (not @disponibilidad_checked))
+      temp = []
+
+      @viajes.each do |viaje|
+        if (viaje.fecha_hora.year == @fecha_viaje.year and
+          viaje.fecha_hora.yday == @fecha_viaje.yday) # yday = dia del año (1 a 365)
+
+        temp << viaje # Los viajes que caen en ese dia se agregan a temp
+        end
+      @viajes = temp # Muestro solo los viajes de temp
+      end
+    end
+
+
+    # FILTRADO POR ESTADO
+    if (@estado_checked and (not @disponibilidad_checked) and (not @fecha_checked)) 
+      @viajes = Viaje.where(estado: @estado)
+    end
+
+    # FILTRADO POR DISPONIBILIDAD
+    if (@disponibilidad_checked and (not @estado_checked) and (not @fecha_checked))
+      @viajes = Viaje.where(disponibilidad: @disponibilidad)
+    end
+
     @combis = Combi.all
+    @ciudades = Ciudad.all
+  end
+
+  def search_params
+    #params.permit(search: {})
+    params.permit(:ciudadOrigen, :ciudadDestino,
+                  :fecha_checked, :fecha_viaje,
+                  :estado, :estado_checked,
+                  :disponibilidad, :disponibilidad_checked)
   end
 
   def new
@@ -76,5 +138,9 @@ class ViajesController < ApplicationController
   private
   def viaje_params
     params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora)
+
+    #DEBUG
+    #params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio)
+    #DEBUG
   end
 end
