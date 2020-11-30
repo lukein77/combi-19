@@ -36,7 +36,7 @@ class UsuariosController < ApplicationController
 			usuario.save
 			redirect_to choferes_index_path
 		else
-			redirect_to choferes_index_path , notice: "no se pudo eliminar el chofer porque esta asignado a un viaje"
+			redirect_to choferes_index_path , notice: "No se pudo eliminar el chofer porque está asignado a un viaje."
 		end
 	end
 

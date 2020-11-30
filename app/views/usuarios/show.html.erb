@@ -1,3 +1,9 @@
+<% if current_usuario.rol == "cliente" and @usuario.id != current_usuario.id %>
+	<h4> <i> Usted no tiene permiso para ver esta página. </i> </h4>
+	<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
+<% else %>
+
+
 <div class="container">
 	<div class="row">
 		<h1> <%= @usuario.nombre %> <%= @usuario.apellido %></h1>
@@ -28,7 +34,7 @@
 		</div>
 	</div>
 	<br>
-	<% if @usuario.rol == "cliente" %>
+	<% if @usuario.rol == "cliente" and @usuario.id == current_usuario.id %>
 		<h4> Tarjetas <h4>
 			<% if @usuario.tarjetas.size == 0%>
 				<i> No tiene tarjetas registradas </i>
@@ -75,3 +81,5 @@
 
 <%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
 </div>
+
+<% end %>
