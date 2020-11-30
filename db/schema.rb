@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_28_012623) do
+ActiveRecord::Schema.define(version: 2020_11_28_200119) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -128,6 +128,8 @@ ActiveRecord::Schema.define(version: 2020_11_28_012623) do
     t.integer "ruta_id", null: false
     t.integer "chofer_id"
     t.datetime "fecha_hora"
+    t.string "estado", default: "programado"
+    t.string "disponibilidad", default: "disponible"
     t.datetime "fecha_hora_llegada"
     t.integer "estado", default: 0
     t.index ["combi_id"], name: "index_viajes_on_combi_id"

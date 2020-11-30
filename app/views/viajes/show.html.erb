@@ -15,7 +15,8 @@
 				<li> Chofer: </li>
 				<li> Combi: </li>
 				<li> Ruta: </li>
-				<li> Estado: </li>
+        <li> Estado: </li>
+        <li> Disponibilidad: </li>
 			</ul>
 		<% if @asignado %>
 			<% if @viaje.programado? %>
@@ -39,10 +40,12 @@
 				<li>  <%= link_to @chofer.nombre + " " + @chofer.apellido , usuario_path(@viaje.chofer_id) %> </li>
 				<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
 				<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
-				<li> <%= @viaje.estado %> </li>
+        <li> <%= @viaje.estado %> </li>
+        <li> <%= @viaje.disponibilidad %> </li>
 			</ul>
 		</div>
 	</div>	
+
 
 <%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>
 </div>
