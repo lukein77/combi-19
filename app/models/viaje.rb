@@ -1,6 +1,4 @@
 class Viaje < ApplicationRecord
-	
-	enum estado: [:programado, :en_curso, :finalizado]
 
 	#Relaciones
 	belongs_to :ruta 
