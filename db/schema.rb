@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_215116) do
+ActiveRecord::Schema.define(version: 2020_11_30_220425) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "patente"
+  end
+
+  create_table "comentarios", force: :cascade do |t|
+    t.string "texto"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "usuario_id", null: false
+    t.integer "viaje_id", null: false
+    t.index ["usuario_id"], name: "index_comentarios_on_usuario_id"
+    t.index ["viaje_id"], name: "index_comentarios_on_viaje_id"
   end
 
   create_table "formulario_covids", force: :cascade do |t|
@@ -135,6 +145,8 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.index ["ruta_id"], name: "index_viajes_on_ruta_id"
   end
 
+  add_foreign_key "comentarios", "usuarios"
+  add_foreign_key "comentarios", "viajes"
   add_foreign_key "viajes", "combis"
   add_foreign_key "viajes", "rutas"
 end

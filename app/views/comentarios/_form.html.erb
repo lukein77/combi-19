@@ -1,0 +1,10 @@
+<%= form_for @comentario do |f| %>
+
+    <div class="form">
+        <div class="field">
+            <%= f.label "Comentario" %>
+            <%= f.text_area(:texto, minlength: 10, maxlength: 140, required: true, placeholder: "Ingrese aquí su comentario...") %>
+        </div>
+    </div>
+
+<% end %>

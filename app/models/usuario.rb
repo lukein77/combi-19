@@ -8,6 +8,7 @@ class Usuario < ApplicationRecord
   validate :validar_edad
   has_and_belongs_to_many :viajes
   has_many :tarjetas
+  has_many :comentarios
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values

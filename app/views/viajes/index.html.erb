@@ -45,7 +45,7 @@
 
 
 	<!-- NO PROBE NADA -->
-	<% if current_usuario.rol == "admin" or current_usuario.rol == "chofer" %>
+	<% if usuario_signed_in? and (current_usuario.rol == "admin" or current_usuario.rol == "chofer") %>
 		<div class="flex-container">
 			<div class="flex-column-left">
 				<div class="field">

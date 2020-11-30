@@ -4,6 +4,7 @@ class Viaje < ApplicationRecord
 	belongs_to :ruta 
 	belongs_to :combi 
 	has_and_belongs_to_many :usuarios
+	has_many :comentarios
 
 	validate :validar_combi, if: :combi_id_changed?
 	validate :validar_chofer, if: :chofer_id_changed?
