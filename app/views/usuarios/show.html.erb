@@ -1,4 +1,4 @@
-<% if current_usuario.rol == "cliente" and @usuario.id != current_usuario.id %>
+<% if not usuario_signed_in? or (current_usuario.rol == "cliente" and @usuario.id != current_usuario.id) %>
 	<h4> <i> Usted no tiene permiso para ver esta página. </i> </h4>
 	<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
 <% else %>

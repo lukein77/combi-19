@@ -7,18 +7,27 @@ class ComentariosController < ApplicationController
     end
 
     def create
-        @comentario = Comentario.new(params)
+        @comentario = Comentario.new(params.require(:comentario).permit(:texto))
+        @comentario.usuario_id = current_usuario.id
+        # request.referrer devuelve la url donde estaba, en este caso el show de viaje, osea /viajes/id
+        # al hacer split, el ultimo elemento es la id del viaje
+        @comentario.viaje_id = (request.referrer.split('/').last).to_i
         if @comentario.save
-            redirect_to viaje_path(@comentario.viaje_id)
+            redirect_to viaje_path(@comentario.viaje_id), notice: "Su comentario se agregó exitosamente."
+        else
+            redirect_to viaje_path(@comentario.viaje_id), notice: "Hubo un error al procesar su comentario."
         end
     end
 
     def destroy
-        Comentario.find(params[:id]).destroy
+        @comentario = Comentario.find(params[:id])
+        @id = @comentario.viaje_id
+        @comentario.destroy
+        redirect_to viaje_path(@id)
     end
 
     private
     def comentario_params
-        params.require(:comentario).permit(:texto, :usuario_id, :viaje_id)
+        params.require(:comentario).permit(:texto)
     end
 end

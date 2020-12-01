@@ -51,6 +51,14 @@ class Viaje < ApplicationRecord
 	def getCombi
 		Combi.find(combi_id).patente
 	end
+
+	def getEstado
+		Viaje.estados.fetch(estado)
+	end
+
+	def getDisponibilidad
+		Viaje.disponibilidads.fetch(disponibilidad)
+	end
 	
 	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado" }
 	enum disponibilidad: { disponible: "disponible", completo: "completo" }
