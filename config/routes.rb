@@ -18,5 +18,7 @@ Rails.application.routes.draw do
   post 'usuarios/:id/dar_de_baja', to: 'usuarios#dar_de_baja', as: 'dar_de_baja'
   resources :usuarios, only: [:index, :edit, :update, :show]
 
+  post 'viajes/:id/cambiar_estado', to: 'viajes#cambiar_estado', as: 'cambiar_estado'
+
   root 'main#index'
 end

@@ -1,37 +1,43 @@
 class Viaje < ApplicationRecord
+
 	#Relaciones
-	belongs_to :ruta #foreign_key: "ruta_id", class_name: "Ruta"
-	belongs_to :combi #foreign_key: "combi_id", class_name: "Combi"
+	belongs_to :ruta 
+	belongs_to :combi 
 	has_and_belongs_to_many :usuarios
 	has_many :pasajes
 
-	validate :validarCombiChofer
-	after_save :agregarViajeAChofer
+	validate :validar_combi, if: :combi_id_changed?
+	validate :validar_chofer, if: :chofer_id_changed?
 
-	def agregarViajeAChofer
+	def agregar_viaje_a_chofer
 		@chofer = Usuario.find(chofer_id)
 		if @chofer != nil
 			@chofer.viajes<<self
 		end
 	end
 
-	def agregarHoraLlegada
+	def agregar_hora_llegada
 		@duracion = self.ruta.duracion.time
 		self.fecha_hora_llegada = self.fecha_hora + @duracion.hour.hours + @duracion.min.minutes
 	end
 
-	def validarCombiChofer
-		valido = true
-		if not combi.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+	def validar_combi
+		if combi.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+			return true
+		else
 			errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")  
-        	valido = false
+        	return false
 		end
+	end
+
+	def validar_chofer
 		@chofer = Usuario.find(chofer_id)
-		if not @chofer.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+		if @chofer.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+			return true
+		else
 			errors.add(:chofer_id, "El chofer tiene otro viaje asignado en esa fecha y horario.")
-			valido = false
+        	return false
 		end
-		return valido 
 	end
 
 	def getChofer
@@ -46,4 +52,7 @@ class Viaje < ApplicationRecord
 		Combi.find(combi_id).patente
 	end
 	
+	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado" }
+	enum disponibilidad: { disponible: "disponible", completo: "completo" }
+
 end

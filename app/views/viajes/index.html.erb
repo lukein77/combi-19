@@ -1,10 +1,90 @@
 <!-- h1>Viajes#index</h1 -->
 <h1> Listado de viajes </h1>
 
-<% if @viajes.size == 0 %>
+<% if not @viajes %>
 	<p> No hay viajes cargados en el sistema </p>
-
 <% else #Si no hay viajes no muestro la tabla %>
+
+			<%= form_with(url: viajes_path, method: "get", local: true) do %>
+	<div class="flex-container">
+		<!-- PROBADO QUE FUNCIONA BEGIN -->
+		<div class="flex-column-left">
+
+		  	<div class="inline"> <!-- No implementado, deberian estar en la misma linea -->
+					<div class="field">
+			    	<%= label_tag "Origen " %>
+			    	<%= select_tag(:ciudadOrigen, options_for_select(@ciudades.map { |c| [c.nombre, c.id] }.sort, @ciudadOrigen), {:prompt => "---"}) %>
+			    	<!--%= collection_select(:search, :ciudadOrigen, @ciudades, :id, :nombre, { prompt: "Todos" }) %-->
+				  </div>
+
+				  <div class="field">
+			    	<%= label_tag "Destino" %>
+			    	<%= select_tag(:ciudadDestino, options_for_select(@ciudades.map { |c| [c.nombre, c.id] }, @ciudadDestino), {:prompt => "---"}) %>
+			    	<!--%= collection_select(:search, :ciudadDestino, @ciudades, :id, :nombre, { prompt: "Todos" }) %-->
+				  </div>
+				</div>
+
+		</div>
+		<!-- PROBADO QUE FUNCIONA END -->
+
+		<!-- DEBERIA FUNCIONAR CUANDO ESCRIBAN FECHA_HORA EN VIAJE -->
+		<div class="flex-column-right">
+				<div class="field">
+					<%= label_tag "Buscar por fecha" %>
+					<%= check_box_tag :fecha_checked %>
+				</div>
+
+				<div class="field">
+			    <%#USUARIOS = date_field :fecha_viaje, @fecha_viaje, min: Date.today %>
+			    <%= date_field :fecha_viaje, @fecha_viaje %>
+			  </div>
+
+				<%= submit_tag("Buscar") %>
+		</div>
+	</div>
+
+
+	<!-- NO PROBE NADA -->
+	<% if current_usuario.rol == "admin" or current_usuario.rol == "chofer" %>
+		<div class="flex-container">
+			<div class="flex-column-left">
+				<div class="field">
+					<%= label_tag "Buscar por estado" %>
+					<%= check_box_tag :estado_checked %>
+				</div>
+
+				<div class="field">
+					<%# Viaje.estados.keys.each do |estado| %>
+						<%#= label_tag estado.to_sym %>
+						<!-- to_sym: Lo convierte a :estado -->
+						<%#= radio_button_tag :estado, @estado %>
+					<%# end %>
+					<%= label_tag "Programado" %>
+					<%= radio_button_tag :estado, "programado", @estado %>
+					<%= label_tag "En curso" %>
+					<%= radio_button_tag :estado, "en curso", @estado %>
+					<%= label_tag "Finalizado" %>
+					<%= radio_button_tag :estado, "finalizado", @estado %>
+				</div>
+			</div>
+
+			<div class="flex-column-right">
+				<div class="field">
+					<%= label_tag "Buscar por disponibilidad" %>
+					<%= check_box_tag :disponibilidad_checked %>
+				</div>
+
+				<div class="field">
+					<%= label_tag "Disponible" %>
+					<%= radio_button_tag :disponibilidad, "disponible", @disponibilidad %>
+					<%= label_tag "Completo" %>
+					<%= radio_button_tag :disponibilidad, "completo", @disponibilidad %>
+				</div>
+			</div>
+		</div>
+		 	<% end %>
+	<% end %>
+
 	<table class="table">
 		<tr>
 			<th> Ruta </th>
@@ -39,8 +119,8 @@
 					<% end %>
 				<% else%>
 					Comprado
-				<% end %>
-			<% end %>
+        <% end %>
+      <% end %>
 			</td>
 		</tr>
 		<% end %>
