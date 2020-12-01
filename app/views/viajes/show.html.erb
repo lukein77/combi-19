@@ -12,9 +12,11 @@
 				<li> Precio: </li>
 				<li> Asientos: </li>
 				<li> Hora de salida: </li>
-				<li> Chofer: </li>
-				<li> Combi: </li>
-				<li> Ruta: </li>
+				<% if usuario_signed_in? and current_usuario.rol = "admin" %>
+					<li> Chofer: </li>
+					<li> Combi: </li>
+					<li> Ruta: </li>
+				<% end %>
         <li> Estado: </li>
         <li> Disponibilidad: </li>
 			</ul>
@@ -37,9 +39,11 @@
 				<li>  $<%= @viaje.precio %> </li>
 				<li>  <%= @viaje.combi.asientos %> </li>
 				<li>  <%= @viaje.fecha_hora.strftime("%H:%M") %> </li>
-				<li>  <%= link_to @chofer.nombre + " " + @chofer.apellido , usuario_path(@viaje.chofer_id) %> </li>
-				<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
-				<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
+				<% if usuario_signed_in? and current_usuario.rol = "admin" %>
+					<li>  <%= link_to @chofer.nombre + " " + @chofer.apellido , usuario_path(@viaje.chofer_id) %> </li>
+					<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
+					<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
+				<% end %>
         <li> <%= @viaje.estado %> </li>
         <li> <%= @viaje.disponibilidad %> </li>
 			</ul>

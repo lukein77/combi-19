@@ -7,9 +7,11 @@ class ViajesController < ApplicationController
     @fecha_viaje = (@fecha_viaje_preparse.to_s).to_datetime
     @fecha_checked = search_params.dig(:fecha_checked)
 
-    if current_usuario.rol == "cliente"
+    if (not usuario_signed_in?) or current_usuario.rol == "cliente"
       @estado = "programado"
-      #@disponibilidad = "disponible"
+      @estado_checked = true
+      @disponibilidad = "disponible"
+      @disponibilidad_checked = true
     else
       @estado = search_params.dig(:estado)
       @estado_checked = search_params.dig(:estado_checked)
@@ -106,7 +108,7 @@ class ViajesController < ApplicationController
   def show
     @viaje = Viaje.find(params[:id])
     @chofer = Usuario.find(@viaje.chofer_id)
-    if current_usuario.id == @viaje.chofer_id
+    if usuario_signed_in? and current_usuario.id == @viaje.chofer_id
       @asignado = true
     else
       @asignado = false

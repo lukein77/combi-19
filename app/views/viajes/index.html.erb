@@ -45,9 +45,7 @@
 			</div>
 		</div>
 
-
-		<!-- NO PROBE NADA -->
-		<% if current_usuario.rol == "admin" or current_usuario.rol == "chofer" %>
+		<% if usuario_signed_in? and (current_usuario.rol == "admin" or current_usuario.rol == "chofer") %>
 			<div class="flex-container">
 				<div class="flex-column-left">
 					<div class="field">
@@ -104,17 +102,13 @@
 			<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
 			<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
 			<td> $<%= viaje.precio %> </td>
-			<% if usuario_signed_in? %>
-				<% if current_usuario.rol == "chofer" or current_usuario.rol == "admin" %>
-				<td>
-					<%= link_to "Ver", viaje_path(viaje), class: 'btn btn-info btn-sm' %>
-					<% if current_usuario.rol == "admin" %>
-						<%= link_to "Editar", edit_viaje_path(viaje), class: 'btn btn-info btn-sm' %>
-						<%= link_to "Eliminar", viaje, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %>
-					<% end %>
-				</td>
+			<td>
+				<%= link_to "Detalles", viaje_path(viaje), class: 'btn btn-info btn-sm' %>
+				<% if usuario_signed_in? and current_usuario.rol == "admin" %>
+					<%= link_to "Editar", edit_viaje_path(viaje), class: 'btn btn-info btn-sm' %>
+					<%= link_to "Eliminar", viaje, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %>
 				<% end %>
-			<% end %>
+			</td>
 		</tr>
 		<% end %>
 	</table>
