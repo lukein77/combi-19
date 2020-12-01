@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 	resources :combis
   resources :rutas
   resources :ciudades
-  resources :viajes
   resources :tarjetas
+  resources :viajes
+
+  get 'viajes/:id/comprar', to: 'viajes#comprar', as: 'comprar_viaje'
 
   devise_for :usuarios, controllers: {
     sessions: 'usuarios/sessions',

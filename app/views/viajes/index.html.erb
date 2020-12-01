@@ -100,17 +100,28 @@
 			<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
 			<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
 			<td> $<%= viaje.precio %> </td>
+			<td>
 			<% if usuario_signed_in? %>
 				<% if current_usuario.rol == "chofer" or current_usuario.rol == "admin" %>
-				<td>
 					<%= link_to "Ver", viaje_path(viaje), class: 'btn btn-info btn-sm' %>
 					<% if current_usuario.rol == "admin" %>
 						<%= link_to "Editar", edit_viaje_path(viaje), class: 'btn btn-info btn-sm' %>
 						<%= link_to "Eliminar", viaje, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %>
 					<% end %>
-				</td>
 				<% end %>
 			<% end %>
+			<% if current_usuario.rol == "cliente" %>
+				<% if viaje.pasajes.where(usuario_id: current_usuario.id).size == 0 %>
+					<% if viaje.usuarios.size <= viaje.combi.asientos %>
+						<%= link_to "Comprar", comprar_viaje_path(viaje),class: 'btn btn-info btn-sm' %>
+					<% else %>
+						Lleno
+					<% end %>
+				<% else%>
+					Comprado
+        <% end %>
+      <% end %>
+			</td>
 		</tr>
 		<% end %>
 	</table>
