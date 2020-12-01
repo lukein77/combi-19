@@ -10,7 +10,7 @@
 				<li> Origen: </li>
 				<li> Destino: </li>
 				<li> Precio: </li>
-				<li> Asientos: </li>
+				<li> Pasajes comprados:</li>
 				<li> Hora de salida: </li>
 				<li> Chofer: </li>
 				<li> Combi: </li>
@@ -22,13 +22,38 @@
 				<li>  <%= @viaje.ruta.getCiudadOrigen %> </li>
 				<li>  <%= @viaje.ruta.getCiudadDestino %> </li>
 				<li>  $<%= @viaje.precio %> </li>
-				<li>  <%= @viaje.combi.asientos %> </li>
+				<li>  <%= @viaje.usuarios.size - 1 %> /<%= @viaje.combi.asientos %> </li>
 				<li>  <%= @viaje.fecha_hora.strftime("%H:%M") %> </li>
 				<li>  <%= link_to @chofer.nombre + " " + @chofer.apellido , usuario_path(@viaje.chofer_id) %> </li>
 				<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
 				<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
 			</ul>
 		</div>
+	</div>
+	<div class= "row">
+		<h2> Pasajeros </h2>
+		<table class= "table">
+			<tr>
+				<th> Nombre </th>
+				<th> DNI </th>
+				<th> e-mail </th>
+				<th> Adicionales </th>
+			</tr>
+			<% @viaje.usuarios.all.each do |usuario| %>
+				<% if usuario.rol != "chofer" %>
+					<tr>
+						<td> <%= usuario.apellido %>, <%= usuario.nombre %> </td>
+						<td> <%= usuario.dni %> </td>
+						<td> <%= usuario.email %> </td>
+						<td> 
+							<% @viaje.pasajes.find_by(usuario_id: usuario.id).adicionales.each do |a|%>
+								<%= a.nombre %>,
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+			<%end%>
+		</table>
 	</div>	
 
 <%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>

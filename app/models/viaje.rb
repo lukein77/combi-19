@@ -3,6 +3,7 @@ class Viaje < ApplicationRecord
 	belongs_to :ruta #foreign_key: "ruta_id", class_name: "Ruta"
 	belongs_to :combi #foreign_key: "combi_id", class_name: "Combi"
 	has_and_belongs_to_many :usuarios
+	has_many :pasajes
 
 	validate :validarCombiChofer
 	after_save :agregarViajeAChofer

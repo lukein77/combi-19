@@ -27,7 +27,7 @@ class ViajesController < ApplicationController
         render :new
       end
     else
-      @viaje.errors.add(:fecha_hora, "El viaje no puede tener una fecha anterior a la actual")
+      @viaje.errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora")
       render :new
     end
   end
@@ -73,8 +73,38 @@ class ViajesController < ApplicationController
     redirect_to viajes_path
   end
 
+  def comprar
+      params.permit(:tarjeta, :adicionales)
+      @viaje = Viaje.find(params[:id])
+      @tarjeta = params[:tarjeta]
+      @adicionales = params.dig(:adicionales,:ids)
+      @clave = params[:clave]
+      @commit = params[:commit]
+      if @commit.present?
+        if @tarjeta.present? and @clave.present?
+          if @viaje.usuarios.size <= @viaje.combi.asientos
+            p=Pasaje.new
+            for i in 1..@adicionales.size-1 do
+              a = Adicional.find(@adicionales[i].to_i)
+              p.adicionales << a
+            end
+            p.usuario_id = current_usuario.id
+            p.viaje_id = params[:id]
+            p.save
+            @viaje.usuarios << current_usuario
+            redirect_to viajes_path, notice:"La compra se concreto correctamente"
+          else
+            redirect_to viajes_path, notice:"Ya no quedan pasajes disponibles"
+          end
+        else
+          redirect_to comprar_viaje_path(@viaje), notice: "Ingrese una tarjeta y su clave correspondiente"
+        end
+      end
+  end
+
   private
   def viaje_params
     params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora)
   end
+
 end
