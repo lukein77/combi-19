@@ -7,7 +7,10 @@ class ComentariosController < ApplicationController
     end
 
     def create
-        @comentario = Comentario.new(comentario_params)
+        @comentario = Comentario.new(params)
+        if @comentario.save
+            redirect_to viaje_path(@comentario.viaje_id)
+        end
     end
 
     def destroy

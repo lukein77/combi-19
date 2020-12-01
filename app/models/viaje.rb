@@ -22,7 +22,7 @@ class Viaje < ApplicationRecord
 	end
 
 	def validar_combi
-		if combi.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+		if combi.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
 			errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")  
@@ -32,7 +32,7 @@ class Viaje < ApplicationRecord
 
 	def validar_chofer
 		@chofer = Usuario.find(chofer_id)
-		if @chofer.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+		if @chofer.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
 			errors.add(:chofer_id, "El chofer tiene otro viaje asignado en esa fecha y horario.")

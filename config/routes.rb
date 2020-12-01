@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :ciudades
   resources :viajes
   resources :tarjetas
+  resources :comentarios
 
   devise_for :usuarios, controllers: {
     sessions: 'usuarios/sessions',
@@ -18,8 +19,7 @@ Rails.application.routes.draw do
 
   post 'viajes/:id/cambiar_estado', to: 'viajes#cambiar_estado', as: 'cambiar_estado'
 
-  get 'comentarios/new', to: 'comentarios#new', as: 'new_comentario'
-  get 'comentarios', to: 'comentarios#index', as: 'comentarios'
+  
 
   root 'main#index'
 end

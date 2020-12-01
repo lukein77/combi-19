@@ -6,7 +6,7 @@
 	<div class= "row">
 		<div class= "col-md-3">
 			<font size=4>
-			<ul>
+			<ul> <b>
 				<li> Origen: </li>
 				<li> Destino: </li>
 				<li> Precio: </li>
@@ -15,9 +15,9 @@
 				<li> Chofer: </li>
 				<li> Combi: </li>
 				<li> Ruta: </li>
-        <li> Estado: </li>
-        <li> Disponibilidad: </li>
-			</ul>
+				<li> Estado: </li>
+				<li> Disponibilidad: </li>
+			</b> </ul>
 		<% if @asignado %>
 			<% if @viaje.programado? %>
 				<div class="actions">
@@ -40,12 +40,54 @@
 				<li>  <%= link_to @chofer.nombre + " " + @chofer.apellido , usuario_path(@viaje.chofer_id) %> </li>
 				<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
 				<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
-        <li> <%= @viaje.estado %> </li>
-        <li> <%= @viaje.disponibilidad %> </li>
+				<li> <%= @viaje.estado %> </li>
+				<li> <%= @viaje.disponibilidad %> </li>
 			</ul>
 		</div>
 	</div>	
+	
+	<font size=2>		
+	<div class="row">
+		<div class="alert alert-primary" style="width:100%"> 
+			Comentarios (<%= @comentarios.length %>)
+		</div>
+		<% @comentarios.each do |c| %>
+			
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+						<th> 
+							<%= c.usuario.nombre+" "+c.usuario.apellido %> - 
+							<%= c.created_at.strftime("%d %b %Y - %H:%M") %>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td> <%= c.texto %> </td>
+					</tr>
+				</tbody>
+			</table>
+		<% end %>
+		</div>
+	</div>
 
+	<div class="row">
+	<div class="alert alert-primary">
+		<div class="form">
+			<%= form_for @comentario do |f| %>
+				<div class="field">
+					<%= f.label "Comentario" %> <br>
+					<%= f.text_area(:texto, minlength: 10, maxlength: 140, size:"50x3", required: true, placeholder: "Ingrese aquí su comentario...") %>
+				</div>
+				<%= f.hidden_field(:usuario_id, :value => current_usuario.id) %>
+				<%= f.hidden_field(:viaje_id, :value => @viaje.id) %>
+				<%= f.submit "Comentar" %>
+			<% end %>
+		</div>
+	</div>
+	</div>
 
+<br>
 <%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>
 </div>

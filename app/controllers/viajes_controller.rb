@@ -103,6 +103,8 @@ class ViajesController < ApplicationController
     else
       @asignado = false
     end
+    @comentarios = @viaje.comentarios.order(created_at: :desc)
+    @comentario = Comentario.new
   end
 
   def update

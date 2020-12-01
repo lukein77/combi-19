@@ -32,7 +32,7 @@ class Usuario < ApplicationRecord
     end
   end
 
-  def validarFechaViaje(salida, llegada)
+  def validar_fecha_viaje(salida, llegada)
 		@viajes = self.viajes
 		if not @viajes.empty?
 			@viajes.each do |viaje|
@@ -42,6 +42,6 @@ class Usuario < ApplicationRecord
 			end 
 		end
 		return true
-	end
-
+  end
+  
 end

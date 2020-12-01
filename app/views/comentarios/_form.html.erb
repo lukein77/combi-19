@@ -2,9 +2,11 @@
 
     <div class="form">
         <div class="field">
-            <%= f.label "Comentario" %>
-            <%= f.text_area(:texto, minlength: 10, maxlength: 140, required: true, placeholder: "Ingrese aquí su comentario...") %>
+            <%= f.label "Comentario" %> <br>
+            <%= f.text_area(:texto, minlength: 10, maxlength: 140, size:"50x3", required: true, placeholder: "Ingrese aquí su comentario...") %>
         </div>
+
+        <%= f.submit "Comentar" %>
     </div>
 
 <% end %>
