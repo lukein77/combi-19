@@ -98,11 +98,11 @@ class ViajesController < ApplicationController
   def show
     @viaje = Viaje.find(params[:id])
     @chofer = Usuario.find(@viaje.chofer_id)
-    if current_usuario.id == @viaje.chofer_id
-      @asignado = true
-    else
-      @asignado = false
-    end
+
+    @tiene_viaje = current_usuario.viaje_ids.include?(@viaje.id)
+
+    @comentarios = @viaje.comentarios.order(created_at: :desc)
+    @comentario = Comentario.new
   end
 
   def update

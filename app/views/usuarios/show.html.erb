@@ -1,4 +1,4 @@
-<% if current_usuario.rol == "cliente" and @usuario.id != current_usuario.id %>
+<% if not usuario_signed_in? or (current_usuario.rol == "cliente" and @usuario.id != current_usuario.id) %>
 	<h4> <i> Usted no tiene permiso para ver esta página. </i> </h4>
 	<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
 <% else %>
@@ -26,60 +26,84 @@
 				<li> <%= @usuario.dni %> </li>
 
 				<li> <%= @usuario.fecha_nacimiento.strftime("%d %b %Y") %> </li>
-
-				<li> <%= @usuario.rol %> </li>
-
+				
 				<li> <%= @usuario.email %> </li>
+				
+				<li> <%= @usuario.rol %> </li>
 			</ul>
 		</div>
 	</div>
 	<br>
-
-	<% if @usuario.rol == "cliente" and @usuario.id == current_usuario.id %>
-		<h4> Tarjetas </h4>
-			<% if @usuario.tarjetas.size == 0%>
-				<i> No tiene tarjetas registradas </i>
-			<% else %>
-				<table class="table">
-					<th>Numero</th>
-					<th>Nombre</th>
-					<th>Apellido</th>
-					<th>Vencimiento</th>
-					<th>Acciones</th>
-					<% @usuario.tarjetas.each do |t| %>
-						<tr>
-							<td> <%= t.numero %> </td>
-							<td> <%= t.nombre %> </td>
-							<td> <%= t.apellido %> </td>
-							<td> <%= t.vencimiento.strftime("%m / %Y") %> </td>
-							<td> <%= link_to "Eliminar" , t, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %> </td>
-						</tr>
-					<%end%>
-				</table>
-			<%end%>
-		<%= link_to "Añadir Tarjeta" , new_tarjeta_path , class: 'btn btn-info btn-sm' %>
-	<% elsif @usuario.rol == "chofer" %>
-		<% if not @usuario.viajes.empty? %>
-			<h4> Viajes asignados </h4>
-			<table class="table table-sm">
-				<tr>
-					<th> Ruta </th>
-					<th> Fecha </th>
-					<th> Acciones </th>
-				</tr>
-				<% @usuario.viajes.each do |viaje| %>
-					<tr>
-						<td> <%= viaje.ruta.nombre %> </td>
-						<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
-						<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
-					</tr>
-				<% end %>
-			</table>
-		<% else %>
-			<i> El chofer no tiene viajes asignados. </i>
-		<% end %>
+	
+	<% if @usuario.rol == "chofer" or @usuario.rol == "cliente" %>
+		<div class="card">
+			<div class="card-header" id="headingViajes">
+				<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseViajes">
+					Viajes
+				</button>
+			</div>
+			<div id="collapseViajes" class="collapse" aria-labelledby="headingViajes">
+				<div class="card-body">
+					<% if not @usuario.viajes.empty? %>
+						<table class="table table-sm">
+							<tr>
+								<th> Ruta </th>
+								<th> Fecha </th>
+								<th> Acciones </th>
+							</tr>
+							<% @usuario.viajes.each do |viaje| %>
+								<tr>
+									<td> <%= viaje.ruta.nombre %> </td>
+									<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+									<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+								</tr>
+							<% end %>
+						</table>
+					<% else %>
+						<% if @usuario.rol == "chofer" %>
+							<i> El chofer no tiene viajes asignados. </i>
+						<% else %>
+							<i> Usted no ha realizado ningún viaje. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
 	<% end %>
 
+	<% if @usuario.rol == "cliente" and @usuario.id == current_usuario.id %>
+		<div class="card">
+			<div class="card-header" id="headingTarjetas">
+				<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTarjetas"> Tarjetas </button>
+			</div>
+			<div id="collapseTarjetas" class="collapse" aria-labelledby="headingTarjetas">
+				<div class="card-body">
+					<% if @usuario.tarjetas.size == 0%>
+						<i> No tiene tarjetas registradas </i>
+					<% else %>
+						<table class="table">
+							<th>Numero</th>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Vencimiento</th>
+							<th>Acciones</th>
+							<% @usuario.tarjetas.each do |t| %>
+								<tr>
+									<td> <%= t.numero %> </td>
+									<td> <%= t.nombre %> </td>
+									<td> <%= t.apellido %> </td>
+									<td> <%= t.vencimiento.strftime("%m / %Y") %> </td>
+									<td> <%= link_to "Eliminar" , t, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %> </td>
+								</tr>
+							<%end%>
+						</table>
+					<%end%>
+				<%= link_to "Añadir Tarjeta" , new_tarjeta_path , class: 'btn btn-info btn-sm' %>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<br>
 <%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
 </div>
 
