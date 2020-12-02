@@ -62,17 +62,18 @@
 						<b>Comentarios (<%= @comentarios.length %>)</b>
 					</button>
 					<div id="collapseComentarios" class="collapse show" aria-labelledby="headingComentarios">
-						<% @comentarios.each do |c| %>
+						<div class="card-body">
+							<% @comentarios.each do |c| %>
 							<table class="table">
 								<thead class="thead-light">
 								<tr>
-									<th> 
+									<th style="width:90%"> 
 										<%= c.usuario.nombre+" "+c.usuario.apellido %> - 
 										<%= c.created_at.strftime("%d %b %Y - %H:%M") %>
 									</th>
-									<th style="alignment:right">
+									<th style="width:10%">
 										<% if current_usuario.rol == "admin" or (current_usuario.rol == "cliente" and c.usuario.id == current_usuario.id) %>
-											<%= link_to("X", c, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"}) %> 
+											<%= link_to("X", c, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Quiere eliminar el comentario?"}) %> 
 										<% end %>
 									</th>
 								</tr>
@@ -83,27 +84,28 @@
 									</tr>
 								</tbody>
 							</table>
-						<% end %>
+							<% end %>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<% if current_usuario.rol != "chofer" %>
 
-			<font size=3>
-			<div class="col">
-				<div class="alert alert-primary" style="width:100%">	
-					<div class="form">
+				<font size=3>
+				<div class="col">
+					<div class="alert alert-primary" style="width:100%">	
+						<div class="form">
 						<%= form_for @comentario do |f| %>
 							<div class="field">
-								<%= f.label "Comentario" %> <br>
+								<%= f.label "Agregar un comentario" %> <br>
 								<%= f.text_area(:texto, minlength: 10, maxlength: 140, size:"50x3", required: true, placeholder: "Ingrese aquí su comentario...") %>
 							</div>
 							<%= f.submit "Comentar" %>
 						<% end %>
+						</div>
 					</div>
 				</div>
-			</div>
 
 			<% end %>
 
