@@ -19,7 +19,7 @@
 				<li> Pasajes comprados:</li>
 				<li> Hora de salida: </li>
 
-				<% if usuario_signed_in? and current_usuario.rol = "admin" %>
+				<% if usuario_signed_in? and current_usuario.rol == "admin" %>
 					<li> Chofer: </li>
 					<li> Combi: </li>
 					<li> Ruta: </li>

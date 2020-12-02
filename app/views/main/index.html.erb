@@ -1,41 +1,63 @@
-<div class="container">
-	<div class="row">
-		<h1> Combi-19 </h1>
-	</div>
-
-	<div class="row">
-		<% if usuario_signed_in? %>
-				<p> Bienvenido <%= current_usuario.nombre %> </p>
-	</div>
-	<div class="row">
-			<div class="col-md-6">
-				<%if current_usuario.rol == "admin" %>
-					<li> <%= link_to("Registrar un usuario", new_usuario_registration_path) %> </li>
-					<li> <%= link_to("Ver ciudades", controller: "ciudades", action: "index") %> </li>
-					<li> <%= link_to("Ver rutas", controller: "rutas", action: "index") %> </li>
-					<li> <%= link_to("Ver adicionales", controller: "adicionales", action: "index") %> </li>
-					<li> <%= link_to("Listado de usuarios", usuarios_path) %> </li>
-					<li> <%= link_to("Listado de choferes", choferes_index_path) %> </li>
-				<% end %>
-
-				<%if current_usuario.rol == "admin" or current_usuario.rol == "chofer"%>
-					<li> <%= link_to("Listado de combis", combis_path) %> </li>
-				<% end %>
-			</ul>
-			</div>
-			<div class="col-md-6">
-				<li> <%= link_to("Ver perfil", usuario_path(current_usuario)) %> </li>
-				<li> <%= link_to("Editar mi cuenta", edit_usuario_registration_path) %> </li>
-				<li> <%= link_to("Cerrar Sesion", destroy_usuario_session_path, :method => :delete) %> </li>				
-			</div>
-		<%else%>
-			<div class="col">
-				<li> <%= link_to("Iniciar Sesion", new_usuario_session_path) %> </li>
-				<li> <%= link_to("Registrarse", new_usuario_registration_path) %> </li>
-			</div>
-		<% end %>
-		<div class="col-md-6">
-			<li> <%= link_to("Ver viajes", controller: "viajes", action: "index") %> </li>
-		</div>
-	</div>
+<div class="container-fluid px-0">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+		  <ol class="carousel-indicators">
+		    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+		    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+		    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+		    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+		  </ol>
+      <div class="carousel-inner bg-info" role="listbox">
+          <div class="carousel-item active">
+              <div class="d-flex align-items-center justify-content-center min-vh-100" >
+                  <h1 class="display-1">
+                  	<%= image_tag "carrusel_mdq1.jpg", :class => "d-block w-100" %>
+                  </h1>
+                  <div class="carousel-caption d-none d-md-block">
+  									<h1>Mar del Plata</h1>
+									</div>
+              </div>
+          </div>
+          <div class="carousel-item">
+              <div class="d-flex align-items-center justify-content-center min-vh-100">
+                  <!--h1 class="display-1">TWO</h1-->
+                  <%= image_tag "carrusel_re1.jpg", :class => "d-block w-100" %>
+                  <div class="carousel-caption d-none d-md-block">
+  									<h1>Retiro</h1>
+									</div>
+              </div>
+          </div>
+          <div class="carousel-item">
+              <div class="d-flex align-items-center justify-content-center min-vh-100">
+                  <!--h1 class="display-1">THREE</h1-->
+                  <%= image_tag "carrusel_lp1.jpg", :class => "d-block w-100" %>
+                  <div class="carousel-caption d-none d-md-block">
+  									<h1>La Plata</h1>
+									</div>
+              </div>
+          </div>
+          <div class="carousel-item">
+              <div class="d-flex align-items-center justify-content-center min-vh-100">
+                  <%= image_tag "carrusel_ro1.jpg", :class => "d-block w-100" %>
+                  <div class="carousel-caption d-none d-md-block">
+  									<h1>Rosario</h1>
+									</div>
+              </div>
+          </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+      </a>
+  </div>
+</div>
+<div class="container py-4 text-center">
+    <h1>Combi 19</h1>
+    <% if usuario_signed_in? %>
+    	<h4> Bienvenido <%= current_usuario.nombre %> </h4>
+    <% end %>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus urna commodo massa ultricies, a pulvinar dui consectetur. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi rutrum libero et urna viverra, id fermentum quam cursus. Duis vitae metus volutpat, posuere magna sed, ultricies tellus. Pellentesque diam purus, congue sed hendrerit in, condimentum nec lacus. Fusce ut sapien vel nunc porttitor pulvinar. Pellentesque id ex id turpis molestie tempus. In faucibus bibendum mi quis finibus. Nulla tincidunt, lorem in molestie vestibulum, libero nisl accumsan velit, ut vehicula augue diam non magna. Aenean condimentum maximus arcu, consequat pellentesque nisl. Fusce eu tempus ex, tempor volutpat augue. </p>
 </div>

@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_12_02_014457) do
-
+  
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
     t.string "descripcion"
@@ -157,7 +157,6 @@ ActiveRecord::Schema.define(version: 2020_12_02_014457) do
     t.integer "chofer_id"
     t.datetime "fecha_hora"
     t.datetime "fecha_hora_llegada"
-    t.integer "pasajes_id"
     t.string "estado", default: "programado"
     t.string "disponibilidad", default: "disponible"
     t.index ["combi_id"], name: "index_viajes_on_combi_id"
