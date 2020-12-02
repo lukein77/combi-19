@@ -31,7 +31,7 @@ class UsuariosController < ApplicationController
 
 	def chofer_dar_de_baja
 		usuario=Usuario.find(params[:id])
-		if usuario.viajes.empty?
+		if  usuario.viajes.finalizado.count < usuario.viajes.count
 			usuario.borrado = true;
 			usuario.save
 			redirect_to choferes_index_path

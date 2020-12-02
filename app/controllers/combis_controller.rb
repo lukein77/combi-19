@@ -49,7 +49,7 @@ class CombisController < ApplicationController
 
 	def combi_dar_de_baja
 		combi = Combi.find(params[:id])
-		if combi.viajes.empty?
+		if combi.viajes.finalizado.count < combi.viajes.count
 			combi.borrado = true
 			combi.save
 			redirect_to combis_path
