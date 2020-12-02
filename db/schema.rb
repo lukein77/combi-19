@@ -100,15 +100,6 @@ ActiveRecord::Schema.define(version: 2020_12_02_014457) do
     t.time "duracion"
   end
 
-  create_table "tarjeta", force: :cascade do |t|
-    t.string "numero"
-    t.string "nombre"
-    t.string "apellido"
-    t.date "vencimiento"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "tarjetas", force: :cascade do |t|
     t.string "nombre"
     t.string "apellido"
