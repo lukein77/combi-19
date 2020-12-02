@@ -7,7 +7,9 @@ class Usuario < ApplicationRecord
   validates :fecha_nacimiento, presence: true
   validate :validar_edad
   has_and_belongs_to_many :viajes
+  has_and_belongs_to_many :pasajes
   has_many :tarjetas
+  has_many :comentarios
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values
@@ -31,7 +33,7 @@ class Usuario < ApplicationRecord
     end
   end
 
-  def validarFechaViaje(salida, llegada)
+  def validar_fecha_viaje(salida, llegada)
 		@viajes = self.viajes
 		if not @viajes.empty?
 			@viajes.each do |viaje|
@@ -41,6 +43,6 @@ class Usuario < ApplicationRecord
 			end 
 		end
 		return true
-	end
-
+  end
+  
 end

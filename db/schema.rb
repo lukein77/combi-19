@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_215116) do
+
+ActiveRecord::Schema.define(version: 2020_12_01_032225) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -18,6 +19,13 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.float "precio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "adicionales_pasajes", force: :cascade do |t|
+    t.integer "adicional_id"
+    t.integer "pasaje_id"
+    t.index ["adicional_id"], name: "index_adicionales_pasajes_on_adicional_id"
+    t.index ["pasaje_id"], name: "index_adicionales_pasajes_on_pasaje_id"
   end
 
   create_table "adicionales_rutas", force: :cascade do |t|
@@ -42,6 +50,16 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.string "patente"
   end
 
+  create_table "comentarios", force: :cascade do |t|
+    t.string "texto"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "usuario_id", null: false
+    t.integer "viaje_id", null: false
+    t.index ["usuario_id"], name: "index_comentarios_on_usuario_id"
+    t.index ["viaje_id"], name: "index_comentarios_on_viaje_id"
+  end
+
   create_table "formulario_covids", force: :cascade do |t|
     t.float "fiebre"
     t.boolean "perdida_olfato"
@@ -64,6 +82,13 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.boolean "bajas_defensas"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "pasajes", force: :cascade do |t|
+    t.integer "usuario_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "viaje_id"
   end
 
   create_table "rutas", force: :cascade do |t|
@@ -100,6 +125,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "borrado"
     t.integer "tarjeta_id"
+    t.integer "pasaje_id"
     t.index ["email"], name: "index_usuarios_on_email", unique: true
     t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
     t.index ["tarjeta_id"], name: "index_usuarios_on_tarjeta_id"
@@ -122,12 +148,15 @@ ActiveRecord::Schema.define(version: 2020_11_30_215116) do
     t.integer "chofer_id"
     t.datetime "fecha_hora"
     t.datetime "fecha_hora_llegada"
+    t.integer "pasajes_id"
     t.string "estado", default: "programado"
     t.string "disponibilidad", default: "disponible"
     t.index ["combi_id"], name: "index_viajes_on_combi_id"
     t.index ["ruta_id"], name: "index_viajes_on_ruta_id"
   end
 
+  add_foreign_key "comentarios", "usuarios"
+  add_foreign_key "comentarios", "viajes"
   add_foreign_key "viajes", "combis"
   add_foreign_key "viajes", "rutas"
 end

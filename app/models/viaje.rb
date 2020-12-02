@@ -4,6 +4,8 @@ class Viaje < ApplicationRecord
 	belongs_to :ruta 
 	belongs_to :combi 
 	has_and_belongs_to_many :usuarios
+	has_many :comentarios
+	has_many :pasajes
 
 	validate :validar_combi, if: :combi_id_changed?
 	validate :validar_chofer, if: :chofer_id_changed?
@@ -21,7 +23,7 @@ class Viaje < ApplicationRecord
 	end
 
 	def validar_combi
-		if combi.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+		if combi.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
 			errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")  
@@ -31,7 +33,7 @@ class Viaje < ApplicationRecord
 
 	def validar_chofer
 		@chofer = Usuario.find(chofer_id)
-		if @chofer.validarFechaViaje(fecha_hora, fecha_hora_llegada)
+		if @chofer.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
 			errors.add(:chofer_id, "El chofer tiene otro viaje asignado en esa fecha y horario.")
@@ -49,6 +51,14 @@ class Viaje < ApplicationRecord
 
 	def getCombi
 		Combi.find(combi_id).patente
+	end
+
+	def getEstado
+		Viaje.estados.fetch(estado)
+	end
+
+	def getDisponibilidad
+		Viaje.disponibilidads.fetch(disponibilidad)
 	end
 	
 	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado" }

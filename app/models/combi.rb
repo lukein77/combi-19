@@ -7,7 +7,7 @@ class Combi < ApplicationRecord
 		self.cant_viajes = 0 if self.cant_viajes.nil?
 	end
 
-	def validarFechaViaje(salida, llegada)
+	def validar_fecha_viaje(salida, llegada)
 		@viajes = self.viajes
 		if not @viajes.empty?
 			@viajes.each do |viaje|

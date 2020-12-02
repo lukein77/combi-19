@@ -1,4 +1,9 @@
 <!-- h1>Viajes#show</h1 -->
+<% if not usuario_signed_in? %>
+	<h4> <i> Usted no tiene permiso para ver esta página. </i> </h4>
+	<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
+<% else %>
+
 <div class="container">
 	<div class= "row">
 		<h1><%= @viaje.ruta.nombre + " - " + @viaje.fecha_hora.strftime("%d %b %Y") %></h1>
@@ -6,12 +11,14 @@
 	<div class= "row">
 		<div class= "col-md-3">
 			<font size=4>
-			<ul>
+			<ul> 
+			<b>
 				<li> Origen: </li>
 				<li> Destino: </li>
 				<li> Precio: </li>
-				<li> Asientos: </li>
+				<li> Pasajes comprados:</li>
 				<li> Hora de salida: </li>
+
 				<% if usuario_signed_in? and current_usuario.rol = "admin" %>
 					<li> Chofer: </li>
 					<li> Combi: </li>
@@ -19,8 +26,9 @@
 				<% end %>
         <li> Estado: </li>
         <li> Disponibilidad: </li>
+			</b>
 			</ul>
-		<% if @asignado %>
+		<% if current_usuario.rol == "chofer" and @tiene_viaje %>
 			<% if @viaje.programado? %>
 				<div class="actions">
 					<%= link_to("Comenzar viaje", cambiar_estado_path(@viaje), method: :post, class: 'btn btn-info btn-sm') %>
@@ -37,19 +45,110 @@
 				<li>  <%= @viaje.ruta.getCiudadOrigen %> </li>
 				<li>  <%= @viaje.ruta.getCiudadDestino %> </li>
 				<li>  $<%= @viaje.precio %> </li>
-				<li>  <%= @viaje.combi.asientos %> </li>
+				<li>  <%= @viaje.usuarios.size - 1 %> /<%= @viaje.combi.asientos %> </li>
 				<li>  <%= @viaje.fecha_hora.strftime("%H:%M") %> </li>
 				<% if usuario_signed_in? and current_usuario.rol = "admin" %>
 					<li>  <%= link_to @chofer.nombre + " " + @chofer.apellido , usuario_path(@viaje.chofer_id) %> </li>
 					<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
 					<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
 				<% end %>
-        <li> <%= @viaje.estado %> </li>
-        <li> <%= @viaje.disponibilidad %> </li>
+        <li> <%= @viaje.getEstado %> </li>
+        <li> <%= @viaje.getDisponibilidad %> </li>
 			</ul>
 		</div>
+	</div>
+	<div class= "row">
+		<h2> Pasajeros </h2>
+		<table class= "table">
+			<tr>
+				<th> Nombre </th>
+				<th> DNI </th>
+				<th> e-mail </th>
+				<th> Adicionales </th>
+			</tr>
+			<% @viaje.usuarios.all.each do |usuario| %>
+				<% if usuario.rol != "chofer" %>
+					<tr>
+						<td> <%= usuario.apellido %>, <%= usuario.nombre %> </td>
+						<td> <%= usuario.dni %> </td>
+						<td> <%= usuario.email %> </td>
+						<td> 
+							<% @viaje.pasajes.find_by(usuario_id: usuario.id).adicionales.each do |a|%>
+								<%= a.nombre %>,
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+			<%end%>
+		</table>
 	</div>	
 
+	<% if @viaje.finalizado? %>
+		<% if @tiene_viaje or current_usuario.rol == "admin" %>
+			<font size=2>		
+			<div class="row">
+				<div class="card" style="width:100%">
+					<button id="headingComentarios" class="alert alert-primary" style="width:100%" data-toggle="collapse" data-target="#collapseComentarios"> 
+						<b>Comentarios (<%= @comentarios.length %>)</b>
+					</button>
+					<div id="collapseComentarios" class="collapse show" aria-labelledby="headingComentarios">
+						<div class="card-body">
+							<% @comentarios.each do |c| %>
+							<table class="table">
+								<thead class="thead-light">
+								<tr>
+									<th style="width:90%"> 
+										<%= c.usuario.nombre+" "+c.usuario.apellido %> - 
+										<%= c.created_at.strftime("%d %b %Y - %H:%M") %>
+									</th>
+									<th style="width:10%">
+										<% if current_usuario.rol == "admin" or (current_usuario.rol == "cliente" and c.usuario.id == current_usuario.id) %>
+											<%= link_to("X", c, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Quiere eliminar el comentario?"}) %> 
+										<% end %>
+									</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td> <%= c.texto %> </td>
+									</tr>
+								</tbody>
+							</table>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
 
-<%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>
+			<% if current_usuario.rol != "chofer" %>
+
+				<font size=3>
+				<div class="col">
+					<div class="alert alert-primary" style="width:100%">	
+						<div class="form">
+						<%= form_for @comentario do |f| %>
+							<div class="field">
+								<%= f.label "Agregar un comentario" %> <br>
+								<%= f.text_area(:texto, minlength: 10, maxlength: 140, size:"50x3", required: true, placeholder: "Ingrese aquí su comentario...") %>
+							</div>
+							<%= f.submit "Comentar" %>
+						<% end %>
+						</div>
+					</div>
+				</div>
+
+			<% end %>
+
+		<% end %>
+	<% end %>
+
+	<br>
+
+	<div class="row">
+		<div class="col">
+			<%= link_to "Regresar", viajes_path, class: 'btn btn-info btn-sm' %>
+		</div>
+	</div>
 </div>
+
+<% end %>
