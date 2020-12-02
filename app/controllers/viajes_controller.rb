@@ -3,30 +3,40 @@ class ViajesController < ApplicationController
     @ciudadOrigen = search_params.dig(:ciudadOrigen)
     @ciudadDestino = search_params.dig(:ciudadDestino)
 
-    @fecha_viaje = search_params.dig(:fecha_viaje)
+    @fecha_viaje_preparse = search_params.dig(:fecha_viaje)
+    @fecha_viaje = (@fecha_viaje_preparse.to_s).to_datetime
     @fecha_checked = search_params.dig(:fecha_checked)
 
-    @estado = search_params.dig(:estado)
-    @estado_checked = search_params.dig(:estado_checked)
+    if (not usuario_signed_in?) or current_usuario.rol == "cliente"
+      @estado = "programado"
+      @estado_checked = true
+      @disponibilidad = "disponible"
+      @disponibilidad_checked = true
+    else
+      @estado = search_params.dig(:estado)
+      @estado_checked = search_params.dig(:estado_checked)
 
-    @disponibilidad = search_params.dig(:disponibilidad)
-    @disponibilidad_checked = search_params.dig(:disponibilidad_checked)
+      @disponibilidad = search_params.dig(:disponibilidad)
+      @disponibilidad_checked = search_params.dig(:disponibilidad_checked)
+    end
 
     #byebug #DEBUG
 
     # FILTRADO POR CIUDAD DE ORIGEN Y DESTINO
     if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
-      @viajes = Viaje.where(ruta: @ruta)
+      @viajes = Viaje.where(ruta: @ruta).order(fecha_hora: :asc)
     elsif(@ciudadOrigen.present?)
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen)
-      @viajes = Viaje.where(ruta: @ruta)    
+      @viajes = Viaje.where(ruta: @ruta).order(fecha_hora: :asc)
     elsif(@ciudadDestino.present?)
       @ruta = Ruta.where(ciudadDestino: @ciudadDestino)
-      @viajes = Viaje.where(ruta: @ruta)
+      @viajes = Viaje.where(ruta: @ruta).order(fecha_hora: :asc)
     else
       @viajes = Viaje.order(fecha_hora: :asc).all
     end
+    #@ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
+    #@viajes = Viaje.where(ruta: @ruta).where(disponibilidad: @disponibilidad).where(estado: @estado)
 
     #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
 
@@ -46,13 +56,13 @@ class ViajesController < ApplicationController
 
 
     # FILTRADO POR ESTADO
-    if (@estado_checked and (not @disponibilidad_checked) and (not @fecha_checked)) 
-      @viajes = Viaje.where(estado: @estado)
+    if (@estado_checked) 
+      @viajes = @viajes & Viaje.where(estado: @estado).order(fecha_hora: :asc)
     end
 
     # FILTRADO POR DISPONIBILIDAD
-    if (@disponibilidad_checked and (not @estado_checked) and (not @fecha_checked))
-      @viajes = Viaje.where(disponibilidad: @disponibilidad)
+    if (@disponibilidad_checked)
+      @viajes = @viajes & Viaje.where(disponibilidad: @disponibilidad).order(fecha_hora: :asc)
     end
 
     @combis = Combi.all
@@ -62,7 +72,7 @@ class ViajesController < ApplicationController
   def search_params
     #params.permit(search: {})
     params.permit(:ciudadOrigen, :ciudadDestino,
-                  :fecha_checked, :fecha_viaje,
+                  :fecha_viaje, :fecha_checked,
                   :estado, :estado_checked,
                   :disponibilidad, :disponibilidad_checked)
   end
@@ -100,7 +110,7 @@ class ViajesController < ApplicationController
     @chofer = Usuario.find(@viaje.chofer_id)
 
     @tiene_viaje = current_usuario.viaje_ids.include?(@viaje.id)
-
+    
     @comentarios = @viaje.comentarios.order(created_at: :desc)
     @comentario = Comentario.new
   end
