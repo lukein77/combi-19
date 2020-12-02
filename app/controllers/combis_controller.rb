@@ -46,4 +46,15 @@ class CombisController < ApplicationController
 			redirect_to combis_path, notice: "La combi tiene viajes asociados."
 		end
 	end
+
+	def combi_dar_de_baja
+		combi = Combi.find(params[:id])
+		if combi.viajes.empty?
+			combi.borrado = true
+			combi.save
+			redirect_to combis_path
+		else
+			redirect_to combis_path, notice: "La combi tiene viajes asociados."
+		end
+	end
 end

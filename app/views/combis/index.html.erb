@@ -14,7 +14,7 @@
 				<th> Acciones </th>
 			</tr>
 
-			<% @combis.each do |combi| %>
+			<% @combis.where(borrado: false).each do |combi| %>
 				<tr>
 					<td> <%= combi.modelo %> </td>
 					<td> <%= combi.patente %> </td>
@@ -24,7 +24,7 @@
 						<%= link_to "Ver", combi_path(combi), class: 'btn btn-info btn-sm' %>
 						<% if current_usuario.rol == "admin" %>
 							<%= link_to "Editar", edit_combi_path(combi), class: 'btn btn-info btn-sm' %>
-							<%= link_to "Eliminar", combi, method: :delete, class: 'btn btn-danger btn-sm', data: {confirm: "¿Está seguro?"} %>
+							<%= link_to("Eliminar", combi_dar_de_baja_path(combi),method: :post,data: {confirm: "¿Está seguro?"} ,class: 'btn btn-danger btn-sm') %>
 						<% end %>
 					</td>
 				</tr>

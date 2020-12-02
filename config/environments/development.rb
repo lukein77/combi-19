@@ -42,15 +42,15 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
 
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.mailtrap.io",
-    port: 587,
-    domain: "smtp.mailtrap.io",
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: "ca6e28d15b6ab9",
-    password: "bb4267cb7114ed"
-  }
+  :user_name => '245725ae935111',
+  :password => 'ba54d8ae61f472',
+  :address => 'smtp.mailtrap.io',
+  :domain => 'smtp.mailtrap.io',
+  :port => '2525',
+  :authentication => :cram_md5
+}
 
 
   # Print deprecation notices to the Rails logger.

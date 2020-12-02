@@ -11,7 +11,6 @@ class Ruta < ApplicationRecord
 	validates :nombre, presence: true, uniqueness: true
 	validate :ciudades_validas
 	
-
 	#Funciones
 	def poner_nombre
 		if ciudadOrigen != nil and ciudadDestino != nil

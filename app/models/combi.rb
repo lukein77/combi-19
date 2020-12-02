@@ -1,9 +1,12 @@
 class Combi < ApplicationRecord
 	has_many :viajes, dependent: :destroy
 	validates :patente, uniqueness: true
-	
-	before_save :default_values
+
+	before_save :default_values , unless: :persisted?
 	def default_values
+	    if self.borrado == nil
+      		self.borrado = false
+    	end
 		self.cant_viajes = 0 if self.cant_viajes.nil?
 	end
 
