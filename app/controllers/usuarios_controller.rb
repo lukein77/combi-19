@@ -31,12 +31,12 @@ class UsuariosController < ApplicationController
 
 	def chofer_dar_de_baja
 		usuario=Usuario.find(params[:id])
-		if  usuario.viajes.finalizado.count < usuario.viajes.count
+		if  usuario.viajes.finalizado.count == usuario.viajes.count
 			usuario.borrado = true;
 			usuario.save
 			redirect_to choferes_index_path
 		else
-			redirect_to choferes_index_path , notice: "No se pudo eliminar el chofer porque está asignado a un viaje."
+			redirect_to choferes_index_path , notice: "No se pudo eliminar el chofer porque está asignado a un viaje sin finalizar."
 		end
 	end
 

@@ -177,6 +177,10 @@ class ViajesController < ApplicationController
             p.viaje_id = params[:id]
             p.save
             @viaje.usuarios << current_usuario
+            if @viaje.usuarios.size == @viaje.combi.asientos
+              @viaje.disponibilidad = "completo"
+              @viaje.save
+            end
             redirect_to viajes_path, notice:"La compra se concreto correctamente"
           else
             redirect_to viajes_path, notice:"Ya no quedan pasajes disponibles"

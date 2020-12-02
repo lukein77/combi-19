@@ -49,12 +49,12 @@ class CombisController < ApplicationController
 
 	def combi_dar_de_baja
 		combi = Combi.find(params[:id])
-		if combi.viajes.finalizado.count < combi.viajes.count
+		if combi.viajes.finalizado.count == combi.viajes.count
 			combi.borrado = true
 			combi.save
 			redirect_to combis_path
 		else
-			redirect_to combis_path, notice: "La combi tiene viajes asociados."
+			redirect_to combis_path, notice: "La combi tiene viajes asociados sin finalizar."
 		end
 	end
 end

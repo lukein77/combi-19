@@ -58,29 +58,31 @@
 		</div>
 	</div>
 	<div class= "row">
-		<h2> Pasajeros </h2>
-		<table class= "table">
-			<tr>
-				<th> Nombre </th>
-				<th> DNI </th>
-				<th> e-mail </th>
-				<th> Adicionales </th>
-			</tr>
-			<% @viaje.usuarios.all.each do |usuario| %>
-				<% if usuario.rol != "chofer" %>
-					<tr>
-						<td> <%= usuario.apellido %>, <%= usuario.nombre %> </td>
-						<td> <%= usuario.dni %> </td>
-						<td> <%= usuario.email %> </td>
-						<td> 
-							<% @viaje.pasajes.find_by(usuario_id: usuario.id).adicionales.each do |a|%>
-								<%= a.nombre %>,
-							<% end %>
-						</td>
-					</tr>
-				<% end %>
-			<%end%>
-		</table>
+		<% if usuario_signed_in? and current_usuario.rol != "cliente" %>
+				<h4> Servicios adicionales comprados </h4><br>
+			<table class= "table">
+				<tr>
+					<th> Nombre </th>
+					<th> DNI </th>
+					<th> e-mail </th>>
+					<th> Adicionales </th>
+				</tr>
+				<% @viaje.usuarios.all.each do |usuario| %>
+					<% if usuario.rol != "chofer" %>
+						<tr>
+							<td> <%= usuario.apellido %>, <%= usuario.nombre %> </td>
+							<td> <%= usuario.dni %> </td>
+							<td> <%= usuario.email %> </td>
+							<td> 
+								<% @viaje.pasajes.find_by(usuario_id: usuario.id).adicionales.each do |a|%>
+									<%= a.nombre %>,
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+				<%end%>
+			</table>
+		<% end %>
 	</div>	
 
 	<% if @viaje.finalizado? %>
