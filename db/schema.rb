@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_032225) do
-
+ActiveRecord::Schema.define(version: 2020_12_02_014457) do
+  
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
     t.string "descripcion"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_032225) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "patente"
+    t.boolean "borrado"
   end
 
   create_table "comentarios", force: :cascade do |t|
@@ -97,6 +98,15 @@ ActiveRecord::Schema.define(version: 2020_12_01_032225) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "nombre"
     t.time "duracion"
+  end
+
+  create_table "tarjeta", force: :cascade do |t|
+    t.string "numero"
+    t.string "nombre"
+    t.string "apellido"
+    t.date "vencimiento"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tarjetas", force: :cascade do |t|

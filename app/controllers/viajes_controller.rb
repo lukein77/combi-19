@@ -80,13 +80,13 @@ class ViajesController < ApplicationController
   def new
     @viaje = Viaje.new
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
   def create
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
 
@@ -117,7 +117,7 @@ class ViajesController < ApplicationController
 
   def update
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.find(params[:id])
     
@@ -139,7 +139,7 @@ class ViajesController < ApplicationController
   def edit
     @viaje = Viaje.find(params[:id])
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 

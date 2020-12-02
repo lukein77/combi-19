@@ -29,7 +29,7 @@ class UsuariosController < ApplicationController
 		@usuario = Usuario.find(params[:id])
 	end
 
-	def dar_de_baja
+	def chofer_dar_de_baja
 		usuario=Usuario.find(params[:id])
 		if usuario.viajes.empty?
 			usuario.borrado = true;
