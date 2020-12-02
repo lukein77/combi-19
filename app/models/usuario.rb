@@ -7,6 +7,7 @@ class Usuario < ApplicationRecord
   validates :fecha_nacimiento, presence: true
   validate :validar_edad
   has_and_belongs_to_many :viajes
+  has_and_belongs_to_many :pasajes
   has_many :tarjetas
   has_many :comentarios
 
