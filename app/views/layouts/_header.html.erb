@@ -11,7 +11,7 @@
 	  <div class="collapse navbar-collapse">
 	      <ul class="navbar-nav">
 	          <li class="nav-item active">
-	              <a href="#" class="nav-link">Inicio</a>
+	              <a href="/" class="nav-link">Inicio</a>
 	          </li>
 	          
 	          <li class="nav-item">
@@ -26,13 +26,13 @@
 							<li class="nav-item dropdown">
 		              <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Administrador</a>
 		              <div class="dropdown-menu" aria-labelledby="navdrop">
-		                  <a href="#" class="dropdown-item">Ciudades</a>
-		                  <a href="#" class="dropdown-item">Adicionales</a>
-		                  <a href="#" class="dropdown-item">Rutas</a>
-		                  <a href="#" class="dropdown-item">Combis</a>
-		                  <a href="#" class="dropdown-item">Choferes</a>
-		                  <a href="#" class="dropdown-item">Usuarios</a>
-		                  <a href="#" class="dropdown-item">Registrar un usuario</a>
+		                  <a href="/ciudades" class="dropdown-item">Ciudades</a>
+		                  <a href="/adicionales" class="dropdown-item">Adicionales</a>
+		                  <a href="/rutas" class="dropdown-item">Rutas</a>
+		                  <a href="/combis" class="dropdown-item">Combis</a>
+		                  <a href="/usuarios/choferes_index" class="dropdown-item">Choferes</a>
+		                  <a href="/usuarios" class="dropdown-item">Usuarios</a>
+		                  <a href="/usuarios/sign_up" class="dropdown-item">Registrar un usuario</a>
 		              </div>
 		          </li>
 		        <% end %>
@@ -41,8 +41,8 @@
 	          	<li class="nav-item dropdown">
 	              <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Chofer</a>
 	              <div class="dropdown-menu" aria-labelledby="navdrop">
-	                  <a href="#" class="dropdown-item">Combis</a>
-	                  <a href="#" class="dropdown-item">Registrar un cliente</a>
+	                  <a href="/combis" class="dropdown-item">Combis</a>
+	                  <a href="/usuarios/sign_up" class="dropdown-item">Registrar un cliente</a>
 	              </div>
 	          	</li>
 	          <% end %>
@@ -51,17 +51,17 @@
 		          <li class="nav-item dropdown">
 		              <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Cuenta</a>
 		              <div class="dropdown-menu" aria-labelledby="navdrop">
-		                  <a href="#" class="dropdown-item">Perfil</a>
-		                  <a href="#" class="dropdown-item">Modificar cuenta</a>
-		                  <a href="#" class="dropdown-item">Cerrar sesión</a>
+		              		<%= link_to("Perfil", usuario_path(current_usuario), class: 'dropdown-item') %>
+		                  <a href="/usuarios/edit" class="dropdown-item">Modificar cuenta</a>
+		                  <%= link_to("Cerrar sesión", destroy_usuario_session_path, :method => :delete, class: 'dropdown-item') %>
 		              </div>
 		          </li>
 		        <% else %>
 		          <li class="nav-item dropdown">
 		              <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Cuenta</a>
 		              <div class="dropdown-menu" aria-labelledby="navdrop">
-		                  <a href="#" class="dropdown-item">Iniciar sesión</a>
-		                  <a href="#" class="dropdown-item">Registrarse</a>
+		                  <a href="/usuarios/sign_in" class="dropdown-item">Iniciar sesión</a>
+		                  <a href="/usuarios/sign_up" class="dropdown-item">Registrarse</a>
 		              </div>
 		          </li>
 		        <% end %>
