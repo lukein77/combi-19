@@ -80,13 +80,13 @@ class ViajesController < ApplicationController
   def new
     @viaje = Viaje.new
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
   def create
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
 
@@ -117,7 +117,7 @@ class ViajesController < ApplicationController
 
   def update
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.find(params[:id])
     
@@ -139,7 +139,7 @@ class ViajesController < ApplicationController
   def edit
     @viaje = Viaje.find(params[:id])
     @rutas = Ruta.all
-    @combis = Combi.all
+    @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
   end
 
@@ -167,9 +167,11 @@ class ViajesController < ApplicationController
         if @tarjeta.present? and @clave.present?
           if @viaje.usuarios.size <= @viaje.combi.asientos
             p=Pasaje.new
-            for i in 1..@adicionales.size-1 do
-              a = Adicional.find(@adicionales[i].to_i)
-              p.adicionales << a
+            if @adicionales.present?
+              for i in 1..@adicionales.size-1 do
+                a = Adicional.find(@adicionales[i].to_i)
+                p.adicionales << a
+              end
             end
             p.usuario_id = current_usuario.id
             p.viaje_id = params[:id]

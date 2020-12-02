@@ -23,7 +23,7 @@
 					<td> 
 						<%= link_to("Editar rol", edit_usuario_path(chofer),class: 'btn btn-info btn-sm') %>
 						<%= link_to("Ver", usuario_path(chofer),class: 'btn btn-info btn-sm') %>
-						<%= link_to("Eliminar", dar_de_baja_path(chofer),method: :post,data: {confirm: "¿Está seguro?"} ,class: 'btn btn-danger btn-sm') %>
+						<%= link_to("Eliminar", chofer_dar_de_baja_path(chofer),method: :post,data: {confirm: "¿Está seguro?"} ,class: 'btn btn-danger btn-sm') %>
 					</td>
 				</tr>
 			<% end %>

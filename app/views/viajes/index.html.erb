@@ -1,7 +1,7 @@
 <!-- h1>Viajes#index</h1 -->
 <h1> Listado de viajes </h1>
 
-<% if not @viajes %>
+<% if not @viajes.present? %>
 	<p> No hay viajes cargados en el sistema </p>
 <% else #Si no hay viajes no muestro la tabla %>
 
@@ -113,18 +113,22 @@
 					<% end %>
 				<% end %>
 			<% end %>
-        
-			<% if current_usuario.rol == "cliente" %>
-				<% if viaje.pasajes.where(usuario_id: current_usuario.id).size == 0 %>
-					<% if viaje.usuarios.size <= viaje.combi.asientos %>
-						<%= link_to "Comprar", comprar_viaje_path(viaje),class: 'btn btn-info btn-sm' %>
-					<% else %>
-						Lleno
-					<% end %>
-				<% else%>
-					Comprado
-        <% end %>
-      <% end %>
+        	
+        	<% if usuario_signed_in? %>
+				<% if current_usuario.rol == "cliente" %>
+					<% if viaje.pasajes.where(usuario_id: current_usuario.id).size == 0 %>
+						<% if viaje.usuarios.size <= viaje.combi.asientos %>
+							<%= link_to "Comprar", comprar_viaje_path(viaje),class: 'btn btn-info btn-sm' %>
+						<% else %>
+							Lleno
+						<% end %>
+					<% else%>
+						Comprado
+	        		<% end %>
+	      		<% end %>
+	      	<% else %>
+	      		Inicie sesion para ver opciones
+	      	<% end %>
 			</td>
 		</tr>
 		<% end %>
