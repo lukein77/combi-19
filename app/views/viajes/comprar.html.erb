@@ -10,7 +10,7 @@
 				<%= select_tag(:tarjeta, options_for_select(current_usuario.tarjetas.map { |t| [t.numero, t.id] }))%>
 				<%= link_to "Añadir Tarjeta" , new_tarjeta_path , class: 'btn btn-info btn-sm' %>
 				<br>
-				<%= label_tag(:clave,"Ingrese la calve de la tarjeta") %>
+				<%= label_tag(:clave,"Código de seguridad de la tarjeta") %>
 				<%= text_field_tag(:clave)%>
 				<br>
 				<% if @viaje.ruta.adicionales.size != 0 %>

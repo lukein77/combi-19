@@ -1,7 +1,7 @@
 <!-- h1>Viajes#index</h1 -->
 <h1> Listado de viajes </h1>
 
-<% if not @viajes %>
+<% if @viajes.empty? %>
 	<p> No hay viajes cargados en el sistema </p>
 <% else #Si no hay viajes no muestro la tabla %>
 

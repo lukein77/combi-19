@@ -167,9 +167,11 @@ class ViajesController < ApplicationController
         if @tarjeta.present? and @clave.present?
           if @viaje.usuarios.size <= @viaje.combi.asientos
             p=Pasaje.new
-            for i in 1..@adicionales.size-1 do
-              a = Adicional.find(@adicionales[i].to_i)
-              p.adicionales << a
+            if @adicionales.present?
+              for i in 1..@adicionales.size-1 do
+                a = Adicional.find(@adicionales[i].to_i)
+                p.adicionales << a
+              end
             end
             p.usuario_id = current_usuario.id
             p.viaje_id = params[:id]
