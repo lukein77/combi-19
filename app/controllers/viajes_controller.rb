@@ -23,6 +23,7 @@ class ViajesController < ApplicationController
     #byebug #DEBUG
 
     # FILTRADO POR CIUDAD DE ORIGEN Y DESTINO
+
     if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
       @viajes = Viaje.where(ruta: @ruta).order(fecha_hora: :asc)
@@ -35,10 +36,10 @@ class ViajesController < ApplicationController
     else
       @viajes = Viaje.order(fecha_hora: :asc).all
     end
-    #@ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
-    #@viajes = Viaje.where(ruta: @ruta).where(disponibilidad: @disponibilidad).where(estado: @estado)
 
     #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
+    # Hacer este metodo mas eficiente con @fecha_viaje con la hora en 00:00 y otra con la hora en 23:59
+    # y buscar por mayor y menor
 
     # FILTRADO POR FECHA
     if (@fecha_checked and (not @estado_checked) and (not @disponibilidad_checked))
@@ -50,7 +51,7 @@ class ViajesController < ApplicationController
 
         temp << viaje # Los viajes que caen en ese dia se agregan a temp
         end
-      @viajes = temp # Muestro solo los viajes de temp
+      @viajes = @viajes & temp # Interseccion entre los viajes filtrados por ciudad y temp
       end
     end
 
@@ -63,6 +64,10 @@ class ViajesController < ApplicationController
     # FILTRADO POR DISPONIBILIDAD
     if (@disponibilidad_checked)
       @viajes = @viajes & Viaje.where(disponibilidad: @disponibilidad).order(fecha_hora: :asc)
+    end
+
+    if(@viajes.empty?)
+      flash[:notice] = "No se encontraron viajes con los filtros seleccionados"
     end
 
     @combis = Combi.all

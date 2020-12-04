@@ -12,6 +12,8 @@ Ciudad.find_or_create_by(nombre: "Retiro")
 Ciudad.find_or_create_by(nombre: "Constitución")
 Ciudad.find_or_create_by(nombre: "La Plata")
 Ciudad.find_or_create_by(nombre: "Mar del Plata")
+Ciudad.find_or_create_by(nombre: "Gualeguaychú")
+Ciudad.find_or_create_by(nombre: "Bahía Blanca")
 
 #Ruta.find_or_create_by( nombre: "Constitución - Rosario",
 #                        ciudadOrigen: "Constitución",
