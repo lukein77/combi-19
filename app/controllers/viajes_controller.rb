@@ -91,7 +91,6 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new(viaje_params)
 
     if @viaje.fecha_hora - Time.now > 1.days
-      @viaje.agregar_hora_llegada
       if @viaje.save
         @viaje.agregar_viaje_a_chofer
         redirect_to viajes_path, notice: "El viaje fue creado"
