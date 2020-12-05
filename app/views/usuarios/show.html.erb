@@ -35,11 +35,91 @@
 	</div>
 	<br>
 	
+	<font size=3>
 	<% if @usuario.rol == "chofer" or @usuario.rol == "cliente" %>
+
+		<div class="card">
+			<div class="card-header" id="headingViajesFin">
+				<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseViajesFin">
+					Historial de viajes
+				</button>
+			</div>
+			<div id="collapseViajesFin" class="collapse" aria-labelledby="headingViajesFin">
+				<div class="card-body">
+					<% if not @viajes.empty? %>
+						<% if not @viajes_finalizados.empty? %>
+							<h5> Viajes realizados </h5>
+							<table class="table table-sm">
+								<tr>
+									<th> Ruta </th>
+									<th> Salida </th>
+									<th> Llegada </th>
+									<th> Acciones </th>
+								</tr>
+								<% @viajes_finalizados.each do |viaje| %>
+									<tr>
+										<td> <%= viaje.ruta.nombre %> </td>
+										<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
+										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+									</tr>
+								<% end %>
+							</table>
+						<% end %>
+						
+						<% if not @viajes_cancelados.empty? %>
+							<h5> Viajes cancelados </h5>
+							<table class="table table-sm">
+								<tr>
+									<th> Ruta </th>
+									<th> Salida </th>
+									<th> Llegada </th>
+									<th> Acciones </th>
+								</tr>
+								<% @viajes_cancelados.each do |viaje| %>
+									<tr>
+										<td> <%= viaje.ruta.nombre %> </td>
+										<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
+										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+									</tr>
+								<% end %>
+							</table>
+						<% end %>
+
+						<% if @usuario.rol == "cliente" %>
+							<h5> Viajes no realizados </h5>
+							<table class="table table-sm">
+								<tr>
+									<th> Ruta </th>
+									<th> Salida </th>
+									<th> Llegada </th>
+									<th> Acciones </th>
+								</tr>
+								
+							</table>
+						<% end %>
+
+					<% else %>
+						<% if @usuario.rol == "chofer" %>
+							<i> El chofer no tiene viajes asignados. </i>
+						<% else %>
+							<% if current_usuario.rol == @usuario.rol %>
+								<i> Usted no ha realizado ningún viaje. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
+							<% else %>
+								<i> No hay viajes registrados. </i>
+							<% end %>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="card">
 			<div class="card-header" id="headingViajes">
 				<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseViajes">
-					Viajes
+					Viajes pendientes
 				</button>
 			</div>
 			<div id="collapseViajes" class="collapse" aria-labelledby="headingViajes">
@@ -48,13 +128,15 @@
 						<table class="table table-sm">
 							<tr>
 								<th> Ruta </th>
-								<th> Fecha </th>
+								<th> Salida </th>
+								<th> Llegada </th>
 								<th> Acciones </th>
 							</tr>
 							<% @usuario.viajes.each do |viaje| %>
 								<tr>
 									<td> <%= viaje.ruta.nombre %> </td>
-									<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+									<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+									<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
 									<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
 								</tr>
 							<% end %>
@@ -63,7 +145,11 @@
 						<% if @usuario.rol == "chofer" %>
 							<i> El chofer no tiene viajes asignados. </i>
 						<% else %>
-							<i> Usted no ha realizado ningún viaje. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
+							<% if current_usuario.rol == @usuario.rol %>
+								<i> Usted no ha realizado ningún viaje. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
+							<% else %>
+								<i> No hay viajes registrados. </i>
+							<% end %>
 						<% end %>
 					<% end %>
 				</div>

@@ -52,20 +52,22 @@
 					<li>  <%= link_to @viaje.combi.modelo, combi_path(@viaje.combi) %> </li>
 					<li> <%= link_to @viaje.ruta.nombre , ruta_path(@viaje.ruta) %> </li>
 				<% end %>
-        <li> <%= @viaje.getEstado %> </li>
-        <li> <%= @viaje.getDisponibilidad %> </li>
+				<li> <%= @viaje.getEstado %> </li>
+				<li> <%= @viaje.getDisponibilidad %> </li>
 			</ul>
 		</div>
 	</div>
+	<font size=3>
 	<div class= "row">
 		<% if usuario_signed_in? and current_usuario.rol != "cliente" %>
-				<h4> Servicios adicionales comprados </h4><br>
+				<h4> Pasajeros </h4><br>
 			<table class= "table">
 				<tr>
 					<th> Nombre </th>
 					<th> DNI </th>
-					<th> e-mail </th>>
+					<th> e-mail </th>
 					<th> Adicionales </th>
+					<th> Acciones </th>
 				</tr>
 				<% @viaje.usuarios.all.each do |usuario| %>
 					<% if usuario.rol != "chofer" %>
@@ -77,6 +79,11 @@
 								<% @viaje.pasajes.find_by(usuario_id: usuario.id).adicionales.each do |a|%>
 									<%= a.nombre %>,
 								<% end %>
+							</td>
+							<td>
+								<%= link_to("Declaración jurada", root_path, class: "btn btn-sm btn-info") %>
+								<%= link_to("Aceptar", root_path, class: "btn btn-sm btn-info") %>
+								<%= link_to("Rechazar", root_path, class: "btn btn-sm btn-danger") %>
 							</td>
 						</tr>
 					<% end %>

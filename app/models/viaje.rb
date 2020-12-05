@@ -63,7 +63,7 @@ class Viaje < ApplicationRecord
 		Viaje.disponibilidads.fetch(disponibilidad)
 	end
 	
-	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado" }
+	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado", cancelado: "cancelado" }
 	enum disponibilidad: { disponible: "disponible", completo: "completo" }
 
 	private

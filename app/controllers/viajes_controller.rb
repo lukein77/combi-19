@@ -151,6 +151,7 @@ class ViajesController < ApplicationController
       @chofer.viajes.destroy(@viaje)
       @viaje.combi.viajes.destroy(@viaje)
       @viaje.destroy
+      flash[:notice] = "El viaje fue eliminado."
     end
     redirect_to viajes_path
   end

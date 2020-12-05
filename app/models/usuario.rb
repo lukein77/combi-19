@@ -10,6 +10,7 @@ class Usuario < ApplicationRecord
   has_and_belongs_to_many :pasajes
   has_many :tarjetas
   has_many :comentarios
+  has_one :formulario_covid
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values

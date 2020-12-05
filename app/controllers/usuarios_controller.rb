@@ -27,6 +27,9 @@ class UsuariosController < ApplicationController
 
 	def show
 		@usuario = Usuario.find(params[:id])
+		@viajes = @usuario.viajes
+		@viajes_finalizados = @usuario.viajes.finalizado 
+		@viajes_cancelados = @usuario.viajes.cancelado
 	end
 
 	def chofer_dar_de_baja
