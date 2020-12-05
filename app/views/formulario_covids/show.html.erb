@@ -1,0 +1,33 @@
+<h1> Declaración jurada de COVID-19 </h1>
+<h2> <%= @usuario.nombre %> <%= @usuario.apellido %> </h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <ul>
+            <li> Temperatura: </li>
+            <li> Pérdida de olfato:  </li>
+            <li> Pérdida de gusto:  </li>
+            <li> Tos:  </li>
+            <li> Dolor de garganta:  </li>
+            <li> Dificultad respiratoria:  </li>
+            <li> Dolor de cabeza:  </li>
+            <li> Diarrea:  </li>
+            <li> Vómitos:  </li>
+            <li> Dolor muscular:  </li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <ul class="list-unstyled">
+            <li> <%= @formulario_covid.fiebre %> </li>
+            <li> <%= human_boolean(@formulario_covid.perdida_olfato) %> </li>
+            <li> <%= @formulario_covid.perdida_gusto %> </li>
+            <li> <%= @formulario_covid.tos %> </li>
+            <li> <%= @formulario_covid.dolor_garganta %> </li>
+            <li> <%= @formulario_covid.dificultad_respiratoria %> </li>
+            <li> <%= @formulario_covid.dolor_cabeza %> </li>
+            <li> <%= @formulario_covid.diarrea %> </li>
+            <li> <%= @formulario_covid.vomitos %> </li>
+            <li> <%= @formulario_covid.dolor_muscular %> </li>
+        </ul>
+    </div>
+</div>

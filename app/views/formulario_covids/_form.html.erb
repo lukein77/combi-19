@@ -1,0 +1,127 @@
+<h2> Declaración jurada de COVID-19 </h2>
+
+<div class="form">
+<%= form_with model: @formulario_covid do |f| %>
+
+    <h4> Síntomas </h4>
+
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Temperatura actual" %> </b> <br>
+            <%= f.number_field(:fiebre, required: true, max: 42.0, min: 35.0, step: 0.1, size:"10%") %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Tuve pérdida de olfato" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:perdida_olfato, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:perdida_olfato, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tuve pérdida de gusto" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:perdida_gusto, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:perdida_gusto, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo tos" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:tos, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:tos, false) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo dolor de garganta" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:dolor_garganta, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:dolor_garganta, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo dificultad respiratoria o falta de aire" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:dificultad_respiratoria, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:dificultad_respiratoria, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo dolor de cabeza" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:dolor_cabeza, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:dolor_cabeza, false) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo diarrea" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:diarrea, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:diarrea, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo vómitos" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:vomitos, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:vomitos, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo dolor muscular" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:dolor_muscular, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:dolor_muscular, false) %>
+        </div>
+    </div>
+
+
+    <h4> Antecedentes </h4>
+    <div class="row">
+        <div class="col-md-5">
+            <b> <%= f.label :convive_con_positivo, "Vivo o trabajo con un caso confirmado de COVID-19" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:convive_con_positivo, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:convive_con_positivo, false) %>
+        </div>
+        <div class="col-md-5">
+            <b> <%= f.label :estuvo_con_positivo, "En los últimos 14 días, estuve en contacto con un caso confirmado de COVID-19" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:estuvo_con_positivo, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:estuvo_con_positivo, false) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo/tuve cáncer" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:cancer, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:cancer, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo diabetes" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:diabetes, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:diabetes, false) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo alguna enfermedad hepática" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:enfermedad_hepatica, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:enfermedad_hepatica, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo alguna enfermedad renal" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:enfermedad_renal, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:enfermedad_renal, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo alguna enfermedad respiratoria" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:enfermedad_respiratoria, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:enfermedad_respiratoria, false) %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo alguna enfermedad cardiológica" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:enfermedad_cardiologica, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:enfermedad_cardiologica, false) %>
+        </div>
+        <div class="col-md-3">
+            <b> <%= f.label "Tengo alguna condición que me baja las defensas" %> </b> <br>
+            <%= f.label "Si" %> <%= f.radio_button(:bajas_defensas, true) %>
+            <%= f.label "No" %> <%= f.radio_button(:bajas_defensas, false) %>
+        </div>
+    </div>
+
+    <div class="actions">
+        <%= f.submit("Guardar", class: "btn btn-sm btn-info", data: {confirm: "¿Está seguro?"}) %>
+    </div>
+
+<% end %>
+</div>

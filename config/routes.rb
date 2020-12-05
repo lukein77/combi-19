@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :ciudades
   resources :tarjetas
   resources :comentarios
+  resources :formulario_covids
 
   resources :viajes
   get 'viajes/:id/comprar', to: 'viajes#comprar', as: 'comprar_viaje'
