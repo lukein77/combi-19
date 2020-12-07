@@ -3,9 +3,13 @@ class ViajesController < ApplicationController
     @ciudadOrigen = search_params.dig(:ciudadOrigen)
     @ciudadDestino = search_params.dig(:ciudadDestino)
 
-    @fecha_viaje_preparse = search_params.dig(:fecha_viaje)
-    @fecha_viaje = (@fecha_viaje_preparse.to_s).to_datetime
-    @fecha_checked = search_params.dig(:fecha_checked)
+    @fecha_viaje_new = search_params[:fecha_viaje]
+    if @fecha_viaje_new.present?
+      @fecha_viaje_new = @fecha_viaje_new.first
+    else
+      @fecha_viaje_new = ""
+    end
+    # Con el first lo saco del array y guardo solo "YYYY-MM-DD" en lugar de ["YYYY-MM-DD"]
 
     if (not usuario_signed_in?) or current_usuario.rol == "cliente"
       @estado = "programado"
@@ -23,7 +27,6 @@ class ViajesController < ApplicationController
     #byebug #DEBUG
 
     # FILTRADO POR CIUDAD DE ORIGEN Y DESTINO
-
     if (@ciudadOrigen.present? and @ciudadDestino.present?) # Si estan en Nil da false, sino da true
       @ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
       @viajes = Viaje.where(ruta: @ruta).order(fecha_hora: :asc)
@@ -37,24 +40,11 @@ class ViajesController < ApplicationController
       @viajes = Viaje.order(fecha_hora: :asc).all
     end
 
-    #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
-    # Hacer este metodo mas eficiente con @fecha_viaje con la hora en 00:00 y otra con la hora en 23:59
-    # y buscar por mayor y menor
-
     # FILTRADO POR FECHA
-    if (@fecha_checked and (not @estado_checked) and (not @disponibilidad_checked))
-      temp = []
-
-      @viajes.each do |viaje|
-        if (viaje.fecha_hora.year == @fecha_viaje.year and
-          viaje.fecha_hora.yday == @fecha_viaje.yday) # yday = dia del año (1 a 365)
-
-        temp << viaje # Los viajes que caen en ese dia se agregan a temp
-        end
-      @viajes = @viajes & temp # Interseccion entre los viajes filtrados por ciudad y temp
-      end
+    if (@fecha_viaje_new != "")
+      @fecha_viaje_new = @fecha_viaje_new.to_date
+      @viajes = @viajes & Viaje.where(:fecha_hora => @fecha_viaje_new.beginning_of_day..@fecha_viaje_new.end_of_day)
     end
-
 
     # FILTRADO POR ESTADO
     if (@estado_checked) 
@@ -77,9 +67,9 @@ class ViajesController < ApplicationController
   def search_params
     #params.permit(search: {})
     params.permit(:ciudadOrigen, :ciudadDestino,
-                  :fecha_viaje, :fecha_checked,
                   :estado, :estado_checked,
-                  :disponibilidad, :disponibilidad_checked)
+                  :disponibilidad, :disponibilidad_checked,
+                  :fecha_checked, :fecha_viaje => [])
   end
 
   def new

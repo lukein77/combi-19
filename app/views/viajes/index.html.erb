@@ -26,14 +26,17 @@
 			<!-- DEBERIA FUNCIONAR CUANDO ESCRIBAN FECHA_HORA EN VIAJE -->
 			<div class="flex-column-right">
 					<div class="field">
-						<%#= label_tag "Buscar por fecha" %>
-						<%#= check_box_tag :fecha_checked %>
-					</div>
-
-					<div class="field">
-				    <%#USUARIOS = date_field :fecha_viaje, @fecha_viaje, min: Date.today %>
-				    <%#= date_field :fecha_viaje, @fecha_viaje %>
-				    <%#= f.datetime_select_tag :fecha_viaje, @fecha_viaje, :prompt => { :day => "---", :month => "---", :year => "--- " }, start_year: Time.now.year %>
+						<%= label_tag "Viajar el " %>
+				    <% if usuario_signed_in? and current_usuario.rol == "admin" %>
+					    <%= date_field :fecha_viaje, @fecha_viaje %>
+					    <!-- 
+					    		DATE_SELECT ENVIA UN HASH CON LOS DIA, MES Y AÑO SELECCIONADOS
+					    		DATE_FIELD ENVIA UN STRING CON LA FECHA
+					    -->
+					  <% else %>
+					    <%= date_field :fecha_viaje, @fecha_viaje, min: Date.today %>
+					    <!-- VER SI SE PUEDE HACKEAR MANDANDO POR INSPECCIONAR ELEMENTO UNA FECHA ANTERIOR A TODAY -->
+					  <% end %>
 				  </div>
 
 				  <br>
