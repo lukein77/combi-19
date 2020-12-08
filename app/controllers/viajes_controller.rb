@@ -156,39 +156,65 @@ class ViajesController < ApplicationController
     redirect_to viajes_path
   end
 
+  def precio_compra
+    params.permit(:adicionales)
+    @viaje= Viaje.find(params[:id])
+    precio = @viaje.precio
+    if @adicionales.present?
+      for i in 1..@adicionales.size-1 do
+        a = Adicional.find(@adicionales[i].to_i)
+        precio = precio + a.precio;
+      end
+    end
+    return precio
+  end
+
+  def crear_pasaje
+    @viaje = Viaje.find(params[:id])
+    @adicionales = params.dig(:adis)
+    p=Pasaje.new
+    if @adicionales.present?
+      for i in 1..@adicionales.size-1 do
+        a = Adicional.find(@adicionales[i].to_i)
+        p.adicionales << a
+      end
+    end
+    p.usuario_id = current_usuario.id
+    p.viaje_id = params[:id]
+    p.save
+    @viaje.usuarios << current_usuario
+    if @viaje.usuarios.size == @viaje.combi.asientos
+      @viaje.disponibilidad = "completo"
+      @viaje.save
+    end
+  end
+
   def comprar
-      params.permit(:tarjeta, :adicionales)
-      @viaje = Viaje.find(params[:id])
-      @tarjeta = params[:tarjeta]
-      @adicionales = params.dig(:adicionales,:ids)
-      @clave = params[:clave]
-      @commit = params[:commit]
-      if @commit.present?
-        if @tarjeta.present? and @clave.present?
+    params.permit(:tarjeta, :adicionales)
+    @viaje = Viaje.find(params[:id])
+    @tarjeta = params[:tarjeta]
+    @adicionales = params.dig(:adicionales,:ids)
+    @clave = params[:clave]
+    @commit = params[:commit]
+    @compra = params[:compra]
+    @adi = params.dig(:adis)
+    @precio_compra = precio_compra
+    if @compra.present?
+      if @tarjeta.present? and @clave.present?
+        if Tarjeta.find(@tarjeta.to_i).numero % 2 == 0
           if @viaje.usuarios.size <= @viaje.combi.asientos
-            p=Pasaje.new
-            if @adicionales.present?
-              for i in 1..@adicionales.size-1 do
-                a = Adicional.find(@adicionales[i].to_i)
-                p.adicionales << a
-              end
-            end
-            p.usuario_id = current_usuario.id
-            p.viaje_id = params[:id]
-            p.save
-            @viaje.usuarios << current_usuario
-            if @viaje.usuarios.size == @viaje.combi.asientos
-              @viaje.disponibilidad = "completo"
-              @viaje.save
-            end
+            crear_pasaje
             redirect_to viajes_path, notice:"La compra se concreto correctamente"
           else
             redirect_to viajes_path, notice:"Ya no quedan pasajes disponibles"
           end
         else
-          redirect_to comprar_viaje_path(@viaje), notice: "Ingrese una tarjeta y su clave correspondiente"
+            flash[:notice] = "La tarjeta no contiene saldo suficiente"
         end
+      else
+        flash[:notice] = "Ingrese una tarjeta y su clave correspondiente"
       end
+    end
   end
   
   def cambiar_estado

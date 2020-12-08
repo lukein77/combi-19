@@ -4,25 +4,48 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-			<h4> Costo del pasaje: $<%=@viaje.precio%> </h4>
-			<%= form_tag(comprar_viaje_path, method: "get") do %>
-				<%= label_tag(:tarjeta,"Seleccione una tarjeta") %>
-				<%= select_tag(:tarjeta, options_for_select(current_usuario.tarjetas.map { |t| [t.numero, t.id] }))%>
-				<%= link_to "Añadir Tarjeta" , new_tarjeta_path , class: 'btn btn-info btn-sm' %>
-				<br>
-				<%= label_tag(:clave,"Código de seguridad de la tarjeta") %>
-				<%= text_field_tag(:clave)%>
-				<br>
-				<% if @viaje.ruta.adicionales.size != 0 %>
-					<%= label_tag(:adicionales,"Seleccione sus adicionales:") %>
+			<% if not @commit.present? %>
+				<h4> Costo del pasaje: $<%=@viaje.precio%> </h4>
+				<%= form_tag( comprar_viaje_path , method: "get") do %>
+					<% if @viaje.ruta.adicionales.size != 0 %>
+						<%= label_tag(:adicionales,"Seleccione sus adicionales:") %>
+						<br>
+						<%= collection_check_boxes(:adicionales, :ids, @viaje.ruta.adicionales, :id, :nombre , {multiple: true}) do |b| %>
+								<%= b.check_box %>
+					            <%= b.label + " (+$" + b.object.precio.to_s + ")" %>
+					            <br>
+					    <%end %>
+				    <% end %>
+					<%= submit_tag("Confirmar", class: 'btn btn-info btn-sm') %>
+				<% end %>
+			<%else%>
+				<h4> Su compra </h4>
+				<ul>
+					<li> Pasaje: $<%= @viaje.precio %></li> 
+					<% if @adicionales.present? %>
+	              		<% for i in 1..@adicionales.size-1 do %>
+	                		<% a = Adicional.find(@adicionales[i].to_i) %>
+	                		<li><%= a.nombre %>: $<%= a.precio %></li>
+	              		<% end %>
+	            	<% end %>
+            	</ul>
+			<%end%>
+		</div>
+		<div class="col-md-6">
+			<% if @commit.present? %>
+				<h4> Total a pagar: <%= @precio_compra %> </h4>
+				<%= form_tag(comprar_viaje_path, method: "get") do %>
+					<%= label_tag(:tarjeta,"Seleccione una tarjeta") %>
+					<%= select_tag(:tarjeta, options_for_select(current_usuario.tarjetas.map { |t| [t.numero, t.id] }))%>
+					<%= link_to "Añadir Tarjeta" , new_tarjeta_path , class: 'btn btn-info btn-sm' %>
 					<br>
-					<%= collection_check_boxes(:adicionales, :ids, @viaje.ruta.adicionales, :id, :nombre , {multiple: true}) do |b| %>
-							<%= b.check_box %>
-				            <%= b.label + " (+$" + b.object.precio.to_s + ")" %>
-				            <br>
-				    <%end %>
-			    <% end %>
-				<%= submit_tag("Comprar", data: {confirm: "¿Está seguro? "}, class: 'btn btn-info btn-sm') %>
+					<%= label_tag(:clave,"Código de seguridad de la tarjeta") %>
+					<%= text_field_tag(:clave)%>
+					<% @adicionales.each do |id| %>
+  						<%= hidden_field_tag "adis[]", id %>
+					<% end %>
+				<%= submit_tag("Comprar",name: "compra", class: 'btn btn-info btn-sm') %>
+				<% end %>
 			<% end %>
 		</div>
 	</div>
