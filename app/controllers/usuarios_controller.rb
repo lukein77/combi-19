@@ -43,4 +43,14 @@ class UsuariosController < ApplicationController
 		end
 	end
 
+	def mostrar_formulario_covid
+		@usuario = Usuario.find(params[:id])
+		if @usuario.formulario_covid != nil
+			redirect_to formulario_covid_path(@usuario.formulario_covid.id)
+		else
+			redirect_to request.referrer
+			flash[:notice] = "El usuario no ha cargado la declaración jurada"
+		end
+	end
+
 end

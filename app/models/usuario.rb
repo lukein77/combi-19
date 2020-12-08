@@ -10,7 +10,7 @@ class Usuario < ApplicationRecord
   has_and_belongs_to_many :pasajes
   has_many :tarjetas, dependent: :destroy
   has_many :comentarios, dependent: :destroy
-  has_one :formulario_covid
+  has_one :formulario_covid, dependent: :destroy
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values

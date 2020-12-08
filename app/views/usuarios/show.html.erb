@@ -1,6 +1,6 @@
 <% if not usuario_signed_in? or (current_usuario.rol == "cliente" and @usuario.id != current_usuario.id) %>
 	<h4> <i> Usted no tiene permiso para ver esta página. </i> </h4>
-	<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
+	<%= link_to "Regresar", :back , class: 'btn btn-info btn-sm' %>
 <% else %>
 
 
@@ -15,10 +15,10 @@
 				<li> DNI: </li>
 
 				<li> Fecha de nacimiento: </li>
-
+				
+				<li> Correo electrónico: </li>	
+				
 				<li> Rol: </li>
-
-				<li> Correo electrónico: </li>
 			</ul>
 		</div>
 		<div class="col">
@@ -33,9 +33,26 @@
 			</ul>
 		</div>
 	</div>
-	<br>
-	
+
 	<font size=3>
+
+	<div class="row">
+	<% if @usuario.id == current_usuario.id %>
+		<% if @usuario.formulario_covid != nil %>
+			<%= link_to("Actualizar formulario", edit_formulario_covid_path(current_usuario.formulario_covid.id), class: "btn btn-sm btn-info") %>
+		<% else %>
+			<%= link_to("Completar formulario", new_formulario_covid_path, class: "btn btn-sm btn-info") %>
+		<% end %>
+	<% else %>
+		<% if @usuario.formulario_covid != nil %>
+			<%= link_to("Ver declaración jurada", formulario_covid_path(@usuario.formulario_covid.id), class: "btn btn-sm btn-info") %>
+		<% else %>
+			<i> El usuario no ha cargado su declaración jurada de salud. </i>	
+		<% end %>
+	<% end %>
+	</div>
+
+	
 	<% if @usuario.rol == "chofer" or @usuario.rol == "cliente" %>
 
 		<div class="card">

@@ -1,33 +1,85 @@
-<h1> Declaración jurada de COVID-19 </h1>
-<h2> <%= @usuario.nombre %> <%= @usuario.apellido %> </h2>
+<% if @formulario_covid != nil %>
+    <% if @formulario_covid.actualizado %>
 
-<div class="row">
-    <div class="col-md-3">
-        <ul>
-            <li> Temperatura: </li>
-            <li> Pérdida de olfato:  </li>
-            <li> Pérdida de gusto:  </li>
-            <li> Tos:  </li>
-            <li> Dolor de garganta:  </li>
-            <li> Dificultad respiratoria:  </li>
-            <li> Dolor de cabeza:  </li>
-            <li> Diarrea:  </li>
-            <li> Vómitos:  </li>
-            <li> Dolor muscular:  </li>
-        </ul>
+    <div class="row">
+        <div class="col">
+        <h1> Declaración jurada de COVID-19 </h1>
+        <h2> <%= @usuario.nombre+" "+@usuario.apellido %> </h2>
+
+        <h6> Fecha: <%= @formulario_covid.updated_at.strftime("%d/%m/%y - %H:%M") %> </h6>
+        </div>
     </div>
-    <div class="col-md-4">
-        <ul class="list-unstyled">
-            <li> <%= @formulario_covid.fiebre %> </li>
-            <li> <%= human_boolean(@formulario_covid.perdida_olfato) %> </li>
-            <li> <%= @formulario_covid.perdida_gusto %> </li>
-            <li> <%= @formulario_covid.tos %> </li>
-            <li> <%= @formulario_covid.dolor_garganta %> </li>
-            <li> <%= @formulario_covid.dificultad_respiratoria %> </li>
-            <li> <%= @formulario_covid.dolor_cabeza %> </li>
-            <li> <%= @formulario_covid.diarrea %> </li>
-            <li> <%= @formulario_covid.vomitos %> </li>
-            <li> <%= @formulario_covid.dolor_muscular %> </li>
-        </ul>
+    <div class="container">
+        <h5> Síntomas </h5>
+        <div class="row">
+            
+            <div class="col-md-5">
+                <ul>
+                    <li> Temperatura: </li>
+                    <li> Pérdida de olfato:  </li>
+                    <li> Pérdida de gusto:  </li>
+                    <li> Tos:  </li>
+                    <li> Dolor de garganta:  </li>
+                    <li> Dificultad respiratoria:  </li>
+                    <li> Dolor de cabeza:  </li>
+                    <li> Diarrea:  </li>
+                    <li> Vómitos:  </li>
+                    <li> Dolor muscular:  </li>
+                </ul>
+            </div>
+            <div class="col-md-4">     
+                <ul class="list-unstyled">
+                    <li> <%= @formulario_covid.fiebre %> </li>
+                    <li> <%= human_boolean(@formulario_covid.perdida_olfato) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.perdida_gusto) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.tos) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.dolor_garganta) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.dificultad_respiratoria) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.dolor_cabeza) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.diarrea) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.vomitos) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.dolor_muscular) %> </li>
+                </ul>
+            </div>     
+        </div>
+        <h5> Antecedentes </h5>
+        <div class="row">
+            <div class="col-md-5">
+                <ul>
+                    <li> Convive con un caso confirmado de COVID-19: </li>
+                    <li> Estuvo en contacto con un caso confirmado: </li>
+                    <li> Tiene/tuvo cáncer: </li>
+                    <li> Diabetes: </li>
+                    <li> Enfermedad hepática: </li>
+                    <li> Enfermedad renal: </li>
+                    <li> Enfermedad respiratoria: </li>
+                    <li> Enfermedad cardiológica: </li>
+                    <li> Condición que baja las defensas: </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-unstyled">
+                    <li> <%= human_boolean(@formulario_covid.convive_con_positivo) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.estuvo_con_positivo) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.cancer) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.diabetes) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.enfermedad_hepatica) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.enfermedad_renal) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.enfermedad_respiratoria) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.enfermedad_cardiologica) %> </li>
+                    <li> <%= human_boolean(@formulario_covid.bajas_defensas) %> </li>
+                </ul>
+            </div>
+        </div>
     </div>
+
+    <% else %>
+        <i> La declaración jurada del usuario tiene más de 48 horas de antigüedad. </i>
+    <% end %>
+<% else %>
+    <i> El usuario no ha completado el formulario. </i>
+<% end %>
+
+<div class="actions">
+    <%= link_to "Regresar", :back , class: 'btn btn-info btn-sm' %>
 </div>

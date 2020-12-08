@@ -81,11 +81,7 @@
 								<% end %>
 							</td>
 							<td>
-								<% if usuario.formulario_covid != nil %>
-									<%= link_to("Declaración jurada", formulario_covid_path(usuario.formulario_covid.id), class: "btn btn-sm btn-info") %>
-								<% else %>
-									NO TIENE DECLARACION
-								<% end %>
+								<%= link_to("Declaración jurada", mostrar_formulario_covid_path(usuario.id), class: "btn btn-sm btn-info") %>
 								<%= link_to("Aceptar", root_path, class: "btn btn-sm btn-info") %>
 								<%= link_to("Rechazar", root_path, class: "btn btn-sm btn-danger") %>
 							</td>
