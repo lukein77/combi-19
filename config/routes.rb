@@ -24,7 +24,8 @@ Rails.application.routes.draw do
   resources :usuarios, only: [:index, :edit, :update, :show]
 
   post 'viajes/:id/cambiar_estado', to: 'viajes#cambiar_estado', as: 'cambiar_estado'
-
+  post 'viajes/:viaje_id/aceptar_pasajero/:usuario_id', to: 'viajes#aceptar_pasajero', as: 'aceptar_pasajero'
+  post 'viajes/:viaje_id/rechazar_pasajero/:usuario_id', to: 'viajes#rechazar_pasajero', as: 'rechazar_pasajero'
   
 
   root 'main#index'

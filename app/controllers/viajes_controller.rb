@@ -200,9 +200,33 @@ class ViajesController < ApplicationController
       @viaje.estado = "finalizado"
     end
     if not @viaje.save
-      flash[:notice] = "salió mal"
+      flash[:notice] = "Hubo un error al procesar la solicitud."
     end
     redirect_to viaje_path(@viaje)
+  end
+
+  def aceptar_pasajero
+    @viaje = Viaje.find(params[:viaje_id])
+    @pasaje = @viaje.pasajes.find_by(usuario_id: params[:usuario_id])
+    @pasaje.estado = "aceptado"
+    if @pasaje.save
+      flash[:notice] = "Usuario aceptado"
+    else
+      flash[:notice] = "Hubo un error al aceptar el pasajero."
+    end
+    render :show
+  end
+
+  def rechazar_pasajero
+    @viaje = Viaje.find(params[:viaje_id])
+    @pasaje = @viaje.pasajes.find_by(usuario_id: params[:usuario_id])
+    @pasaje.estado = "rechazado"
+    if @pasaje.save
+      flash[:notice] = "Usuario rechazado"
+    else
+      flash[:notice] = "Hubo un error al aceptar el pasajero."
+    end
+    render :show
   end
 
   private
