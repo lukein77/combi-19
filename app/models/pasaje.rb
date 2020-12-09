@@ -8,4 +8,8 @@ class Pasaje < ApplicationRecord
 					rechazado_ausente: "rechazado por ausencia", 
 					rechazado_covid: "rechazado por síntomas de coronavirus",
 					cancelado: "cancelado" }
+
+	def getEstado
+		Pasaje.estados.fetch(estado)
+	end
 end

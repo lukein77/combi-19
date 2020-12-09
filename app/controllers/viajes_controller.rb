@@ -214,19 +214,30 @@ class ViajesController < ApplicationController
     else
       flash[:notice] = "Hubo un error al aceptar el pasajero."
     end
-    render :show
+    redirect_to viaje_path(@viaje)
+  end
+
+  def motivo_rechazo_pasajero
+    # GET
+    @viaje = Viaje.find(params[:viaje_id])
+    @pasaje = @viaje.pasajes.find_by(usuario_id: params[:usuario_id])
   end
 
   def rechazar_pasajero
+    # POST
     @viaje = Viaje.find(params[:viaje_id])
-    @pasaje = @viaje.pasajes.find_by(usuario_id: params[:usuario_id])
-    @pasaje.estado = "rechazado"
+    @usuarioID = params[:usuario_id]
+    @pasaje = @viaje.pasajes.find_by(usuario_id: @usuarioID)
+
+    @pasaje.estado = params[:estado]
     if @pasaje.save
+      MensajesMailer.with(pasaje_id: @pasaje.id).pasajero_rechazado_email.deliver_now
       flash[:notice] = "Usuario rechazado"
+      redirect_to viaje_path(@viaje.id)
     else
-      flash[:notice] = "Hubo un error al aceptar el pasajero."
+      flash[:notice] = "Hubo un error al rechazar el pasajero."
+      redirect_to viaje_path(@viaje.id)
     end
-    render :show
   end
 
   private

@@ -67,6 +67,7 @@
 					<th> DNI </th>
 					<th> e-mail </th>
 					<th> Adicionales </th>
+					<th> Estado </th>
 					<th> Acciones </th>
 				</tr>
 				<% @viaje.usuarios.all.each do |usuario| %>
@@ -80,10 +81,13 @@
 									<%= a.nombre %>,
 								<% end %>
 							</td>
+							<td> <%= @viaje.pasajes.find_by(usuario_id: usuario.id).getEstado %> </td>
 							<td>
 								<%= link_to("Declaración jurada", mostrar_formulario_covid_path(usuario.id), class: "btn btn-sm btn-info") %>
-								<%= link_to("Aceptar", aceptar_pasajero_path(@viaje.id, usuario.id), method: :post, class: "btn btn-sm btn-info") %>
-								<%= link_to("Rechazar", rechazar_pasajero_path(@viaje.id, usuario.id), method: :post, class: "btn btn-sm btn-danger") %>
+								<% if @viaje.pasajes.find_by(usuario_id: usuario.id).estado == "default" %>
+									<%= link_to("Aceptar", aceptar_pasajero_path(@viaje.id, usuario.id), method: :post, class: "btn btn-sm btn-info") %>
+									<%= link_to("Rechazar", motivo_rechazo_pasajero_path(@viaje.id, usuario.id), method: :get, class: "btn btn-sm btn-danger") %>
+								<% end %>
 							</td>
 						</tr>
 					<% end %>
