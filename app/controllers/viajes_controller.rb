@@ -81,6 +81,7 @@ class ViajesController < ApplicationController
     repetir_meses = repetir_params[:repetir_meses]
     repetir_veces = repetir_params[:repetir_veces]
 
+    byebug
     #combi = @viaje.combi
     #chofer_id = @viaje.chofer_id
 

@@ -44,6 +44,8 @@
       <%= select_tag "repetir_dias", options_for_select(1..31), { prompt: "Dias"} %>
       <%#= f.select (:repetir_dias, options_for_select(1..31), :prompt => "Dias"}) %>
       <%= select_tag "repetir_meses", options_for_select(1..12), { prompt: "Meses"} %>
+
+      <%= f.label "—" %>
       <%= select_tag "repetir_veces", options_for_select(1..20), { prompt: "N veces"} %>
       <!-- VER SI ESCRIBE LOS PARAMETROS REPETIR_DIAS/MESES/VECES-->
     </div>
