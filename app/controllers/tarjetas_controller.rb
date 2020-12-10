@@ -7,6 +7,8 @@ class TarjetasController < ApplicationController
 		@tarjeta = Tarjeta.create(params.require(:tarjeta).permit(:nombre, :apellido, :numero, :vencimiento))
 		if @tarjeta.vencimiento.year == Time.now.year and  @tarjeta.vencimiento.mon <= Time.now.month
 			redirect_to new_tarjeta_path, notice: "El vencimiento no puede ser anterior a la fecha de hoy"
+		elsif @tarjeta.numero.to_s.length < 16
+			redirect_to new_tarjeta_path, notice: "El numero de la tarjeta debe tener al menos 16 digitos"
 		else
 			@tarjeta.usuario_id = current_usuario.id
     		if @tarjeta.save

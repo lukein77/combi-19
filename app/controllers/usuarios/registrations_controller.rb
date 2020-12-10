@@ -9,10 +9,19 @@ class Usuarios::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
     
+    if usuario_signed_in?
+      resource.generate_password
+    end
     resource.save
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
+        if usuario_signed_in?
+          if current_usuario.rol == "chofer"
+            current_usuario.agregar_pasajero(resource)
+          end  
+          MensajesMailer.send_random_password(resource).deliver_now
+        end
         respond_with resource, location: after_sign_up_path_for(resource), notice: "Se ha registrado correctamente. Inicie sesión para utilizar su cuenta."
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"

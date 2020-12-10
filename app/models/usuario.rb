@@ -19,6 +19,11 @@ class Usuario < ApplicationRecord
       super && !borrado
   end
 
+  def generate_password
+      o =  [('a'..'z'), ('A'..'Z'), (0..9)].map{|i| i.to_a}.flatten
+      self.password = self.password_confirmation = (0..16).map{ o[rand(o.length)] }.join if self.password.blank?
+  end
+
   def default_values
     if self.borrado == nil
       self.borrado = false
@@ -46,4 +51,28 @@ class Usuario < ApplicationRecord
 		return true
   end
   
+  def current_viaje
+    id = 0
+    self.viajes.each do |viaje|
+      if viaje.en_curso?
+        id = viaje.id
+        break
+      end
+    end
+    return id
+  end
+
+  def agregar_pasajero(pasajero)
+    p = Pasaje.new
+    p.usuario_id  = pasajero.id
+    p.viaje_id = current_viaje
+    p.save
+    v = Viaje.find(p.viaje_id)
+    usuario = Usuario.find(pasajero.id)
+    v.usuarios << usuario
+    if v.usuarios.size == v.combi.asientos
+      v.disponibilidad = "completo"
+    end
+    v.save
+  end
 end

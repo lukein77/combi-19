@@ -1,33 +1,55 @@
-<div class="form">
-<%= form_for @tarjeta do |f| %>
-
-  <div class="row">
-    <div class="column">
-      <div class="field">
-        <%= f.label "Numero de la tarjeta" %>
-        <%= f.number_field :numero, required: true%>
-      </div>
-
-      <div class="field">
-        <%= f.label "Nombre del titular" %>
-        <%= f.text_field :nombre, required: true %>
-      </div>
-      <div class="field">
-        <%= f.label "Apellido del titular" %>
-        <%= f.text_field :apellido, required: true%>
-      </div>
-      <div class="field">
-        <%= f.label "Fecha de vencimiento" %>
-        <%= f.date_select :vencimiento, required: true, order: [:month, :year],:use_month_numbers => true,start_year: Time.now.year%>
-      </div>
+<div class="padding">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+            <%= form_for @tarjeta do |f| %>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col md-6">
+                            <strong>Cargar nueva tarjeta</strong><br>
+                            <small>ingrese la informacion de su tarjeta</small>
+                        </div>
+                        <div class="col md-6">
+                            <img src="http://i76.imgup.net/accepted_c22e0.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <%= f.text_field :nombre, required: true %>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="surname">Apellido</label>
+                                <%= f.text_field :apellido, required: true %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ccnumber">Numero de la tarjeta</label>
+                                <div class="input-group">
+                                    <%= f.number_field :numero, required: true%>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="ccmonth">Vencimiento</label><br>
+                                <%= f.date_select :vencimiento, required: true, order: [:month, :year],:use_month_numbers => true,start_year: Time.now.year%>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <%= f.submit "Añadir Tarjeta", class: 'btn btn-info btn-sm' %>
+                    <%= link_to "Cancelar", usuario_path(current_usuario), class: 'btn btn-info btn-sm' %>
+                </div>
+            <% end %>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="row">
-    <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
-    <%= link_to "Cancelar", usuario_path(current_usuario), class: 'btn btn-info btn-sm' %>
-  </div>
-
 </div>
-  
-<% end %>
