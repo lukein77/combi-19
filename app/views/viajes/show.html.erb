@@ -28,7 +28,7 @@
         <li> Disponibilidad: </li>
 			</b>
 			</ul>
-		</div>
+		
 		<% if current_usuario.rol == "chofer" and @tiene_viaje %>
 			<% if @viaje.programado? %>
 				<div class="actions">
@@ -40,6 +40,7 @@
 				</div>
 			<% end %>
 		<% end %>
+		</div>
 		<div class="col">
 			<ul class="list-unstyled">
 				<li>  <%= @viaje.ruta.getCiudadOrigen %> </li>
@@ -84,9 +85,11 @@
 							<td> <%= @viaje.pasajes.find_by(usuario_id: usuario.id).getEstado %> </td>
 							<td>
 								<%= link_to("Declaración jurada", mostrar_formulario_covid_path(usuario.id), class: "btn btn-sm btn-info") %>
-								<% if @viaje.pasajes.find_by(usuario_id: usuario.id).estado == "default" %>
-									<%= link_to("Aceptar", aceptar_pasajero_path(@viaje.id, usuario.id), method: :post, class: "btn btn-sm btn-info") %>
-									<%= link_to("Rechazar", motivo_rechazo_pasajero_path(@viaje.id, usuario.id), method: :get, class: "btn btn-sm btn-danger") %>
+								<% if @viaje.chofer_id == current_usuario.id %>
+									<% if @viaje.pasajes.find_by(usuario_id: usuario.id).estado == "default" %>
+										<%= link_to("Aceptar", aceptar_pasajero_path(@viaje.id, usuario.id), method: :post, class: "btn btn-sm btn-info") %>
+										<%= link_to("Rechazar", motivo_rechazo_pasajero_path(@viaje.id, usuario.id), method: :get, class: "btn btn-sm btn-danger") %>
+									<% end %>
 								<% end %>
 							</td>
 						</tr>

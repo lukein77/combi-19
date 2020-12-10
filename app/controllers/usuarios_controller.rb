@@ -27,9 +27,32 @@ class UsuariosController < ApplicationController
 
 	def show
 		@usuario = Usuario.find(params[:id])
-		@viajes = @usuario.viajes
-		@viajes_finalizados = @usuario.viajes.finalizado 
-		@viajes_cancelados = @usuario.viajes.cancelado
+		@viajes_cancelados = []
+		@viajes_pendientes = []
+		@viajes_realizados = []
+		@viajes_no_realizados = []
+
+		@usuario.pasajes.each do |pasaje|
+			@viaje = Viaje.find(pasaje.viaje_id)
+			if not @viaje.cancelado?
+				if pasaje.default?	
+					if @viaje.programado?
+						@viajes_pendientes << @viaje
+					end
+				elsif pasaje.aceptado?
+					if @viaje.finalizado?
+						@viajes_realizados << @viaje
+					elsif @viaje.en_curso?
+						@viaje_en_curso = @viaje
+					end
+				else
+					# pasaje rechazado o cancelado
+					@viajes_no_realizados << @viaje
+				end
+			else
+				@viajes_cancelados << @viaje
+			end 
+		end	
 	end
 
 	def chofer_dar_de_baja
