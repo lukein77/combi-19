@@ -1,0 +1,9 @@
+<h4> Estimado <%= @usuario.nombre %>, </h4>
+
+<p> Le informamos que ha sido rechazado del siguiente viaje: </p>
+<h5> <%= @viaje.ruta.nombre %> </h5>
+<h5> <%= @viaje.fecha_hora.strftime("%d/%m/%y - %H:%M") %> </h5>
+<p> por el siguiente motivo: <%= @pasaje.getEstado %> </p>
+<br>
+<p> Atentamente, el equipo de COMBI-19 </p>
+

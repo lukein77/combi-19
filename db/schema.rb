@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_014457) do
+ActiveRecord::Schema.define(version: 2020_12_08_212058) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -18,6 +18,13 @@ ActiveRecord::Schema.define(version: 2020_12_02_014457) do
     t.float "precio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "adicionales_and_rutas", force: :cascade do |t|
+    t.integer "adicional_id"
+    t.integer "ruta_id"
+    t.index ["adicional_id"], name: "index_adicionales_and_rutas_on_adicional_id"
+    t.index ["ruta_id"], name: "index_adicionales_and_rutas_on_ruta_id"
   end
 
   create_table "adicionales_pasajes", force: :cascade do |t|
@@ -82,6 +89,8 @@ ActiveRecord::Schema.define(version: 2020_12_02_014457) do
     t.boolean "bajas_defensas"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "usuario_id", null: false
+    t.index ["usuario_id"], name: "index_formulario_covids_on_usuario_id"
   end
 
   create_table "pasajes", force: :cascade do |t|
@@ -89,6 +98,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_014457) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "viaje_id"
+    t.string "estado", default: "default"
   end
 
   create_table "rutas", force: :cascade do |t|
@@ -156,6 +166,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_014457) do
 
   add_foreign_key "comentarios", "usuarios"
   add_foreign_key "comentarios", "viajes"
+  add_foreign_key "formulario_covids", "usuarios"
   add_foreign_key "viajes", "combis"
   add_foreign_key "viajes", "rutas"
 end

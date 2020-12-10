@@ -1,6 +1,6 @@
 <% if not usuario_signed_in? or (current_usuario.rol == "cliente" and @usuario.id != current_usuario.id) %>
 	<h4> <i> Usted no tiene permiso para ver esta página. </i> </h4>
-	<%= link_to "Volver", :back , class: 'btn btn-info btn-sm' %>
+	<%= link_to "Regresar", :back , class: 'btn btn-info btn-sm' %>
 <% else %>
 
 
@@ -15,11 +15,14 @@
 				<li> DNI: </li>
 
 				<li> Fecha de nacimiento: </li>
-
+				
+				<li> Correo electrónico: </li>	
+				
 				<li> Rol: </li>
-
-				<li> Correo electrónico: </li>
 			</ul>
+			<% if @viaje_en_curso %>
+				<b> Actualmente en viaje: <%= @viaje_en_curso.ruta.nombre %> </b>
+			<% end %>
 		</div>
 		<div class="col">
 			<ul class="list-unstyled">
@@ -33,37 +36,142 @@
 			</ul>
 		</div>
 	</div>
-	<br>
+
+	<font size=3>
+
+	
+	<div class="row">
+	<% if @usuario.id == current_usuario.id %>
+		<% if @usuario.formulario_covid != nil %>
+			<%= link_to("Actualizar formulario", edit_formulario_covid_path(current_usuario.formulario_covid.id), class: "btn btn-sm btn-info") %>
+		<% else %>
+			<%= link_to("Completar formulario", new_formulario_covid_path, class: "btn btn-sm btn-info") %>
+		<% end %>
+	<% else %>
+		<% if @usuario.formulario_covid != nil %>
+			<%= link_to("Ver declaración jurada", formulario_covid_path(@usuario.formulario_covid.id), class: "btn btn-sm btn-info") %>
+		<% else %>
+			<i> El usuario no ha cargado su declaración jurada de salud. </i>	
+		<% end %>
+	<% end %>
+	</div>
+
 	
 	<% if @usuario.rol == "chofer" or @usuario.rol == "cliente" %>
+
+		<div class="card">
+			<div class="card-header" id="headingViajesFin">
+				<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseViajesFin">
+					Historial de viajes
+				</button>
+			</div>
+			<div id="collapseViajesFin" class="collapse" aria-labelledby="headingViajesFin">
+				<div class="card-body">
+					<% if not ((@viajes_realizados.empty?) and (@viajes_no_realizados.empty?) and (@viajes_cancelados.empty?)) %>
+						<% if not @viajes_realizados.empty? %>
+							<h5> Viajes realizados </h5>
+							<table class="table table-sm">
+								<tr>
+									<th> Ruta </th>
+									<th> Salida </th>
+									<th> Llegada </th>
+									<th> Acciones </th>
+								</tr>
+								<% @viajes_realizados.each do |viaje| %>
+									<tr>
+										<td> <%= viaje.ruta.nombre %> </td>
+										<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
+										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+									</tr>
+								<% end %>
+							</table>
+						<% end %>
+						
+						<% if not @viajes_cancelados.empty? %>
+							<h5> Viajes cancelados </h5>
+							<table class="table table-sm">
+								<tr>
+									<th> Ruta </th>
+									<th> Salida </th>
+									<th> Llegada </th>
+									<th> Acciones </th>
+								</tr>
+								<% @viajes_cancelados.each do |viaje| %>
+									<tr>
+										<td> <%= viaje.ruta.nombre %> </td>
+										<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
+										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+									</tr>
+								<% end %>
+							</table>
+						<% end %>
+
+						<% if @usuario.rol == "cliente" %>
+							<% if not @viajes_no_realizados.empty? %>
+								<h5> Viajes no realizados </h5>
+								<table class="table table-sm">
+									<tr>
+										<th> Ruta </th>
+										<th> Salida </th>
+										<th> Llegada </th>
+										<th> Acciones </th>
+									</tr>
+									<% @viajes_no_realizados.each do |viaje| %>
+									<tr>
+										<td> <%= viaje.ruta.nombre %> </td>
+										<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
+										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+									</tr>
+									<% end %>
+								</table>
+							<% end %>
+						<% end %>
+
+					<% else %>
+						<% if current_usuario.id == @usuario.id %>
+							<i> Usted no ha realizado ningún viaje. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
+						<% else %>
+							<i> No hay viajes registrados. </i>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="card">
 			<div class="card-header" id="headingViajes">
 				<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseViajes">
-					Viajes
+					Viajes pendientes
 				</button>
 			</div>
 			<div id="collapseViajes" class="collapse" aria-labelledby="headingViajes">
 				<div class="card-body">
-					<% if not @usuario.viajes.empty? %>
+					<% if not @viajes_pendientes.empty? %>
 						<table class="table table-sm">
 							<tr>
 								<th> Ruta </th>
-								<th> Fecha </th>
+								<th> Salida </th>
+								<th> Llegada </th>
 								<th> Acciones </th>
 							</tr>
-							<% @usuario.viajes.each do |viaje| %>
+							<% @viajes_pendientes.each do |viaje| %>
 								<tr>
 									<td> <%= viaje.ruta.nombre %> </td>
-									<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> - <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+									<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+									<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
 									<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
 								</tr>
 							<% end %>
 						</table>
 					<% else %>
-						<% if @usuario.rol == "chofer" %>
-							<i> El chofer no tiene viajes asignados. </i>
+						<% if current_usuario.id == @usuario.id %>
+							<i> Usted no tiene ningun viaje pendiente. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
 						<% else %>
-							<i> Usted no ha realizado ningún viaje. <%= link_to("Ver ofertas de viajes", viajes_path) %> </i>
+							<i> No hay viajes registrados. </i>
 						<% end %>
 					<% end %>
 				</div>

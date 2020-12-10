@@ -27,6 +27,32 @@ class UsuariosController < ApplicationController
 
 	def show
 		@usuario = Usuario.find(params[:id])
+		@viajes_cancelados = []
+		@viajes_pendientes = []
+		@viajes_realizados = []
+		@viajes_no_realizados = []
+
+		@usuario.pasajes.each do |pasaje|
+			@viaje = Viaje.find(pasaje.viaje_id)
+			if not @viaje.cancelado?
+				if pasaje.default?	
+					if @viaje.programado?
+						@viajes_pendientes << @viaje
+					end
+				elsif pasaje.aceptado?
+					if @viaje.finalizado?
+						@viajes_realizados << @viaje
+					elsif @viaje.en_curso?
+						@viaje_en_curso = @viaje
+					end
+				else
+					# pasaje rechazado o cancelado
+					@viajes_no_realizados << @viaje
+				end
+			else
+				@viajes_cancelados << @viaje
+			end 
+		end	
 	end
 
 	def chofer_dar_de_baja
@@ -37,6 +63,16 @@ class UsuariosController < ApplicationController
 			redirect_to choferes_index_path
 		else
 			redirect_to choferes_index_path , notice: "No se pudo eliminar el chofer porque está asignado a un viaje sin finalizar."
+		end
+	end
+
+	def mostrar_formulario_covid
+		@usuario = Usuario.find(params[:id])
+		if @usuario.formulario_covid != nil
+			redirect_to formulario_covid_path(@usuario.formulario_covid.id)
+		else
+			redirect_to request.referrer
+			flash[:notice] = "El usuario no ha cargado la declaración jurada"
 		end
 	end
 

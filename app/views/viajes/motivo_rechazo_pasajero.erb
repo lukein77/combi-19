@@ -1,0 +1,20 @@
+<div class="container">
+    <h4> Seleccione el motivo por el cual el pasajero será rechazado </h4>
+
+    <%= form_tag(rechazar_pasajero_path, method: :post) %>
+    <div class="row">
+        <div class="col">
+            <div class="field">
+                <%= radio_button_tag(:estado, "rechazado_covid") %>
+                <%= label_tag("Presenta síntomas o antecedentes de COVID-19") %>
+            </div>
+            <div class="field">
+                <%= radio_button_tag(:estado, value="rechazado_ausente") %>
+                <%= label_tag("No se encuentra presente a la hora de comenzar el viaje") %>
+            </div>
+            <div class="actions">
+                <%= submit_tag("Confirmar", class: "btn btn-sm btn-info") %>
+            </div>
+        </div>
+    </div>
+</div>
