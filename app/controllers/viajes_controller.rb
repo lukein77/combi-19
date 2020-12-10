@@ -185,8 +185,8 @@ class ViajesController < ApplicationController
     @viaje.usuarios << current_usuario
     if @viaje.usuarios.size == @viaje.combi.asientos
       @viaje.disponibilidad = "completo"
-      @viaje.save
     end
+    @viaje.save
   end
 
   def comprar

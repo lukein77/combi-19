@@ -31,11 +31,16 @@
 		<% if current_usuario.rol == "chofer" and @tiene_viaje %>
 			<% if @viaje.programado? %>
 				<div class="actions">
-					<%= link_to("Comenzar viaje", cambiar_estado_path(@viaje), method: :post, class: 'btn btn-info btn-sm') %>
+					<% if @chofer.current_viaje == 0 %>
+						<%= link_to("Comenzar viaje", cambiar_estado_path(@viaje), method: :post, class: 'btn btn-info btn-sm') %>
+					<% end %>
 				</div>
 			<% elsif @viaje.en_curso? %>
 				<div class="actions">
 					<%= link_to("Finalizar viaje", cambiar_estado_path(@viaje), method: :post, class: 'btn btn-info btn-sm') %>
+					<% if @viaje.getDisponibilidad == "disponible" %>
+						<%= link_to("Añadir pasajero", new_usuario_registration_path , class: 'btn btn-info btn-sm') %>
+					<% end %>
 				</div>
 			<% end %>
 		<% end %>
@@ -59,12 +64,11 @@
 	</div>
 	<div class= "row">
 		<% if usuario_signed_in? and current_usuario.rol != "cliente" %>
-				<h4> Servicios adicionales comprados </h4><br>
 			<table class= "table">
 				<tr>
 					<th> Nombre </th>
 					<th> DNI </th>
-					<th> e-mail </th>>
+					<th> e-mail </th>
 					<th> Adicionales </th>
 				</tr>
 				<% @viaje.usuarios.all.each do |usuario| %>
