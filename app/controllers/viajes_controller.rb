@@ -64,14 +64,6 @@ class ViajesController < ApplicationController
     @ciudades = Ciudad.all
   end
 
-  def search_params
-    #params.permit(search: {})
-    params.permit(:ciudadOrigen, :ciudadDestino,
-                  :estado, :estado_checked,
-                  :disponibilidad, :disponibilidad_checked,
-                  :fecha_checked, :fecha_viaje => [])
-  end
-
   def new
     @viaje = Viaje.new
     @rutas = Ruta.all
@@ -85,18 +77,56 @@ class ViajesController < ApplicationController
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
     @viaje = Viaje.new(viaje_params)
 
-    if @viaje.fecha_hora - Time.now > 1.days
-      @viaje.agregar_hora_llegada
-      if @viaje.save
-        @viaje.agregar_viaje_a_chofer
-        redirect_to viajes_path, notice: "El viaje fue creado"
-      else
-        flash[:notice] = "Ha habido un problema al crear el viaje"
-        render :new
+    repetir_dias = repetir_params[:repetir_dias]
+    repetir_meses = repetir_params[:repetir_meses]
+    repetir_veces = repetir_params[:repetir_veces]
+
+    #combi = @viaje.combi
+    #chofer_id = @viaje.chofer_id
+
+    fechas << @viaje.fecha_hora
+    # Necesito ingresar si o si cada cuanto se repite (dias o meses o ambas) y cuantas veces se repetira
+    if repetir_veces and (repetir_dias or repetir_meses)
+      # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
+      # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
+      for i in 1..repetir_veces do
+        if(validar_combi and validar_chofer)  
+          fechas << @viaje.fecha_hora + (repetir_dias.days + repetir_meses.months) * i
+        elsif(not validar_combi)
+          combi_ocupada << @viaje.fecha_hora + (repetir_dias.days + repetir_meses.months) * i
+        else # not validar_chofer
+          chofer_ocupado << @viaje.fecha_hora + (repetir_dias.days + repetir_meses.months) * i
+        end
       end
-    else
-      @viaje.errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora")
-      render :new
+    end
+
+          
+    if chofer_ocupado.empty? and combi_ocupada.empty?
+      fechas.each do |f|
+        if @viaje.fecha_hora - Time.now > 1.days
+          @viaje.agregar_hora_llegada
+          if @viaje.save
+            @viaje.agregar_viaje_a_chofer
+            redirect_to viajes_path, notice: "El viaje fue creado"
+          else
+            flash[:notice] = "Ha habido un problema al crear el viaje"
+            render :new
+          end
+        else
+          @viaje.errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora")
+          render :new
+        end
+      end
+
+    elsif(not chofer_ocupado.empty?)
+      chofer_ocupado.each do |o|
+        @viaje.errors.add(o, "El chofer no se encuentra disponible en esta fecha y hora")
+      end
+
+    else #not combi_ocupada.empty?)
+      combi_ocupada.each do |o|
+        @viaje.errors.add(o, "La combi no se encuentra disponible en esta fecha y hora")
+      end
     end
   end
 
@@ -202,11 +232,20 @@ class ViajesController < ApplicationController
 
   private
   def viaje_params
-    params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora)
-
-    #DEBUG
-    #params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio)
-    #DEBUG
+    params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, 
+                                  :precio, :fecha_hora)
   end
 
+  def repetir_params
+    params.permit(:repetir_dias, :repetir_meses, :repetir_veces)
+  end
+
+  private
+  def search_params
+    #params.permit(search: {})
+    params.permit(:ciudadOrigen, :ciudadDestino,
+                  :estado, :estado_checked,
+                  :disponibilidad, :disponibilidad_checked,
+                  :fecha_viaje => [])
+  end
 end
