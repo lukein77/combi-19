@@ -4,11 +4,13 @@ class Viaje < ApplicationRecord
 	belongs_to :ruta 
 	belongs_to :combi 
 	has_and_belongs_to_many :usuarios
-	has_many :comentarios
-	has_many :pasajes
+	has_many :comentarios, dependent: :destroy
+	has_many :pasajes, dependent: :destroy
 
-	validate :validar_combi, if: :combi_id_changed?
-	validate :validar_chofer, if: :chofer_id_changed?
+	before_validation :agregar_hora_llegada
+	validate :validar_combi, if: :debe_validar_combi
+	validate :validar_chofer, if: :debe_validar_chofer
+	
 
 	def agregar_viaje_a_chofer
 		@chofer = Usuario.find(chofer_id)
@@ -61,7 +63,17 @@ class Viaje < ApplicationRecord
 		Viaje.disponibilidads.fetch(disponibilidad)
 	end
 	
-	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado" }
+	enum estado: { programado: "programado", en_curso: "en curso", finalizado: "finalizado", cancelado: "cancelado" }
 	enum disponibilidad: { disponible: "disponible", completo: "completo" }
+
+	private
+
+	def debe_validar_combi
+		combi_id_changed? or fecha_hora_changed?
+	end
+
+	def debe_validar_chofer
+		chofer_id_changed? or fecha_hora_changed?
+	end
 
 end

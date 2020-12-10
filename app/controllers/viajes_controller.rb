@@ -91,7 +91,6 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new(viaje_params)
 
     if @viaje.fecha_hora - Time.now > 1.days
-      @viaje.agregar_hora_llegada
       if @viaje.save
         @viaje.agregar_viaje_a_chofer
         redirect_to viajes_path, notice: "El viaje fue creado"
@@ -152,6 +151,7 @@ class ViajesController < ApplicationController
       @chofer.viajes.destroy(@viaje)
       @viaje.combi.viajes.destroy(@viaje)
       @viaje.destroy
+      flash[:notice] = "El viaje fue eliminado."
     end
     redirect_to viajes_path
   end
@@ -226,9 +226,44 @@ class ViajesController < ApplicationController
       @viaje.estado = "finalizado"
     end
     if not @viaje.save
-      flash[:notice] = "salió mal"
+      flash[:notice] = "Hubo un error al procesar la solicitud."
     end
     redirect_to viaje_path(@viaje)
+  end
+
+  def aceptar_pasajero
+    @viaje = Viaje.find(params[:viaje_id])
+    @pasaje = @viaje.pasajes.find_by(usuario_id: params[:usuario_id])
+    @pasaje.estado = "aceptado"
+    if @pasaje.save
+      flash[:notice] = "Usuario aceptado"
+    else
+      flash[:notice] = "Hubo un error al aceptar el pasajero."
+    end
+    redirect_to viaje_path(@viaje)
+  end
+
+  def motivo_rechazo_pasajero
+    # GET
+    @viaje = Viaje.find(params[:viaje_id])
+    @pasaje = @viaje.pasajes.find_by(usuario_id: params[:usuario_id])
+  end
+
+  def rechazar_pasajero
+    # POST
+    @viaje = Viaje.find(params[:viaje_id])
+    @usuarioID = params[:usuario_id]
+    @pasaje = @viaje.pasajes.find_by(usuario_id: @usuarioID)
+
+    @pasaje.estado = params[:estado]
+    if @pasaje.save
+      MensajesMailer.with(pasaje_id: @pasaje.id).pasajero_rechazado_email.deliver_now
+      flash[:notice] = "Usuario rechazado"
+      redirect_to viaje_path(@viaje.id)
+    else
+      flash[:notice] = "Hubo un error al rechazar el pasajero."
+      redirect_to viaje_path(@viaje.id)
+    end
   end
 
   private

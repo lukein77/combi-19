@@ -7,9 +7,10 @@ class Usuario < ApplicationRecord
   validates :fecha_nacimiento, presence: true
   validate :validar_edad
   has_and_belongs_to_many :viajes
-  has_and_belongs_to_many :pasajes
-  has_many :tarjetas
-  has_many :comentarios
+  has_many :pasajes, dependent: :destroy
+  has_many :tarjetas, dependent: :destroy
+  has_many :comentarios, dependent: :destroy
+  has_one :formulario_covid, dependent: :destroy
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values
