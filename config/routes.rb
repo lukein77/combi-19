@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'viajes/:viaje_id/aceptar_pasajero/:usuario_id', to: 'viajes#aceptar_pasajero', as: 'aceptar_pasajero'
   get 'viajes/:viaje_id/rechazar_pasajero/:usuario_id', to: 'viajes#motivo_rechazo_pasajero', as: 'motivo_rechazo_pasajero'
   post 'viajes/:viaje_id/rechazar_pasajero/:usuario_id', to: 'viajes#rechazar_pasajero', as: 'rechazar_pasajero'
+  get 'viajes/:viaje_id/cancelar', to: 'viajes#cancelar', as: 'cancelar_viaje'
 
 	resources :combis
   post 'combis/:id/dar_de_baja', to: 'combis#combi_dar_de_baja', as: 'combi_dar_de_baja'
