@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_08_212058) do
+ActiveRecord::Schema.define(version: 2020_12_10_220634) do
 
   create_table "adicionales", force: :cascade do |t|
     t.string "nombre"
@@ -150,7 +150,6 @@ ActiveRecord::Schema.define(version: 2020_12_08_212058) do
 
   create_table "viajes", force: :cascade do |t|
     t.float "precio"
-    t.date "fecha"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "combi_id", null: false

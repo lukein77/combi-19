@@ -3,9 +3,13 @@ class ViajesController < ApplicationController
     @ciudadOrigen = search_params.dig(:ciudadOrigen)
     @ciudadDestino = search_params.dig(:ciudadDestino)
 
-    @fecha_viaje_preparse = search_params.dig(:fecha_viaje)
-    @fecha_viaje = (@fecha_viaje_preparse.to_s).to_datetime
-    @fecha_checked = search_params.dig(:fecha_checked)
+    @fecha_viaje_new = search_params[:fecha_viaje]
+    if @fecha_viaje_new.present?
+      @fecha_viaje_new = @fecha_viaje_new.first
+    else
+      @fecha_viaje_new = ""
+    end
+    # Con el first lo saco del array y guardo solo "YYYY-MM-DD" en lugar de ["YYYY-MM-DD"]
 
     if (not usuario_signed_in?) or current_usuario.rol == "cliente"
       @estado = "programado"
@@ -35,25 +39,12 @@ class ViajesController < ApplicationController
     else
       @viajes = Viaje.order(fecha_hora: :asc).all
     end
-    #@ruta = Ruta.where(ciudadOrigen: @ciudadOrigen).where(ciudadDestino: @ciudadDestino)
-    #@viajes = Viaje.where(ruta: @ruta).where(disponibilidad: @disponibilidad).where(estado: @estado)
-
-    #UNUSED @viajes = @viajes.where("fecha_hora >": @fecha_viaje) si la fecha pasada es menor que la de la db
 
     # FILTRADO POR FECHA
-    if (@fecha_checked and (not @estado_checked) and (not @disponibilidad_checked))
-      temp = []
-
-      @viajes.each do |viaje|
-        if (viaje.fecha_hora.year == @fecha_viaje.year and
-          viaje.fecha_hora.yday == @fecha_viaje.yday) # yday = dia del año (1 a 365)
-
-        temp << viaje # Los viajes que caen en ese dia se agregan a temp
-        end
-      @viajes = temp # Muestro solo los viajes de temp
-      end
+    if (@fecha_viaje_new != "")
+      @fecha_viaje_new = @fecha_viaje_new.to_date
+      @viajes = @viajes & Viaje.where(:fecha_hora => @fecha_viaje_new.beginning_of_day..@fecha_viaje_new.end_of_day)
     end
-
 
     # FILTRADO POR ESTADO
     if (@estado_checked) 
@@ -65,16 +56,12 @@ class ViajesController < ApplicationController
       @viajes = @viajes & Viaje.where(disponibilidad: @disponibilidad).order(fecha_hora: :asc)
     end
 
+    if(@viajes.empty?)
+      flash[:notice] = "No se encontraron viajes con los filtros seleccionados"
+    end
+
     @combis = Combi.all
     @ciudades = Ciudad.all
-  end
-
-  def search_params
-    #params.permit(search: {})
-    params.permit(:ciudadOrigen, :ciudadDestino,
-                  :fecha_viaje, :fecha_checked,
-                  :estado, :estado_checked,
-                  :disponibilidad, :disponibilidad_checked)
   end
 
   def new
@@ -88,20 +75,93 @@ class ViajesController < ApplicationController
     @rutas = Ruta.all
     @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
-    @viaje = Viaje.new(viaje_params)
 
-    if @viaje.fecha_hora - Time.now > 1.days
-      if @viaje.save
-        @viaje.agregar_viaje_a_chofer
-        redirect_to viajes_path, notice: "El viaje fue creado"
+    # El parametro es un string, lo convierto a int
+    repetir_dias = repetir_params[:repetir_dias].to_i
+    repetir_meses = repetir_params[:repetir_meses].to_i
+    repetir_veces = repetir_params[:repetir_veces].to_i
+
+    #byebug
+    #combi = @viaje.combi
+    #chofer_id = @viaje.chofer_id
+
+    fechas = Array.new
+    combi_ocupada = Array.new
+    chofer_ocupado = Array.new
+    dia_invalido = Array.new
+
+    
+    
+      # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
+      # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
+    @viaje = Viaje.new(viaje_params)
+    @viaje.agregar_hora_llegada
+    for i in 0..repetir_veces do
+      if @viaje.validar_combi and @viaje.validar_chofer and @viaje.validar_dia  
+        fechas << @viaje.fecha_hora
       else
-        flash[:notice] = "Ha habido un problema al crear el viaje"
-        render :new
+        if(not @viaje.validar_combi)
+          combi_ocupada << @viaje.fecha_hora
+        end
+        if(not @viaje.validar_chofer)
+          chofer_ocupado << @viaje.fecha_hora
+        end
+        if(not @viaje.validar_dia)
+          dia_invalido << @viaje.fecha_hora
+        end
+
+        if repetir_veces.blank? or (repetir_dias.blank? or repetir_meses.blank?)
+          break;
+        end
+
+        @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
+        @viaje.agregar_hora_llegada
       end
-    else
-      @viaje.errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora")
+      # Agrego el tiempo entre repeticiones al viaje
+    end
+     
+    if chofer_ocupado.empty? and combi_ocupada.empty? and dia_invalido.empty?
+      fechas.each do |f|
+        @viaje = Viaje.new(viaje_params)
+        @viaje.fecha_hora = f
+        @viaje.agregar_hora_llegada
+        if @viaje.save
+          @viaje.agregar_viaje_a_chofer
+        else
+          flash[:notice] = "Ha habido un problema al crear el viaje"
+          render :new
+          break
+        end
+      end
+
+      if(fechas.count > 1)
+        redirect_to viajes_path, notice: "Los viajes fueron creados"
+      else
+        redirect_to viajes_path, notice: "El viaje fue creado"
+      end
+
+    else # Al menos un viaje tuvo errores por lo tanto no se crea ninguno
+      if(not dia_invalido.empty?)
+        dia_invalido.each do |m|
+          @viaje.errors.add(m.strftime("%a %e %b %Y — %H:%M hs"), "Este horario de viaje no cumple con las 24hs de anterioridad")
+        end
+      else
+        if(not chofer_ocupado.empty?)
+          chofer_ocupado.each do |m|
+            @viaje.errors.add(m.to_s, "El chofer no se encuentra disponible en esta fecha y hora")
+          end
+        end
+        if(not combi_ocupada.empty?)
+          combi_ocupada.each do |m|
+            @viaje.errors.add(m.to_s, "La combi no se encuentra disponible en esta fecha y hora")
+          end
+        end
+      end
+
       render :new
     end
+
+    @viaje = Viaje.new(viaje_params)
   end
 
   def show
@@ -149,7 +209,7 @@ class ViajesController < ApplicationController
     else
       @chofer = Usuario.find(@viaje.chofer_id)
       @chofer.viajes.destroy(@viaje)
-      @viaje.combi.viajes.destroy(@viaje)
+      #@viaje.combi.viajes.destroy(@viaje)
       @viaje.destroy
       flash[:notice] = "El viaje fue eliminado."
     end
@@ -268,11 +328,20 @@ class ViajesController < ApplicationController
 
   private
   def viaje_params
-    params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio, :fecha_hora)
-
-    #DEBUG
-    #params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, :precio)
-    #DEBUG
+    params.require(:viaje).permit(:ruta_id, :combi_id, :chofer_id, 
+                                  :precio, :fecha_hora)
   end
 
+  def repetir_params
+    params.permit(:repetir_dias, :repetir_meses, :repetir_veces)
+  end
+
+  private
+  def search_params
+    #params.permit(search: {})
+    params.permit(:ciudadOrigen, :ciudadDestino,
+                  :estado, :estado_checked,
+                  :disponibilidad, :disponibilidad_checked,
+                  :fecha_viaje => [])
+  end
 end
