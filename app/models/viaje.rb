@@ -9,6 +9,7 @@ class Viaje < ApplicationRecord
 
 	validate :validar_combi, if: :combi_id_changed?
 	validate :validar_chofer, if: :chofer_id_changed?
+	validate :validar_dia, if: :fecha_hora_changed?
 
 	def agregar_viaje_a_chofer
 		@chofer = Usuario.find(chofer_id)
@@ -22,12 +23,22 @@ class Viaje < ApplicationRecord
 		self.fecha_hora_llegada = self.fecha_hora + @duracion.hour.hours + @duracion.min.minutes
 	end
 
+	def validar_dia
+		if self.fecha_hora - Time.now > 1.days
+			return true
+		else
+			#errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora.")
+			return false
+		end
+	end
+
 	def validar_combi
 		if combi.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
-			errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")  
-        	return false
+			#errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")
+			#errors.add(:fecha_hora, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")
+      return false
 		end
 	end
 
@@ -36,8 +47,8 @@ class Viaje < ApplicationRecord
 		if @chofer.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
-			errors.add(:chofer_id, "El chofer tiene otro viaje asignado en esa fecha y horario.")
-        	return false
+			#errors.add(:fecha_hora, "El chofer tiene otro viaje asignado en esa fecha y horario.")
+      return false
 		end
 	end
 
