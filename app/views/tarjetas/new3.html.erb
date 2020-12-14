@@ -1,0 +1,33 @@
+<div class="form">
+<%= form_for @tarjeta do |f| %>
+
+  <div class="row">
+    <div class="column">
+      <div class="field">
+        <%= f.label "Numero de la tarjeta" %>
+        <%= f.number_field :numero, required: true%>
+      </div>
+
+      <div class="field">
+        <%= f.label "Nombre del titular" %>
+        <%= f.text_field :nombre, required: true %>
+      </div>
+      <div class="field">
+        <%= f.label "Apellido del titular" %>
+        <%= f.text_field :apellido, required: true%>
+      </div>
+      <div class="field">
+        <%= f.label "Fecha de vencimiento" %>
+        <%= f.date_select :vencimiento, required: true, order: [:month, :year],:use_month_numbers => true,start_year: Time.now.year%>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>
+    <%= link_to "Cancelar", usuario_path(current_usuario), class: 'btn btn-info btn-sm' %>
+  </div>
+
+</div>
+  
+<% end %>

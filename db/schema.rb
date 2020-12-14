@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_220634) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "adicionales_and_rutas", force: :cascade do |t|
+    t.integer "adicional_id"
+    t.integer "ruta_id"
+    t.index ["adicional_id"], name: "index_adicionales_and_rutas_on_adicional_id"
+    t.index ["ruta_id"], name: "index_adicionales_and_rutas_on_ruta_id"
+  end
+
   create_table "adicionales_pasajes", force: :cascade do |t|
     t.integer "adicional_id"
     t.integer "pasaje_id"
@@ -82,6 +89,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_220634) do
     t.boolean "bajas_defensas"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "usuario_id", null: false
+    t.index ["usuario_id"], name: "index_formulario_covids_on_usuario_id"
   end
 
   create_table "pasajes", force: :cascade do |t|
@@ -89,6 +98,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_220634) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "viaje_id"
+    t.string "estado", default: "default"
   end
 
   create_table "rutas", force: :cascade do |t|
@@ -155,6 +165,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_220634) do
 
   add_foreign_key "comentarios", "usuarios"
   add_foreign_key "comentarios", "viajes"
+  add_foreign_key "formulario_covids", "usuarios"
   add_foreign_key "viajes", "combis"
   add_foreign_key "viajes", "rutas"
 end

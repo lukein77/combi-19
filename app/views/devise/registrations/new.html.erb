@@ -38,27 +38,28 @@
     </div>
   </div>
 
+  <% if (not usuario_signed_in?) %>
+    <div class="flex-container">
+      <div class="flex-column-left">
+        <%= f.label "Contraseña" %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> caracteres mínimo)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
 
-  <div class="flex-container">
-    <div class="flex-column-left">
-      <%= f.label "Contraseña" %>
-      <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> caracteres mínimo)</em>
-      <% end %><br />
-      <%= f.password_field :password, autocomplete: "new-password" %>
+      <div class="flex-column-right">
+        <%= f.label "Confirmar contraseña" %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
     </div>
-
-    <div class="flex-column-right">
-      <%= f.label "Confirmar contraseña" %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-    </div>
-  </div>
+    <% end %>
 
   <div class="flex-container">
     <div class="flex-column-left">
       <%if usuario_signed_in? and current_usuario.rol == "admin" %>
         <div class="field">
-            <%= f.label "Rol" %><br/>      
+            <%= f.label "Rol" %><br/>    
             <%= f.select :rol, ["cliente","chofer","admin"]%>
         </div>
       <% else %>

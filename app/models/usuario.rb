@@ -7,15 +7,21 @@ class Usuario < ApplicationRecord
   validates :fecha_nacimiento, presence: true
   validate :validar_edad
   has_and_belongs_to_many :viajes
-  has_and_belongs_to_many :pasajes
-  has_many :tarjetas
-  has_many :comentarios
+  has_many :pasajes, dependent: :destroy
+  has_many :tarjetas, dependent: :destroy
+  has_many :comentarios, dependent: :destroy
+  has_one :formulario_covid, dependent: :destroy
 
   after_initialize :default_values, unless: :persisted?
   before_save :default_values
 
   def active_for_authentication?
       super && !borrado
+  end
+
+  def generate_password
+      o =  [('a'..'z'), ('A'..'Z'), (0..9)].map{|i| i.to_a}.flatten
+      self.password = self.password_confirmation = (0..16).map{ o[rand(o.length)] }.join if self.password.blank?
   end
 
   def default_values
@@ -45,4 +51,28 @@ class Usuario < ApplicationRecord
 		return true
   end
   
+  def current_viaje
+    id = 0
+    self.viajes.each do |viaje|
+      if viaje.en_curso?
+        id = viaje.id
+        break
+      end
+    end
+    return id
+  end
+
+  def agregar_pasajero(pasajero)
+    p = Pasaje.new
+    p.usuario_id  = pasajero.id
+    p.viaje_id = current_viaje
+    p.save
+    v = Viaje.find(p.viaje_id)
+    usuario = Usuario.find(pasajero.id)
+    v.usuarios << usuario
+    if v.usuarios.size == v.combi.asientos
+      v.disponibilidad = "completo"
+    end
+    v.save
+  end
 end
