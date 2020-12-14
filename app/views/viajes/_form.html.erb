@@ -37,7 +37,7 @@
   </div>
 
   <!-- SOLO PERMITO REPETIR VIAJES EN EL NEW, NO EN EDIT -->
-  <!-- < % if current_page?(:controller => 'viajes', :action => 'new') %> -->
+  <% if current_page?(:controller => 'viajes', :action => 'new') %>
     <div class="field">
       <%= f.label "Repetir cada" %>
 
@@ -49,7 +49,7 @@
       <%= select_tag "repetir_veces", options_for_select(1..20), { prompt: "N veces"} %>
       <!-- VER SI ESCRIBE LOS PARAMETROS REPETIR_DIAS/MESES/VECES-->
     </div>
-  <!-- < % end %> -->
+  <% end %>
 
   <br> <br>                                       
   <%= f.submit "Guardar", class: 'btn btn-info btn-sm' %>

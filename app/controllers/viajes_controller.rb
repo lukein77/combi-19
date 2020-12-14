@@ -75,59 +75,74 @@ class ViajesController < ApplicationController
     @rutas = Ruta.all
     @combis = Combi.all.where(borrado: false)
     @choferes = Usuario.where(rol: "chofer").where(borrado: false)
-    @viaje = Viaje.new(viaje_params)
 
-    repetir_dias = repetir_params[:repetir_dias]
-    repetir_meses = repetir_params[:repetir_meses]
-    repetir_veces = repetir_params[:repetir_veces]
+    # El parametro es un string, lo convierto a int
+    repetir_dias = repetir_params[:repetir_dias].to_i
+    repetir_meses = repetir_params[:repetir_meses].to_i
+    repetir_veces = repetir_params[:repetir_veces].to_i
 
-    byebug
+    #byebug
     #combi = @viaje.combi
     #chofer_id = @viaje.chofer_id
 
-    fechas << @viaje.fecha_hora
+    fechas = Array.new
+    combi_ocupada = Array.new
+    chofer_ocupado = Array.new
+
     # Necesito ingresar si o si cada cuanto se repite (dias o meses o ambas) y cuantas veces se repetira
     if repetir_veces and (repetir_dias or repetir_meses)
       # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
       # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
-      for i in 1..repetir_veces do
-        if(validar_combi and validar_chofer)  
-          fechas << @viaje.fecha_hora + (repetir_dias.days + repetir_meses.months) * i
-        elsif(not validar_combi)
-          combi_ocupada << @viaje.fecha_hora + (repetir_dias.days + repetir_meses.months) * i
-        else # not validar_chofer
-          chofer_ocupado << @viaje.fecha_hora + (repetir_dias.days + repetir_meses.months) * i
+      @viaje = Viaje.new(viaje_params)
+      for i in 0..repetir_veces do
+        if(@viaje.validar_combi and @viaje.validar_chofer)  
+          fechas << @viaje.fecha_hora
+        elsif(not @viaje.validar_combi)
+          combi_ocupada << @viaje.fecha_hora
+        else # not @viaje.validar_chofer
+          chofer_ocupado << @viaje.fecha_hora
         end
+        @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
+        # Agrego el tiempo entre repeticiones al viaje
       end
     end
-
-          
+     
     if chofer_ocupado.empty? and combi_ocupada.empty?
       fechas.each do |f|
+        @viaje = Viaje.new(viaje_params)
+        @viaje.fecha_hora = f
         if @viaje.fecha_hora - Time.now > 1.days
           @viaje.agregar_hora_llegada
           if @viaje.save
             @viaje.agregar_viaje_a_chofer
-            redirect_to viajes_path, notice: "El viaje fue creado"
           else
             flash[:notice] = "Ha habido un problema al crear el viaje"
             render :new
+            break
           end
         else
           @viaje.errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora")
           render :new
+          break
         end
+      end
+
+      if(fechas.count > 1)
+        redirect_to viajes_path, notice: "Los viajes fueron creados"
+      else
+        redirect_to viajes_path, notice: "El viaje fue creado"
       end
 
     elsif(not chofer_ocupado.empty?)
       chofer_ocupado.each do |o|
-        @viaje.errors.add(o, "El chofer no se encuentra disponible en esta fecha y hora")
+        @viaje.errors.add(o.to_s, "El chofer no se encuentra disponible en esta fecha y hora")
       end
-
+      render :new
     else #not combi_ocupada.empty?)
       combi_ocupada.each do |o|
-        @viaje.errors.add(o, "La combi no se encuentra disponible en esta fecha y hora")
+        @viaje.errors.add(o.to_s, "La combi no se encuentra disponible en esta fecha y hora")
       end
+      render :new
     end
   end
 
@@ -176,7 +191,7 @@ class ViajesController < ApplicationController
     else
       @chofer = Usuario.find(@viaje.chofer_id)
       @chofer.viajes.destroy(@viaje)
-      @viaje.combi.viajes.destroy(@viaje)
+      #@viaje.combi.viajes.destroy(@viaje)
       @viaje.destroy
     end
     redirect_to viajes_path
