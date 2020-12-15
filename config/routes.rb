@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get 'usuarios/choferes_index' , to: 'usuarios#choferes_index', as: 'choferes_index'
   get 'usuarios/:id/mostrar_formulario_covid', to: 'usuarios#mostrar_formulario_covid', as: 'mostrar_formulario_covid'
   post 'usuarios/:id/dar_de_baja', to: 'usuarios#chofer_dar_de_baja', as: 'chofer_dar_de_baja'
+  get 'usuarios/:id/eliminar_cuenta', to: 'usuarios#eliminar_cuenta', as: 'eliminar_cuenta'
   resources :usuarios, only: [:index, :edit, :update, :show]
 
   

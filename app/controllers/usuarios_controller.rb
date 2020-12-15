@@ -58,7 +58,9 @@ class UsuariosController < ApplicationController
 			@viajes_cancelados = Viaje.where(chofer_id: @usuario.id).cancelado
 			@viajes_pendientes = Viaje.where(chofer_id: @usuario.id).programado
 			@viajes_realizados = Viaje.where(chofer_id: @usuario.id).finalizado
-			@viaje_en_curso = Viaje.find(@usuario.current_viaje)
+			if @usuario.current_viaje != 0
+				@viaje_en_curso = Viaje.find(@usuario.current_viaje)
+			end
 		end
 	end
 
@@ -83,4 +85,15 @@ class UsuariosController < ApplicationController
 		end
 	end
 
+	def eliminar_cuenta
+		@usuario = Usuario.find(params[:id])
+		if (@usuario.viajes.en_curso.size + @usuario.viajes.programado.size) == 0
+			@usuario.borrado = true
+			@usuario.generate_email
+			@usuario.save
+			redirect_to root_path, notice: "¡Adiós! Tu cuenta fue cancelada. Esperamos volver a verte pronto"
+		else
+			redirect_to root_path , notice: "No podes eliminar tu cuenta mientras tengas viajes pendientes"
+		end
+	end
 end

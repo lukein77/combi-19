@@ -24,6 +24,12 @@ class Usuario < ApplicationRecord
       self.password = self.password_confirmation = (0..16).map{ o[rand(o.length)] }.join if self.password.blank?
   end
 
+  def generate_email
+      o = [('a'..'z'), ('A'..'Z'), (0..9)].map{|i| i.to_a}.flatten
+      self.email = (0..16).map{o[rand(o.length)]}.join
+      self.email = self.email + "@mail.com"
+  end
+
   def default_values
     if self.borrado == nil
       self.borrado = false
@@ -32,6 +38,7 @@ class Usuario < ApplicationRecord
     	self.rol = "cliente"
     end
   end
+
 
   def validar_edad
     if fecha_nacimiento.present? && fecha_nacimiento > 18.years.ago.to_date

@@ -30,7 +30,12 @@
 
 				<li> <%= @usuario.fecha_nacimiento.strftime("%d %b %Y") %> </li>
 				
-				<li> <%= @usuario.email %> </li>
+				<li> <% if !@usuario.borrado %>
+						<%= @usuario.email %> 
+					<% else %>
+						El usuario elimino su cuenta
+					<% end %>
+				</li>
 				
 				<li> <%= @usuario.rol %> </li>
 			</ul>
