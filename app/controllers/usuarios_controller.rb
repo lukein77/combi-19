@@ -32,32 +32,41 @@ class UsuariosController < ApplicationController
 		@viajes_realizados = []
 		@viajes_no_realizados = []
 
-		@usuario.pasajes.each do |pasaje|
-			@viaje = Viaje.find(pasaje.viaje_id)
-			if not @viaje.cancelado?
-				if pasaje.default?	
-					if @viaje.programado?
-						@viajes_pendientes << @viaje
-					end
-				elsif pasaje.aceptado?
-					if @viaje.finalizado?
-						@viajes_realizados << @viaje
-					elsif @viaje.en_curso?
-						@viaje_en_curso = @viaje
+		if @usuario.rol == "cliente"
+			@usuario.pasajes.each do |pasaje|
+				@viaje = Viaje.find(pasaje.viaje_id)
+				if not @viaje.cancelado?
+					if pasaje.default?	
+						if @viaje.programado?
+							@viajes_pendientes << @viaje
+						end
+					elsif pasaje.aceptado?
+						if @viaje.finalizado?
+							@viajes_realizados << @viaje
+						elsif @viaje.en_curso?
+							@viaje_en_curso = @viaje
+						end
+					else
+						# pasaje rechazado o cancelado
+						@viajes_no_realizados << @viaje
 					end
 				else
-					# pasaje rechazado o cancelado
-					@viajes_no_realizados << @viaje
-				end
-			else
-				@viajes_cancelados << @viaje
-			end 
-		end	
+					@viajes_cancelados << @viaje
+				end 
+			end
+		elsif @usuario.rol == "chofer"
+			@viajes_cancelados = Viaje.where(chofer_id: @usuario.id).cancelado
+			@viajes_pendientes = Viaje.where(chofer_id: @usuario.id).programado
+			@viajes_realizados = Viaje.where(chofer_id: @usuario.id).finalizado
+			if @usuario.current_viaje != 0
+				@viaje_en_curso = Viaje.find(@usuario.current_viaje)
+			end
+		end
 	end
 
 	def chofer_dar_de_baja
 		usuario=Usuario.find(params[:id])
-		if  usuario.viajes.finalizado.count == usuario.viajes.count
+		if  (usuario.viajes.finalizado.count + usuario.viajes.cancelado.count) == usuario.viajes.count
 			usuario.borrado = true;
 			usuario.save
 			redirect_to choferes_index_path
@@ -76,4 +85,15 @@ class UsuariosController < ApplicationController
 		end
 	end
 
+	def eliminar_cuenta
+		@usuario = Usuario.find(params[:id])
+		if (@usuario.viajes.en_curso.size + @usuario.viajes.programado.size) == 0
+			@usuario.borrado = true
+			@usuario.generate_email
+			@usuario.save
+			redirect_to root_path, notice: "¡Adiós! Tu cuenta fue cancelada. Esperamos volver a verte pronto"
+		else
+			redirect_to root_path , notice: "No podes eliminar tu cuenta mientras tengas viajes pendientes"
+		end
+	end
 end
