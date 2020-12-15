@@ -92,10 +92,15 @@ class ViajesController < ApplicationController
 
     
     
-      # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
-      # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
+    # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
+    # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
     @viaje = Viaje.new(viaje_params)
     @viaje.agregar_hora_llegada
+
+    if repetir_veces > 0 # Si pongo repetir 2 veces, crea 2 viajes en TOTAL
+      #repetir_veces -= 1
+    end
+
     for i in 0..repetir_veces do
       if @viaje.validar_combi and @viaje.validar_chofer and @viaje.validar_dia  
         fechas << @viaje.fecha_hora
@@ -109,14 +114,15 @@ class ViajesController < ApplicationController
         if(not @viaje.validar_dia)
           dia_invalido << @viaje.fecha_hora
         end
-
-        if repetir_veces.blank? or (repetir_dias.blank? or repetir_meses.blank?)
-          break;
-        end
-
-        @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
-        @viaje.agregar_hora_llegada
       end
+
+      #byebug #VERIFICAR
+      if (repetir_veces >= 1 and not (repetir_dias >= 1 or repetir_meses >= 1))
+        break # Si solo hace un caso
+      end
+
+      @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
+      @viaje.agregar_hora_llegada
       # Agrego el tiempo entre repeticiones al viaje
     end
      
@@ -141,27 +147,25 @@ class ViajesController < ApplicationController
       end
 
     else # Al menos un viaje tuvo errores por lo tanto no se crea ninguno
+      @viaje = Viaje.new(viaje_params) # Para mostrar los datos cargados
       if(not dia_invalido.empty?)
         dia_invalido.each do |m|
           @viaje.errors.add(m.strftime("%a %e %b %Y — %H:%M hs"), "Este horario de viaje no cumple con las 24hs de anterioridad")
         end
-      else
-        if(not chofer_ocupado.empty?)
-          chofer_ocupado.each do |m|
-            @viaje.errors.add(m.to_s, "El chofer no se encuentra disponible en esta fecha y hora")
-          end
+      end
+      if(not chofer_ocupado.empty?)
+        chofer_ocupado.each do |m|
+          @viaje.errors.add(m.strftime("%a %e %b %Y — %H:%M hs"), "El chofer no se encuentra disponible en esta fecha y hora")
         end
-        if(not combi_ocupada.empty?)
-          combi_ocupada.each do |m|
-            @viaje.errors.add(m.to_s, "La combi no se encuentra disponible en esta fecha y hora")
-          end
+      end
+      if(not combi_ocupada.empty?)
+        combi_ocupada.each do |m|
+          @viaje.errors.add(m.strftime("%a %e %b %Y — %H:%M hs"), "La combi no se encuentra disponible en esta fecha y hora")
         end
       end
 
       render :new
     end
-
-    @viaje = Viaje.new(viaje_params)
   end
 
   def show
