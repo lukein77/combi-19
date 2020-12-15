@@ -1,1 +1,5 @@
-<%= render 'form' %>
+<% if usuario_signed_in? %>
+    <%= render 'form' %>
+<% else %>
+    <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>
+<% end %>
