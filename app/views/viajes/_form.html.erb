@@ -2,8 +2,8 @@
   <h3> No se pudieron guardar los viajes: </h3>
 	<ul>
 		<% @viaje.errors.messages.each do |msg| %>
-      <% for i in 1..msg.length %>
-        <li> <%= msg[1][i] %> </li>
+      <% msg[1].each do |m| %>
+        <li> <%= m %> </li>
       <% end %>
 		<% end %>
 	</ul>

@@ -102,32 +102,22 @@ class ViajesController < ApplicationController
     end
 
     for i in 0..repetir_veces do
-        error = false
-        if(not @viaje.validar_combi)
-					combi_ocupada << @viaje.fecha_hora
-					error = true
-        end
-        if(not @viaje.validar_chofer)
-					chofer_ocupado << @viaje.fecha_hora
-					error = true
-        end
-        if(not @viaje.validar_dia)
-					dia_invalido << @viaje.fecha_hora
-					error = true
-				end
-				
-				if not error
-					fechas << @viaje.fecha_hora
-				end
-
-        if repetir_veces.blank? or (repetir_dias.blank? or repetir_meses.blank?)
-          break;
-        end
-
-        @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
-        @viaje.agregar_hora_llegada
+      error = false
+      if(not @viaje.validar_combi)
+        combi_ocupada << @viaje.fecha_hora
+        error = true
+      end
+      if(not @viaje.validar_chofer)
+        chofer_ocupado << @viaje.fecha_hora
+        error = true
+      end
+      if(not @viaje.validar_dia)
+        dia_invalido << @viaje.fecha_hora
+        error = true
+      end
       
-        end
+      if not error
+        fechas << @viaje.fecha_hora
       end
 
       #byebug #VERIFICAR
@@ -138,7 +128,6 @@ class ViajesController < ApplicationController
       @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
       @viaje.agregar_hora_llegada
 
-      # Agrego el tiempo entre repeticiones al viaje
     end
      
     if chofer_ocupado.empty? and combi_ocupada.empty? and dia_invalido.empty?
@@ -161,10 +150,12 @@ class ViajesController < ApplicationController
         redirect_to viajes_path, notice: "El viaje fue creado"
       end
 
+    else 
+      byebug
+      render :new
+
 		end
-		
-		render :new
-    
+
   end
 
   def show
