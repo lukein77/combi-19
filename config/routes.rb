@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :viajes
   get 'viajes/:id/comprar', to: 'viajes#comprar', as: 'comprar_viaje'
+  get 'viajes/:id/cancelar_pasaje', to: 'viajes#cancelar_pasaje', as: 'cancelar_pasaje'
   post 'viajes/:id/cambiar_estado', to: 'viajes#cambiar_estado', as: 'cambiar_estado'
   post 'viajes/:viaje_id/aceptar_pasajero/:usuario_id', to: 'viajes#aceptar_pasajero', as: 'aceptar_pasajero'
   get 'viajes/:viaje_id/rechazar_pasajero/:usuario_id', to: 'viajes#motivo_rechazo_pasajero', as: 'motivo_rechazo_pasajero'

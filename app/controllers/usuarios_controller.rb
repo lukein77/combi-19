@@ -34,6 +34,7 @@ class UsuariosController < ApplicationController
 
 		@usuario.pasajes.each do |pasaje|
 			@viaje = Viaje.find(pasaje.viaje_id)
+			#byebug
 			if not @viaje.cancelado?
 				if pasaje.default?	
 					if @viaje.programado?
@@ -44,6 +45,12 @@ class UsuariosController < ApplicationController
 						@viajes_realizados << @viaje
 					elsif @viaje.en_curso?
 						@viaje_en_curso = @viaje
+					end
+				elsif pasaje.cancelado?
+					if @viaje.finalizado?
+						@viajes_realizados << @viaje
+					else
+						@viajes_pendientes << @viaje
 					end
 				else
 					# pasaje rechazado o cancelado

@@ -97,8 +97,8 @@ class ViajesController < ApplicationController
     @viaje = Viaje.new(viaje_params)
     @viaje.agregar_hora_llegada
 
-    if repetir_veces > 0 # Si pongo repetir 2 veces, crea 2 viajes en TOTAL
-      #repetir_veces -= 1
+    if repetir_veces > 1 # Si pongo repetir 2 veces, crea 2 viajes en TOTAL
+      repetir_veces -= 1
     end
 
     for i in 0..repetir_veces do
@@ -117,7 +117,7 @@ class ViajesController < ApplicationController
       end
 
       #byebug #VERIFICAR
-      if (repetir_veces >= 1 and not (repetir_dias >= 1 or repetir_meses >= 1))
+      if (not (repetir_dias >= 1 or repetir_meses >= 1))
         break # Si solo hace un caso
       end
 
@@ -233,6 +233,23 @@ class ViajesController < ApplicationController
     return precio
   end
 
+  def cancelar_pasaje
+    viaje = Viaje.find(params[:id])
+    #usuarioID = params[:usuario_id]
+    usuarioID = current_usuario.id
+    pasaje = viaje.pasajes.find_by(usuario_id: usuarioID)
+    
+
+    pasaje.estado = "cancelado"
+    #viaje.usuarios.delete(usuarioID)
+    viaje.disponibilidad = "disponible" # En el caso de que estuviera completo
+
+    pasaje.save
+    viaje.save
+
+    redirect_to usuario_path(usuarioID), notice: "El viaje fue cancelado exitosamente"
+  end
+
   def crear_pasaje
     @viaje = Viaje.find(params[:id])
     @adicionales = params.dig(:adis)
@@ -329,6 +346,7 @@ class ViajesController < ApplicationController
       redirect_to viaje_path(@viaje.id)
     end
   end
+
 
   private
   def viaje_params
