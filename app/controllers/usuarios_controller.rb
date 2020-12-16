@@ -46,6 +46,12 @@ class UsuariosController < ApplicationController
 						elsif @viaje.en_curso?
 							@viaje_en_curso = @viaje
 						end
+          elsif pasaje.cancelado?
+            if @viaje.finalizado?
+              @viajes_realizados << @viaje
+            else
+              @viajes_pendientes << @viaje
+            end
 					else
 						# pasaje rechazado o cancelado
 						@viajes_no_realizados << @viaje
