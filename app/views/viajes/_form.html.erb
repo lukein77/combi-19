@@ -1,8 +1,10 @@
 <% if @viaje.errors.any? %>
   <h3> No se pudieron guardar los viajes: </h3>
 	<ul>
-		<% @viaje.errors.full_messages.each do |msg| %>
-      <li> <%= msg %> </li>
+		<% @viaje.errors.messages.each do |msg| %>
+      <% for i in 1..msg.length %>
+        <li> <%= msg[1][i] %> </li>
+      <% end %>
 		<% end %>
 	</ul>
 <% end %>

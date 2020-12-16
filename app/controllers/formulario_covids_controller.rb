@@ -7,9 +7,9 @@ class FormularioCovidsController < ApplicationController
         @formulario_covid = FormularioCovid.new(formulario_params)
         @formulario_covid.usuario_id = current_usuario.id
         if @formulario_covid.save
-            redirect_to root_path, notice: "Formulario OK"
+            redirect_to root_path, notice: "La declaración jurada fue cargada exitosamente."
         else
-            flash[:notice] = "Salio mal"
+            flash[:notice] = "Hubo un error al procesar la solicitud."
             render :new
         end 
     end
@@ -26,9 +26,9 @@ class FormularioCovidsController < ApplicationController
     def update
         @formulario_covid = FormularioCovid.find(params[:id])
         if @formulario_covid.update(formulario_params)
-            redirect_to root_path, notice: "Formulario OK"
+            redirect_to root_path, notice: "La declaración jurada fue cargada exitosamente."
         else 
-            flash[:notice] = "Salio mal"
+            flash[:notice] = "Hubo un error al procesar la solicitud."
             render :edit
         end
     end

@@ -1,4 +1,4 @@
-<% if usuario_signed_in? %>
+<% if usuario_signed_in? and current_usuario.rol == "cliente" %>
     <%= render 'form' %>
 <% else %>
     <h3> <i> Usted no tiene permiso para ver esta página. </i> </h3>

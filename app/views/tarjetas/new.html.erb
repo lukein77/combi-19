@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label for="ccnumber">Numero de la tarjeta</label>
                                 <div class="input-group">
-                                    <%= f.number_field :numero, required: true%>
+                                    <%= f.text_field :numero, required: true, maxlength: 19 %>
                                 </div>
                             </div>
                         </div>
