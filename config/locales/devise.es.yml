@@ -14,6 +14,7 @@ es:
       timeout: "su sesión ha expirado, por favor identifíquese de nuevo para continuar."
       unauthenticated: "Necesita iniciar sesión o registrarse para continuar."
       unconfirmed: "Debe confirmar su cuenta para continuar."
+      deleted_account: "Su cuenta fue eliminada"
     mailer:
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
@@ -31,7 +32,7 @@ es:
       updated: "Su contraseña ha cambiado correctamente. Ha sido identificado correctamente."
       updated_not_active: "Su contraseña se ha cambiado correctamente."
     registrations:
-      destroyed: "¡Adiós! Su cuenta ha sido cancelada. Esperamos volver a verle pronto."
+      destroyed: "¡Adiós! Su cuenta fue cancelada. Esperamos volver a verte pronto."
       no_destroyed: "Su cuenta no puede ser eliminada debido a que tiene viajes asignados sin completar"
       signed_up: "¡Bienvenido! Usted ha sido identificado."
       signed_up_but_inactive: "Se ha registrado correctamente, pero no ha podido iniciar sesión porque su cuenta no ha sido activada."

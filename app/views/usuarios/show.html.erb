@@ -21,7 +21,7 @@
 				<li> Rol: </li>
 			</ul>
 			<% if @viaje_en_curso %>
-				<b> Actualmente en viaje: <%= @viaje_en_curso.ruta.nombre %> </b>
+				<b> Actualmente en viaje: <%= link_to @viaje_en_curso.ruta.nombre, viaje_path(@viaje_en_curso) %> </b>
 			<% end %>
 		</div>
 		<div class="col">
@@ -30,7 +30,12 @@
 
 				<li> <%= @usuario.fecha_nacimiento.strftime("%d %b %Y") %> </li>
 				
-				<li> <%= @usuario.email %> </li>
+				<li> <% if !@usuario.borrado %>
+						<%= @usuario.email %> 
+					<% else %>
+						El usuario elimino su cuenta
+					<% end %>
+				</li>
 				
 				<li> <%= @usuario.rol %> </li>
 			</ul>
@@ -165,8 +170,16 @@
 								<tr>
 									<td> <%= viaje.ruta.nombre %> </td>
 									<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
-									<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
-									<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+									<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+									<td> 
+										<%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+										<% if viaje.pasajes.find_by(usuario_id: current_usuario).estado == "cancelado" %>
+											<a class="btn btn-danger btn-sm disabled"> Cancelado </a>
+										<% else %>
+											<%= link_to("Cancelar", cancelar_pasaje_path(viaje), class: 'btn btn-danger btn-sm')  %>
+										<% end %>
+									</td>
+
 								</tr>
 							<% end %>
 						</table>

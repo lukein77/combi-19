@@ -39,16 +39,19 @@
   </div>
 
   <!-- SOLO PERMITO REPETIR VIAJES EN EL NEW, NO EN EDIT -->
-  <% if current_page?(:controller => 'viajes', :action => 'new') %>
+  <!-- % if current_page?(:controller => 'viajes', :action => 'new') %-->
+  <% if @viaje.new_record? %>
     <div class="field">
       <%= f.label "Repetir cada" %>
 
-      <%= select_tag "repetir_dias", options_for_select(1..31), { prompt: "Dias"} %>
-      <%#= f.select (:repetir_dias, options_for_select(1..31), :prompt => "Dias"}) %>
-      <%= select_tag "repetir_meses", options_for_select(1..12), { prompt: "Meses"} %>
+      <%= select_tag "repetir_dias", options_for_select(1..31), { prompt: "0"} %>
+      <%= f.label "Dias" %>
+      <%= select_tag "repetir_meses", options_for_select(1..6), { prompt: "0"} %>
+      <%= f.label "Meses" %>
 
       <%= f.label "—" %>
-      <%= select_tag "repetir_veces", options_for_select(1..20), { prompt: "N veces"} %>
+      <%= select_tag "repetir_veces", options_for_select(2..20), { prompt: "1"} %>
+      <%= f.label "Veces" %>
       <!-- VER SI ESCRIBE LOS PARAMETROS REPETIR_DIAS/MESES/VECES-->
     </div>
   <% end %>

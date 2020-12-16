@@ -46,7 +46,7 @@
 	  						<%= hidden_field_tag "adis[]", id %>
 						<% end %>
 					<% end %>
-				<%= submit_tag("Comprar",name: "compra", class: 'btn btn-info btn-sm') %>
+				<%= submit_tag("Comprar",name: "compra", class: 'btn btn-info btn-sm', data: {confirm: "¿Está seguro?"} %>) %>
 				<% end %>
 			<% end %>
 		</div>

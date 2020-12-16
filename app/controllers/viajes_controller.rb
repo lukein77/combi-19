@@ -92,13 +92,17 @@ class ViajesController < ApplicationController
 
     
     
-      # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
-      # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
+    # Se le suman dias y meses por i, es decir, por cada vez que se tenga que repetir
+    # ej: si se repite cada 10 dias, 3 veces, sera: fecha+1*10; fecha+2*10; fecha+3*10
     @viaje = Viaje.new(viaje_params)
     @viaje.agregar_hora_llegada
-		for i in 0..repetir_veces do
-			
-				error = false
+
+    if repetir_veces > 1 # Si pongo repetir 2 veces, crea 2 viajes en TOTAL
+      repetir_veces -= 1
+    end
+
+    for i in 0..repetir_veces do
+        error = false
         if(not @viaje.validar_combi)
 					combi_ocupada << @viaje.fecha_hora
 					error = true
@@ -122,6 +126,17 @@ class ViajesController < ApplicationController
 
         @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
         @viaje.agregar_hora_llegada
+      
+        end
+      end
+
+      #byebug #VERIFICAR
+      if (not (repetir_dias >= 1 or repetir_meses >= 1))
+        break # Si solo hace un caso
+      end
+
+      @viaje.fecha_hora += repetir_dias.days + repetir_meses.months
+      @viaje.agregar_hora_llegada
 
       # Agrego el tiempo entre repeticiones al viaje
     end
@@ -145,11 +160,11 @@ class ViajesController < ApplicationController
       else
         redirect_to viajes_path, notice: "El viaje fue creado"
       end
+
 		end
 		
 		render :new
-
-    @viaje = Viaje.new(viaje_params)
+    
   end
 
   def show
@@ -215,6 +230,23 @@ class ViajesController < ApplicationController
       end
     end
     return precio
+  end
+
+  def cancelar_pasaje
+    viaje = Viaje.find(params[:id])
+    #usuarioID = params[:usuario_id]
+    usuarioID = current_usuario.id
+    pasaje = viaje.pasajes.find_by(usuario_id: usuarioID)
+    
+
+    pasaje.estado = "cancelado"
+    #viaje.usuarios.delete(usuarioID)
+    viaje.disponibilidad = "disponible" # En el caso de que estuviera completo
+
+    pasaje.save
+    viaje.save
+
+    redirect_to usuario_path(usuarioID), notice: "El viaje fue cancelado exitosamente"
   end
 
   def crear_pasaje
@@ -312,6 +344,21 @@ class ViajesController < ApplicationController
       flash[:notice] = "Hubo un error al rechazar el pasajero."
       redirect_to viaje_path(@viaje.id)
     end
+  end
+
+  def cancelar
+    viaje = Viaje.find(params[:viaje_id])
+    viaje.estado = "cancelado"
+    viaje.usuarios.each do |usuario|
+      MensajesMailer.viaje_cancelado(viaje,usuario).deliver_now
+      if usuario.rol == "cliente"
+        p = viaje.pasajes.find_by(usuario_id: usuario.id)
+        p.estado = "cancelado"
+        p.save
+      end
+    end
+    viaje.save
+    redirect_to viajes_path , notice: "el viaje fue cancelado"
   end
 
   private
