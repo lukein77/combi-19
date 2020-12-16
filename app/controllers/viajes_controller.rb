@@ -151,7 +151,6 @@ class ViajesController < ApplicationController
       end
 
     else 
-      byebug
       render :new
 
 		end
