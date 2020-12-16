@@ -28,7 +28,7 @@ class Viaje < ApplicationRecord
 		if self.fecha_hora - Time.now > 1.days
 			return true
 		else
-			#errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora.")
+			errors.add(:fecha_hora, "El horario del viaje debe ser al menos 24hs desde ahora.")
 			return false
 		end
 	end
