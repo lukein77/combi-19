@@ -347,6 +347,20 @@ class ViajesController < ApplicationController
     end
   end
 
+  def cancelar
+    viaje = Viaje.find(params[:viaje_id])
+    viaje.estado = "cancelado"
+    viaje.usuarios.each do |usuario|
+      MensajesMailer.viaje_cancelado(viaje,usuario).deliver_now
+      if usuario.rol == "cliente"
+        p = viaje.pasajes.find_by(usuario_id: usuario.id)
+        p.estado = "cancelado"
+        p.save
+      end
+    end
+    viaje.save
+    redirect_to viajes_path , notice: "el viaje fue cancelado"
+  end
 
   private
   def viaje_params

@@ -21,7 +21,7 @@
 				<li> Rol: </li>
 			</ul>
 			<% if @viaje_en_curso %>
-				<b> Actualmente en viaje: <%= @viaje_en_curso.ruta.nombre %> </b>
+				<b> Actualmente en viaje: <%= link_to @viaje_en_curso.ruta.nombre, viaje_path(@viaje_en_curso) %> </b>
 			<% end %>
 		</div>
 		<div class="col">
@@ -30,7 +30,12 @@
 
 				<li> <%= @usuario.fecha_nacimiento.strftime("%d %b %Y") %> </li>
 				
-				<li> <%= @usuario.email %> </li>
+				<li> <% if !@usuario.borrado %>
+						<%= @usuario.email %> 
+					<% else %>
+						El usuario elimino su cuenta
+					<% end %>
+				</li>
 				
 				<li> <%= @usuario.rol %> </li>
 			</ul>
