@@ -37,7 +37,7 @@ class Viaje < ApplicationRecord
 		if combi.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
-			#errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")
+			errors.add(:combi, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario. "+fecha_hora.strftime("%d/%b/%y - %H:%M"))
 			#errors.add(:fecha_hora, "La combi seleccionada fue asignada a otro viaje en esa fecha y horario.")
       return false
 		end
@@ -48,7 +48,7 @@ class Viaje < ApplicationRecord
 		if @chofer.validar_fecha_viaje(fecha_hora, fecha_hora_llegada)
 			return true
 		else
-			#errors.add(:fecha_hora, "El chofer tiene otro viaje asignado en esa fecha y horario.")
+			errors.add(:fecha_hora, "El chofer tiene otro viaje asignado en esa fecha y horario. "+fecha_hora.strftime("%d/%b/%y - %H:%M"))
       return false
 		end
 	end
