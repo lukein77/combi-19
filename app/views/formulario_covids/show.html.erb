@@ -8,8 +8,29 @@
             <h2> <%= @usuario.nombre+" "+@usuario.apellido %> </h2>
 
             <h6> Fecha: <%= @formulario_covid.updated_at.strftime("%d/%b/%Y - %H:%M") %> </h6>
+
+            <% if @formulario_covid.sin_sintomas %>
+                <h6 style="color: green"> El usuario no presenta síntomas. </h6>
+            <% else %>
+                <h6 style="color: red"> El usuario tiene síntomas compatibles con COVID-19. </h6>
+            <% end %>
+            <% if @formulario_covid.sin_antecedentes %>
+                <h6 style="color: green"> El usuario no presenta antecedentes. </h6>
+            <% else %>
+                <h6 style="color: red"> El usuario tiene antecedentes que comprometen su salud. </h6>
+            <% end %>
+            <% if @viaje.chofer_id == current_usuario.id %>
+                <% if @pasaje.estado == "default" %>
+                    <% if !@formulario_covid.sin_sintomas or !@formulario_covid.sin_antecedentes %>
+                        <%= link_to("Confirmar pasajero rechazado", rechazar_pasajero_path(@viaje.id, @usuario.id, "rechazado_covid"), method: :post, class: "btn btn-sm btn-danger") %>
+                    <% else %>
+                        <%= link_to("Confirmar pasajero aceptado", aceptar_pasajero_path(@viaje.id, @usuario.id), method: :post, class: "btn btn-sm btn-info") %>
+                    <% end %>
+                <% end %>
+            <% end %>
             </div>
         </div>
+        
         <div class="container">
             <h5> Síntomas </h5>
             <div class="row">

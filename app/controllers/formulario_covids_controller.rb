@@ -17,6 +17,8 @@ class FormularioCovidsController < ApplicationController
     def show
         @formulario_covid = FormularioCovid.find(params[:id])
         @usuario = Usuario.find(@formulario_covid.usuario_id)
+        @viaje = Viaje.find(params[:format])
+        @pasaje = @viaje.pasajes.find_by(usuario_id: @usuario.id)
     end
 
     def edit
@@ -25,6 +27,7 @@ class FormularioCovidsController < ApplicationController
 
     def update
         @formulario_covid = FormularioCovid.find(params[:id])
+        @formulario_covid.touch # esto es por si no cambio ningun campo del form y lo guardo
         if @formulario_covid.update(formulario_params)
             redirect_to root_path, notice: "La declaración jurada fue cargada exitosamente."
         else 

@@ -274,7 +274,7 @@ class ViajesController < ApplicationController
         if Tarjeta.find(@tarjeta.to_i).numero % 2 == 0
           if @viaje.usuarios.size <= @viaje.combi.asientos
             crear_pasaje
-            redirect_to viajes_path, notice:"La compra se concreto correctamente"
+            redirect_to viajes_path, notice:"La compra se concretó correctamente"
           else
             redirect_to viajes_path, notice:"Ya no quedan pasajes disponibles"
           end
