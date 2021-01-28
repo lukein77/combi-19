@@ -9,15 +9,39 @@ class MensajesMailer < ApplicationMailer
         @pasaje = Pasaje.find(params[:pasaje_id])
         @usuario = Usuario.find(@pasaje.usuario_id)
         @viaje = Viaje.find(@pasaje.viaje_id)
-        mail(to: @usuario.email, subject: "Ha sido rechazado del viaje")
+        
+        @nombre = usuario.nombre
+        @ruta_nombre = viaje.ruta.nombre
+        @fecha = viaje.fecha_hora
+        mail to: @usuario.email, subject: "Ha sido rechazado del viaje"
     end
 
-    def viaje_cancelado(viaje,usuario)
+    def viaje_cancelado(viaje, usuario, pasaje)
         @nombre = usuario.nombre
-        @origen = viaje.ruta.getCiudadOrigen
-        @destino = viaje.ruta.getCiudadDestino
+        @rol = usuario.rol
         @fecha = viaje.fecha_hora
-        mail to: usuario.email, subject: "viaje cancelado"
-    end  
+        @precio = viaje.precio
+        @ruta_nombre = viaje.ruta.nombre
 
+        @costo_adicionales = 0
+        pasaje.adicionales.each do |adicional|
+            @costo_adicionales += adicional.precio
+        end
+
+        mail to: usuario.email, subject: "Su viaje ha sido cancelado"
+    end
+
+    def pasaje_cancelado(viaje, usuario, pasaje)
+        @nombre = usuario.nombre
+        @fecha = viaje.fecha_hora
+        @precio = viaje.precio
+        @ruta_nombre = viaje.ruta.nombre
+
+        @costo_adicionales = 0
+        pasaje.adicionales.each do |adicional|
+            @costo_adicionales += adicional.precio
+        end
+
+        mail to: usuario.email, subject: "Has cancelado un viaje"
+    end
 end

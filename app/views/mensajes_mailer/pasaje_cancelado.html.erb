@@ -1,0 +1,21 @@
+<h4> Estimado <%= @nombre %>, </h4>
+
+<p> Ha realizado la baja de su pasaje exitosamente </p>
+<h5> <%= @ruta_nombre %> </h5>
+<h5> <%= @fecha.strftime("%d/%m/%y - %H:%M") %> </h5>
+
+<br>
+<% if (@fecha - DateTime.now) > 2.days %>
+	<p> Debido a que la cancelación se realizó con mas de 48 horas de anticipación, se le han reembolzado <b>$ <%= @precio %></b> equivalente al total del costo del pasaje. </p>
+
+<% elsif (@fecha - DateTime.now) > 1.days %>
+	<p> Debido a que la cancelación se realizó entre 24 y 48 horas de anticipación, se le han reembolzado <b>$ <%= @precio/2 %></b> equivalente a la mitad del costo del pasaje. </p>
+
+<% else %>
+	<p> Debido a que la cancelación se realizó con menos de 24 horas de anticipación, <b>no</b> se le ha reembolzado el costo del pasaje. </p>
+<% end %>
+
+<p> También se le devolverán <b>$ <%= @costo_adicionales %></b> equivalentes al costo de los adicionales adquiridos. </p>
+
+<br>
+<p> Atentamente, el equipo de COMBI-19 </p>

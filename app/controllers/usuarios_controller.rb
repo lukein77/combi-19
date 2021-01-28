@@ -99,8 +99,22 @@ class UsuariosController < ApplicationController
 			@usuario.generate_email
 			@usuario.save
 			redirect_to root_path, notice: "¡Adiós! Tu cuenta fue cancelada. Esperamos volver a verte pronto"
+		elsif @usuario.viajes.en_curso.size == 0 and @usuario.viajes.programado.size != 0
+			redirect_to VIAJESQUESECANCELAN, notice: "Atencion! Todavía tiene viajes programados"
 		else
-			redirect_to root_path , notice: "No podes eliminar tu cuenta mientras tengas viajes pendientes"
+			redirect_to root_path , notice: "No podes eliminar tu cuenta mientras estás viajando"
 		end
+	end
+
+	def eliminar_cuenta_con_pasajes
+		usuarioID = current_usuario.id
+		usuarioID.viajes.programado.each do |viaje| # Cancelo pasaje por pasaje de los viajes programados
+			pasaje = viaje.pasajes.find_by(usuario_id: usuarioID)
+			pasaje.estado = "cancelado"
+			viaje.disponibilidad = "disponible"
+			pasaje.save
+    	viaje.save
+    end
+  	redirect_to root_path, notice: "¡Adiós! Tu cuenta fue cancelada. Esperamos volver a verte pronto"
 	end
 end
