@@ -294,6 +294,10 @@ class ViajesController < ApplicationController
       @viaje.estado = "en_curso"
     elsif @viaje.en_curso?
       @viaje.estado = "finalizado"
+      @viaje.pasajes.aceptado.each do |pasaje|
+        pasaje.estado = "finalizado"
+        pasaje.save
+      end
     end
     if not @viaje.save
       flash[:notice] = "Hubo un error al procesar la solicitud."

@@ -94,12 +94,12 @@ class UsuariosController < ApplicationController
 
 	def eliminar_cuenta
 		@usuario = Usuario.find(params[:id])
-		if (@usuario.viajes.en_curso.size + @usuario.viajes.programado.size) == 0
+		if (@usuario.pasajes.default.size + @usuario.pasajes.aceptado.size) == 0
 			@usuario.borrado = true
 			@usuario.generate_email
 			@usuario.save
 			redirect_to root_path, notice: "¡Adiós! Tu cuenta fue cancelada. Esperamos volver a verte pronto"
-		elsif @usuario.viajes.en_curso.size == 0 and @usuario.viajes.programado.size != 0
+		elsif @usuario.pasajes.aceptado.size == 0 and @usuario.pasajes.default.size != 0
 			redirect_to viajes_a_cancelar_path , notice: "Atencion! Todavía tiene viajes programados"
 		else
 			redirect_to root_path , notice: "No podes eliminar tu cuenta mientras estás viajando"

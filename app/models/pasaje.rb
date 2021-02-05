@@ -4,7 +4,8 @@ class Pasaje < ApplicationRecord
 	belongs_to :viaje
 
 	enum estado: { 	default: "default", 
-					aceptado: "aceptado", 
+					aceptado: "aceptado",
+					finalizado: "finalizado",
 					rechazado_ausente: "rechazado por ausencia", 
 					rechazado_covid: "rechazado por síntomas de coronavirus",
 					cancelado: "cancelado" }
