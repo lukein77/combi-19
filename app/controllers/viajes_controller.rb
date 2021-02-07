@@ -228,13 +228,13 @@ class ViajesController < ApplicationController
     usuarioID = current_usuario.id
     pasaje = viaje.pasajes.find_by(usuario_id: usuarioID)
     
-
     pasaje.estado = "cancelado"
     #viaje.usuarios.delete(usuarioID)
     viaje.disponibilidad = "disponible" # En el caso de que estuviera completo
 
-    pasaje.save
-    viaje.save
+    if(pasaje.save and viaje.save)
+      MensajesMailer.pasaje_cancelado(viaje, current_usuario, pasaje).deliver_now
+    end
 
     redirect_to usuario_path(usuarioID), notice: "El viaje fue cancelado exitosamente"
   end
@@ -294,6 +294,10 @@ class ViajesController < ApplicationController
       @viaje.estado = "en_curso"
     elsif @viaje.en_curso?
       @viaje.estado = "finalizado"
+      @viaje.pasajes.aceptado.each do |pasaje|
+        pasaje.estado = "finalizado"
+        pasaje.save
+      end
     end
     if not @viaje.save
       flash[:notice] = "Hubo un error al procesar la solicitud."
@@ -340,15 +344,22 @@ class ViajesController < ApplicationController
     viaje = Viaje.find(params[:viaje_id])
     viaje.estado = "cancelado"
     viaje.usuarios.each do |usuario|
-      MensajesMailer.viaje_cancelado(viaje,usuario).deliver_now
-      if usuario.rol == "cliente"
+      #NO ENTRA AL FOR ESTE
+      if usuario.rol != "chofer"
         p = viaje.pasajes.find_by(usuario_id: usuario.id)
-        p.estado = "cancelado"
-        p.save
+        if p.estado != "cancelado" # Si no habia cancelado el pasaje el usuario
+          MensajesMailer.viaje_cancelado(viaje, usuario, p).deliver_now
+          p.estado = "cancelado"
+          p.save
+        end
       end
     end
     viaje.save
-    redirect_to viajes_path , notice: "el viaje fue cancelado"
+    redirect_to viajes_path , notice: "El viaje fue cancelado"
+  end
+
+  def viajes_a_cancelar # Solo le paso a la vista los viajes programados a mostrar
+    @viajes = Viaje.where(estado: "programado").order(fecha_hora: :asc)
   end
 
   private

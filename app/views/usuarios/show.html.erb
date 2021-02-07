@@ -173,10 +173,12 @@
 									<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
 									<td> 
 										<%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
-										<% if viaje.pasajes.find_by(usuario_id: current_usuario).estado == "cancelado" %>
-											<a class="btn btn-danger btn-sm disabled"> Cancelado </a>
-										<% else %>
-											<%= link_to("Cancelar", cancelar_pasaje_path(viaje), class: 'btn btn-danger btn-sm')  %>
+										<% if usuario_signed_in? and current_usuario.rol == "cliente" %>
+											<% if viaje.pasajes.find_by(usuario_id: current_usuario).estado == "cancelado" %>
+												<a class="btn btn-danger btn-sm disabled"> Cancelado </a>
+											<% else %>
+												<%= link_to("Cancelar", cancelar_pasaje_path(viaje), class: 'btn btn-danger btn-sm')  %>
+											<% end %>
 										<% end %>
 									</td>
 

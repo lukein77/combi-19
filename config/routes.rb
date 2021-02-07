@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   #get 'viajes/:viaje_id/rechazar_pasajero/:usuario_id', to: 'viajes#motivo_rechazo_pasajero', as: 'motivo_rechazo_pasajero'
   post 'viajes/:viaje_id/rechazar_pasajero/:usuario_id/:estado', to: 'viajes#rechazar_pasajero', as: 'rechazar_pasajero'
   get 'viajes/:viaje_id/cancelar', to: 'viajes#cancelar', as: 'cancelar_viaje'
+  get 'viajes/:id/viajes_a_cancelar', to: 'viajes#viajes_a_cancelar', as: 'viajes_a_cancelar'
 
 	resources :combis
   post 'combis/:id/dar_de_baja', to: 'combis#combi_dar_de_baja', as: 'combi_dar_de_baja'
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
   get 'usuarios/:id/mostrar_formulario_covid/:viaje_id', to: 'usuarios#mostrar_formulario_covid', as: 'mostrar_formulario_covid'
   post 'usuarios/:id/dar_de_baja', to: 'usuarios#chofer_dar_de_baja', as: 'chofer_dar_de_baja'
   get 'usuarios/:id/eliminar_cuenta', to: 'usuarios#eliminar_cuenta', as: 'eliminar_cuenta'
+  get 'usuarios/:id/eliminar_cuenta_con_pasajes',to: 'usuarios#eliminar_cuenta_con_pasajes', as: 'eliminar_cuenta_con_pasajes'
   resources :usuarios, only: [:index, :edit, :update, :show]
 
   

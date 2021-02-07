@@ -1,1 +1,13 @@
-<p> Estimado <%= @nombre %>, lamentamos informarle que su viaje desde <%= @origen %> a <%= @destino %> programado para el <%= @fecha.strftime("%d/%b/%Y - %H:%M") %> ha sido cancelado </p>
+<h4> Estimado <%= @nombre %>, </h4>
+
+<p> Lamentamos informarle que uno de los viajes que iba a realizar ha sido cancelado </p>
+<h5> <%= @ruta_nombre %> </h5>
+<h5> <%= @fecha.strftime("%d/%m/%y - %H:%M") %> </h5>
+
+<br>
+<% if @rol == "cliente" %>
+	<p> Se le ha reembolzado el costo del pasaje <b>($ <%= @precio %>)</b> y el de los adicionales <b>($ <%= @costo_adicionales %>)</b>. </p>
+<% end %>
+
+<br>
+<p> Atentamente, el equipo de COMBI-19 </p>

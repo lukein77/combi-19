@@ -1,0 +1,24 @@
+<% if usuario_signed_in? %>
+
+<h3> Los siguientes viajes serán cancelados! </h3>
+
+<table class="table">
+		<tr>
+			<th> Ruta </th>
+			<th> Salida </th>
+		</tr>
+
+		<% current_usuario.pasajes.where(estado: "default").each do |pasaje| %>
+		<tr>
+			<td> <%= pasaje.viaje.ruta.nombre %> </td>
+			<td> <%= pasaje.viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
+		</tr>
+		<% end %>
+</table>
+
+
+<%= link_to "Eliminar cuenta y cancelar pasajes", eliminar_cuenta_con_pasajes_path(current_usuario), class: 'btn btn-info btn-sm' %>
+
+<%= link_to "Volver", root_path, class: 'btn btn-info btn-sm' %>
+
+<% end %>
