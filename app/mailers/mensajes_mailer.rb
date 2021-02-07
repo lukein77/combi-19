@@ -10,9 +10,9 @@ class MensajesMailer < ApplicationMailer
         @usuario = Usuario.find(@pasaje.usuario_id)
         @viaje = Viaje.find(@pasaje.viaje_id)
         
-        @nombre = usuario.nombre
-        @ruta_nombre = viaje.ruta.nombre
-        @fecha = viaje.fecha_hora
+        @nombre = @usuario.nombre
+        @ruta_nombre = @viaje.ruta.nombre
+        @fecha = @viaje.fecha_hora
         mail to: @usuario.email, subject: "Ha sido rechazado del viaje"
     end
 

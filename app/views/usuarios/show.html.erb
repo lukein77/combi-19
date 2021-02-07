@@ -124,14 +124,16 @@
 										<th> Ruta </th>
 										<th> Salida </th>
 										<th> Llegada </th>
+										<th> Motivo </th>
 										<th> Acciones </th>
 									</tr>
 									<% @viajes_no_realizados.each do |viaje| %>
 									<tr>
 										<td> <%= viaje.ruta.nombre %> </td>
 										<td> <%= viaje.fecha_hora.strftime("%d/%b/%Y - %H:%M") %> </td>
-										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %>
-										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %>
+										<td> <%= viaje.fecha_hora_llegada.strftime("%d/%b/%Y - %H:%M") %> </td>
+										<td> <%= viaje.pasajes.find_by(usuario_id: @usuario.id).getEstado %> </td>
+										<td> <%= link_to("Ver", viaje_path(viaje), class: 'btn btn-info btn-sm')  %></td>
 									</tr>
 									<% end %>
 								</table>
