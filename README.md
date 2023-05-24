@@ -1,24 +1,27 @@
-# README
+# COMBI-19
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Small project made for a Software Engineering course at UNLP.
 
-Things you may want to cover:
+### Versions
 
-* Ruby version
+- Ruby: 3.2.2
+- Rails: 7.0.4
 
-* System dependencies
+### How to run
 
-* Configuration
+The following steps should be enough to get the app running:
 
-* Database creation
+1. Make sure you have the specified Ruby on Rails versions installed.
 
-* Database initialization
+2. Clone the repository
 
-* How to run the test suite
+3. Run the following commands:
+```
+cd combi-19
+bundle install
+bin/rails db:migrate
+bin/rails webpacker:install
+yarn install
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+4. Run rails server with `bin/rails s`
